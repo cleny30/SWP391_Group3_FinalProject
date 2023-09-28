@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewData["Title"] = "MyAddress";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+}
+
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Account/MyAccount">My Account</a>
+                <span class="breadcrumb-item active">Account's Address</span>
+            </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">My
+                Account</span></h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-4 mb-5">
+                <div class="contact-form bg-light p-30">
+                    <div id="success"></div>
+                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                        <img style="border-radius: 50%;" alt=""
+                            src="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=70&amp;d=mm&amp;r=g"
+                            srcset="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=140&amp;d=mm&amp;r=g 2x"
+                            height="70" width="70" decoding="async">
+                        <p style="font-size: 20px;">Personal Account</p>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/MyAccount" style="text-decoration: none;">
+                            <i class="fa fa-user-circle " style="color: black; margin-right: 10px;"></i>Account
+                            information
+                        </a>
+
+                    </div>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/ChangePassword" style="text-decoration: none;">
+                            <i class="fa fa-key" style="color: black; margin-right: 10px;"></i>Change Password
+                        </a>
+
+                    </div>
+
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/ViewOrder" style="text-decoration: none;">
+                            <i class="fa fa-gift" style="color: black; margin-right: 10px;"></i>Your Order
+                        </a>
+
+                    </div>
+                    <div class="control-group"  style="margin-bottom: 5px;">
+                        <a class="form-control_1" style="background-color: #ffcb0d" href="/Account/MyAddress" style="text-decoration: none;">
+                            <i class="fa fa-home" style="color: black; margin-right: 10px;"></i>Address
+                        </a>
+
+                    </div>
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/LogOut" style="text-decoration: none;">
+                            <i class="fa fa-sign-out-alt" style="color: black; margin-right: 10px;"></i>Log Out
+                        </a>
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-5">
+
+                <div class="bg-light p-30 mb-3 " style="height: 100%;">
+                    
+                    <form method="post" action="" >
+
+
+                        <div class="row" >
+                         
+                            <div class="col-md-12 form-group ">
+                                
+                                <label>Nguyen Quoc Hoang | (+84) 333744591</label>  
+                                    <input type="button" value="Update" id="shipto" data-target="#update-address" data-toggle="collapse"> 
+                                    <input class="form-control" type="text" name="accAddress" value="227 Phong Dien, Can Tho">
+                           
+           
+                            </div>
+                        
+                            
+                            <div class="col-md-12 form-group ">
+                                <label>Nguyen Chi Hau | (+84) 333744592</label>   
+                               <input type="button" value="Update" id="shipto" data-target="#update-address" data-toggle="collapse"> 
+                                <input class="form-control" type="text" name="accAddress" value="227 Phong Dien, Can Tho">
+                            </div>
+                        <div class="hide">
+                                <p>Bạn vẫn chưa thêm địa chỉ nào.
+                                </p>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="addNewAddress"> 
+                                    <label class="custom-control-label" for="addNewAddress"  data-toggle="collapse" data-target="#addnew-address">Add new address.</label>
+                                </div>
+                            </div>
+
+                            
+                            <div class="collapse mb-5 " id="update-address">
+                              
+                                <div class="bg-light p-30">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label>Fullname Name</label>
+                                            <input class="form-control" type="text" placeholder="John">
+                                        </div>
+                                       
+                                        <div class="col-md-6 form-group">
+                                            <label>Mobile No</label>
+                                            <input class="form-control" type="text" placeholder="+123 456 789">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Address</label>
+                                            <input class="form-control" type="text" placeholder="123 Street">
+                                        </div>
+                                        <div class="col-md-12 form-group" style="  text-align: center;">
+
+                                            <input class="button-32" role="button"type="submit" value="Update" name="btnUpdate">
+                    
+                    
+                                        </div>
+                                 
+                                 
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse mb-5" id="addnew-address">
+                                <h3 class="section-title text-uppercase mb-3"><span
+                                    style="margin-left: 39%;">Add New Address</span></h3>
+                                <div class="bg-light p-30">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label>Full Name</label>
+                                            <input class="form-control" type="text" placeholder="John">
+                                        </div>
+                                       
+                                        <div class="col-md-6 form-group">
+                                            <label>Mobile No</label>
+                                            <input class="form-control" type="text" placeholder="+123 456 789">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Address</label>
+                                            <input class="form-control" type="text" placeholder="123 Street">
+                                        </div>
+
+                                        <div class="col-md-12 form-group" style="  text-align: center;">
+
+                                            <input class="button-32" role="button"type="submit" value="Add" name="btnAddnewAddress">
+                    
+                    
+                                        </div>
+                                 
+                                 
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            
+                       
+
+                           
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Contact End -->
+
+
