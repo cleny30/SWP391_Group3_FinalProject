@@ -65,8 +65,19 @@
     // Lấy danh sách sản phẩm để hiển thị trên trang hiện tại
     var list = productsToShow.Skip(startIndex).Take(pageSize);
 
-
-    var combineProduct = productsByBrand.Union(productsByCategory);
+    var combineProduct = productsByBrand.Intersect(productsByCategory);
+    if (productsByCategory.Count() > 0 && productsByBrand.Count() > 0)
+    {
+        combineProduct = productsByBrand.Intersect(productsByCategory);
+    }
+    else if (productsByCategory.Count() > 0)
+    {
+        combineProduct = productsByCategory;
+    }
+    else if (productsByBrand.Count() > 0)
+    {
+        combineProduct = productsByBrand;
+    }
 
 
     if (productsByCategory.Count() > 0 || productsByBrand.Count() > 0)
@@ -216,8 +227,17 @@
                                 <div class="text-center py-4">
                                     <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>$123.00</h5>
-                                        <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+
+                                        @if (item.discount > 0)
+                                        {
+                                            var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                            <h5>$@priceDiscount</h5>
+                                            <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                        }
+                                        else
+                                        {
+                                            <h5>$@item.pro_price</h5>
+                                        }
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         <small class="fa fa-star text-primary mr-1"></small>
@@ -257,7 +277,17 @@
                                             <a class="page-link" href="?page=@i">@i</a>
                                         </li>
                                     }
-                                    <li class="page-item"><a class="page-link" href="?page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
+
+                                    if (currentPage == Math.Ceiling((double)ViewBag.list.Count / pageSize))
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Next</span>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" href="?page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
+                                    }
 
                                 }
                                 else
@@ -282,7 +312,17 @@
                                         </li>
                                     }
 
-                                    <li class="page-item"><a class="page-link" href="?category=@string.Join(",", SelectedCategory)&brand=@string.Join(",", SelectedBrand)&page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
+                                    if (currentPage == Math.Ceiling((double)combineProduct.Count() / pageSize))
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Next</span>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" href="?category=@string.Join(",", SelectedCategory)&brand=@string.Join(",", SelectedBrand)&page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
+                                    }
+
 
                                 }
 
