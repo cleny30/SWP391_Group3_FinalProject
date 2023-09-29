@@ -22,6 +22,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpGet]
         public IActionResult ShopDetail()
         {
+          
             return View();
         }
     }
