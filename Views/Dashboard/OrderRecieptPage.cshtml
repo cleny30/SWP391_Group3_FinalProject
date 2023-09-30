@@ -1,0 +1,286 @@
+﻿
+@{
+    ViewData["Title"] = "OrderRecieptPage";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+    $(document).ready(function () {
+        $('#example2').DataTable();
+    });
+    $(document).ready(function () {
+        $('#example3').DataTable();
+    });
+</script>
+<div class="body-wrapper">
+    <div class="container">
+        <h1 class="Header">ORDERS</h1>
+        <div class="tabs">
+            <div class="tabby-tab">
+                <input type="radio" id="tab-1" name="tabby-tabs" checked>
+                <label for="tab-1" class="tabby-tablabel">PENDING ORDERS</label>
+                <div class="tabby-content">
+                    <h1 class="Title">List of Pending Orders</h1>
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">From: <input type="text" id="minColumn4" name="min"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>OR001</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>0907124350</td>
+                                <td>$500</td>
+                                <td>2011-04-25</td>
+                                <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
+                            </tr>
+                            <tr>
+                                <td>OR001</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>0907124350</td>
+                                <td>$500</td>
+                                <td>2012-04-25</td>
+                                <td> <a class="SmallTitle">Show Order</a></td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4, maxDateColumn5;
+
+                        // Custom filtering function which will search data in column four between two values
+                        DataTable.ext.search.push(function (settings, data, dataIndex) {
+                            let min4 = minDateColumn4.val();
+                            let max5 = maxDateColumn5.val();
+                            let date4 = new Date(data[4]);
+                            let date5 = new Date(data[5]);
+
+                            if (
+                                (min4 === null && max5 === null) ||
+                                (min4 === null && date5 <= max5) ||
+                                (min4 <= date4 && max5 === null) ||
+                                (min4 <= date4 && date5 <= max5)
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4 = new DateTime('#minColumn4', {
+                            format: 'MMMM Do YYYY'
+                        });
+
+                        // DataTables initialization
+                        let table = new DataTable('#example');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minColumn4, #maxColumn5').forEach((el) => {
+                            el.addEventListener('change', () => table.draw());
+                        });
+
+                    </script>
+                </div>
+            </div>
+
+            <div class="tabby-tab">
+                <input type="radio" id="tab-2" name="tabby-tabs">
+                <label for="tab-2" class="tabby-tablabel">SHIPPING ORDERS</label>
+                <div class="tabby-content">
+                    <h1 class="Title">List of Shipping Orders</h1>
+                    <!--Danh sách account sort theo số tiền sử dụng-->
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    From: <input type="text" id="minDateColumn4two"
+                                                 name="max">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example2" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>OR001</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>0907124350</td>
+                                <td>$500</td>
+                                <td>2011-04-25</td>
+                                <td> <a class="SmallTitle">Show Order</a></td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4two, maxDateColumn5two;
+
+                        // Custom filtering function which will search data in column four between two values
+                        DataTable.ext.search.push(function (settings, data, dataIndex) {
+                            let min4 = minDateColumn4two.val();
+                            let max5 = maxDateColumn5two.val();
+                            let date4 = new Date(data[4]);
+                            let date5 = new Date(data[5]);
+
+                            if (
+                                (min4 === null && max5 === null) ||
+                                (min4 === null && date5 <= max5) ||
+                                (min4 <= date4 && max5 === null) ||
+                                (min4 <= date4 && date5 <= max5)
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4two = new DateTime('#minDateColumn4two', {
+                            format: 'MMMM Do YYYY'
+                        });
+                        maxDateColumn5two = new DateTime('#maxDateColumn5two', {
+                            format: 'MMMM Do YYYY'
+                        });
+
+                        // DataTables initialization
+                        let table2 = new DataTable('#example2');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minDateColumn4two, #maxDateColumn5two').forEach((el) => {
+                            el.addEventListener('change', () => table2.draw());
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <div class="tabby-tab">
+                <input type="radio" id="tab-3" name="tabby-tabs">
+                <label for="tab-3" class="tabby-tablabel">COMPLETED ORDERS</label>
+                <div class="tabby-content">
+                    <h1 class="Title" style="padding-bottom: 20px;">List of Completed Orders</h1>
+                    <!--Thống kê doanh thu và có bảng-->
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    From: <input type="text" id="minDateColumn4three"
+                                                 name="max">
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    To: <input type="text" id="maxDateColumn5three"
+                                               name="min">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example3" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>OR001</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>0907124350</td>
+                                <td>$400</td>
+                                <td>2011-04-25</td>
+                                <td>2012-04-25</td>
+                                <td> <a class="SmallTitle">Show Order</a></td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4three, maxDateColumn5three;
+
+                        // Custom filtering function which will search data in column four between two values
+                        DataTable.ext.search.push(function (settings, data, dataIndex) {
+                            let min4 = minDateColumn4three.val();
+                            let max5 = maxDateColumn5three.val();
+                            let date4 = new Date(data[4]);
+                            let date5 = new Date(data[5]);
+
+                            if (
+                                (min4 === null && max5 === null) ||
+                                (min4 === null && date5 <= max5) ||
+                                (min4 <= date4 && max5 === null) ||
+                                (min4 <= date4 && date5 <= max5)
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4three = new DateTime('#minDateColumn4three', {
+                            format: 'MMMM Do YYYY'
+                        });
+                        maxDateColumn5three = new DateTime('#maxDateColumn5three', {
+                            format: 'MMMM Do YYYY'
+                        });
+
+                        // DataTables initialization
+                        let table3 = new DataTable('#example3');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minDateColumn4three, #maxDateColumn5three').forEach((el) => {
+                            el.addEventListener('change', () => table3.draw());
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!--  Row 1 -->
+    </div>
+</div>
+

@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewData["Title"] = "Statistic";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+}
+
+<div class="body-wrapper">
+    <div class="container">
+        <h1 class="Header">STATISTICS</h1>
+        <div class="tabs">
+            <div class="tabby-tab">
+                <input type="radio" id="tab-1" name="tabby-tabs" checked>
+                <label for="tab-1" class="tabby-tablabel">SẢN PHẨM</label>
+                <div class="tabby-content">
+                    <h1 class="Title">Sản phẩm bán trong tháng 9</h1>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Brand</th>
+                                <th>Amount Sold</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                            </tr>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                            </tr>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                            </tr>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                            </tr>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tabby-tab">
+                <input type="radio" id="tab-2" name="tabby-tabs">
+                <label for="tab-2" class="tabby-tablabel">KHÁCH HÀNG</label>
+                <div class="tabby-content">
+                    <h1 class="Title">Khách hàng thân thiết trong tháng 9</h1>
+                    <!--Danh sách account sort theo số tiền sử dụng-->
+                    <table id="example2" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Total Money Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>1000$</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>1000$</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>1000$</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyen Huu Duy</td>
+                                <td>1000$</td>
+                            </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="tabby-tab">
+                <input type="radio" id="tab-3" name="tabby-tabs">
+                <label for="tab-3" class="tabby-tablabel">DOANH THU</label>
+                <div class="tabby-content">
+                    <h1 class="Title" style="padding-bottom: 20px;">Doanh thu trong tháng 9</h1>
+                    <!--Thống kê doanh thu và có bảng-->
+                    <table class="col-3 centerTable">
+                        <tr class="DoanhThu">
+                            <td>
+                                <h2>Tổng thu nhập: </h2>
+                            </td>
+                            <td>
+                                <h2>1000$ </h2>
+                            </td>
+                        </tr>
+                        <tr class="ChiTieu">
+                            <td>
+                                <h2>Tổng chi tiêu: </h2>
+                            </td>
+                            <td>
+                                <h2>900$ </h2>
+                        </tr>
+                        <tr class="LoiNhuan">
+                            <td>
+                                <h2>Lợi nhuận tháng: </h2>
+                            </td>
+                            <td>
+                                <h2>100$ </h2>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="row">
+                        <h1 class="Title" style="padding-bottom: 20px;">Doanh thu năm 2023</h1>
+                        <div class="col-8" style="padding: 30px;">
+                            <!--Cleny edit trong đây-->
+
+                            <div>
+                                <button id="btn_change" class="btn btn-outline-primary m-1">Change to Piller</button>
+                                <button id="btn_change2" class="btn btn-outline-primary m-1">Change to Chart</button>
+                            </div>
+
+                            <div id="chart" class="d-none"></div>
+
+                            <div id="chart_area" class=""></div>
+                            <!--Cleny edit trong đây-->
+                        </div>
+                        <div class="col-4" style="padding: 30px; display: flex; justify-content: center; align-items: center;">
+                            <div id="PieChart">
+                                <!-- Content inside the div -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!--  Row 1 -->
+    </div>
+</div>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+<script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+
