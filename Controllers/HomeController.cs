@@ -15,6 +15,11 @@ namespace SWP391_Group3_FinalProject.Controllers
             List<Product> list = dao.GetAllProduct();
             List<Product> listMouse = dao.getMouse();
             List<Product> listKeyboard = dao.getAllKeyboard();
+            List<Brand> brandList = dao.GetAllBrand();
+            List<Category> cateList = dao.GetAllCategory();
+
+            ViewBag.brandList = brandList;
+            ViewBag.cateList = cateList;
             ViewBag.listMouse = listMouse;
             ViewBag.listKeyboard = listKeyboard;
             ViewBag.list = list;

@@ -20,9 +20,17 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShopDetail()
+        public IActionResult ShopDetail(string pro_id)
         {
-          
+            ProductDAO dao = new ProductDAO();
+            Product pro = dao.GetProductById(pro_id);
+            foreach(var item in pro.pro_img)
+            {
+                Console.WriteLine(item);
+
+            }
+            ViewBag.pro = pro;
+
             return View();
         }
     }

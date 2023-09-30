@@ -68,10 +68,10 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
-       /*This method use to add Product's Details
-        * 
-        * 
-        */
+        /*This method use to add Product's Details
+         * 
+         * 
+         */
         public void AddProductWithDetails(Product pro)
         {
             // Thêm thông tin chung của sản phẩm
@@ -178,7 +178,7 @@ namespace SWP391_Group3_FinalProject.DAOs
         /**
          * Method use to get all product have cat_id = 2 ( Mouse)
          */
-        public List<Product>  getMouse()
+        public List<Product> getMouse()
         {
             List<Product> listMouse = new List<Product>();
             _command.CommandText = "Select * from Product Where Cat_ID = '2'";
@@ -229,8 +229,6 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return listMouse;
         }
-
-
 
         /**
          * Method use to get all product have cat_id = 1 ( Keyboard)
@@ -286,7 +284,59 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return listKeyboard;
         }
-     
+
+        public Product GetProductById(string pro_id)
+        {
+            Product pro = new Product();
+             
+            _command.CommandText = "Select * from Product where pro_id = '"+pro_id+"'";
+
+            _command.Parameters.Clear();
+            using (_reader = _command.ExecuteReader())
+            {
+
+                if (_reader.Read())
+                {
+                 
+                    pro.pro_id = _reader.GetString(0);
+                    pro.brand_id = _reader.GetInt32(1);
+                    pro.cate_id = _reader.GetInt32(2);
+                    pro.pro_name = _reader.GetString(3);
+                    pro.pro_quan = _reader.GetInt32(4);
+                    pro.pro_des = _reader.GetString(5);
+                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
+                    pro.discount = _reader.GetInt32(7);
+                    pro.isAvailable = _reader.GetBoolean(8);
+               
+                }
+            }
+          
+                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + pro.pro_id + "'";
+                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
+                _command.Parameters.Clear();
+                using (_reader = _command.ExecuteReader())
+                {
+                    while (_reader.Read())
+                    {
+                        pro.pro_img.Add(_reader.GetString(1));
+                    }
+                }
+            
+
+           
+                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + pro.pro_id + "'";
+                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
+                _command.Parameters.Clear();
+                using (_reader = _command.ExecuteReader())
+                {
+                    while (_reader.Read())
+                    {
+                        pro.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
+                    }
+                }
+
+            return pro;
+        }
 
 
     }
