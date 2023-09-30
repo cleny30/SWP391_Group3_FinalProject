@@ -68,10 +68,10 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
-       /*This method use to add Product's Details
-        * 
-        * 
-        */
+        /*This method use to add Product's Details
+         * 
+         * 
+         */
         public void AddProductWithDetails(Product pro)
         {
             // Thêm thông tin chung của sản phẩm
@@ -178,7 +178,7 @@ namespace SWP391_Group3_FinalProject.DAOs
         /**
          * Method use to get all product have cat_id = 2 ( Mouse)
          */
-        public List<Product>  getMouse()
+        public List<Product> getMouse()
         {
             List<Product> listMouse = new List<Product>();
             _command.CommandText = "Select * from Product Where Cat_ID = '2'";
@@ -286,7 +286,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return listKeyboard;
         }
-     
+
 
 
     }
