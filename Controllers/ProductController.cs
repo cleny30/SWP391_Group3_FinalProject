@@ -118,7 +118,6 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpGet]
         public IActionResult ShopDetail(string pro_id)
         {
-<<<<<<< HEAD
             ProductDAO dao = new ProductDAO();
             Product pro = dao.GetProductById(pro_id);
             foreach(var item in pro.pro_img)
@@ -127,8 +126,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             }
             ViewBag.pro = pro;
-=======
->>>>>>> 1df0933226d6b9510db3276f077071717df67e7c
+
 
             return View();
         }

@@ -131,113 +131,27 @@
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
         <span class="bg-secondary pr-3">BRANDS</span>
     </h2>
+                
     <div class="row px-xl-5 pb-3">
+        @foreach (var item in ViewBag.brandList) {
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoAsus.png">
+                        <img class="img-fluid" src="@item.brand_img">
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Asus</h6>
-                        <small class="text-body">100 Products</small>
+                            <h6>@item.brand_name</h6>
+                        <small class="text-body">@ViewBag.Total Products</small>
                     </div>
                 </div>
             </a>
         </div>
+        }
+      
 
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoLogitech.png" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>Logitech</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoCorsair.png" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>Corsair</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoDareU.jpeg" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>DareU </h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoAkko.png" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>Akko</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoRazer.png">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>Razer</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoSteelseries.png" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>Steelseries</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/source_img/advertising_img/LogoHyperX.png">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6>HyperX</h6>
-                        <small class="text-body">100 Products</small>
-                    </div>
-                </div>
-            </a>
-        </div>
+       
+       
 
 
 

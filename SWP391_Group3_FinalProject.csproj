@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\source_img\brand_logo\" />
     <Folder Include="wwwroot\source_img\product_image\Chair\" />
     <Folder Include="wwwroot\source_img\product_image\Controller\" />
     <Folder Include="wwwroot\source_img\pro_img\" />

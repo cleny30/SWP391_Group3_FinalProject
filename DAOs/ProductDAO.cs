@@ -1,4 +1,5 @@
-﻿using SWP391_Group3_FinalProject.Models;
+﻿using Microsoft.AspNet.SignalR.Messaging;
+using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
 using System.Data.SqlClient;
 
@@ -285,7 +286,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             return listKeyboard;
         }
 
-<<<<<<< HEAD
+
         public Product GetProductById(string pro_id)
         {
             Product pro = new Product();
@@ -338,8 +339,24 @@ namespace SWP391_Group3_FinalProject.DAOs
 
             return pro;
         }
-=======
->>>>>>> 1df0933226d6b9510db3276f077071717df67e7c
+
+
+
+        public int countTotalProductByBrand(int id) {
+            int total = 0;
+            _command.CommandText = "SELECT COUNT(*) FROM Product WHERE Brand_ID=@Brand_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Brand_ID", id);
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    total = _reader.GetInt32(0);
+              
+                }
+            }
+            return total;
+        }
 
 
     }
