@@ -285,6 +285,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             return listKeyboard;
         }
 
+<<<<<<< HEAD
         public Product GetProductById(string pro_id)
         {
             Product pro = new Product();
@@ -337,6 +338,8 @@ namespace SWP391_Group3_FinalProject.DAOs
 
             return pro;
         }
+=======
+>>>>>>> 1df0933226d6b9510db3276f077071717df67e7c
 
 
     }

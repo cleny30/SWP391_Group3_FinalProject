@@ -1,0 +1,423 @@
+﻿
+@{
+    ViewData["Title"] = "ImportProduct";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div>
+
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <div class="container">
+                <div class="container">
+
+                    <h1 class="Header">IMPORT PRODUCTS</h1>
+                    <hr>
+                    <div class="row justify-content-between">
+                        <div class="col-md-5 BoxStyle">
+                            <div class="row">
+                                <h1 class="ImportHeader col-md-12"
+                                    style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                    SẮP HẾT HÀNG
+                                </h1>
+                            </div>
+                            <hr style="border: 3px solid black;">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            MS001
+                                        </td>
+                                        <td>
+                                            Razer Cortex
+                                        </td>
+                                        <td>
+                                            $10.00
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            MS002
+                                        </td>
+                                        <td>
+                                            Razer Python
+                                        </td>
+                                        <td>
+                                            $10.00
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            MS003
+                                        </td>
+                                        <td>
+                                            Razer Python V3
+                                        </td>
+                                        <td>
+                                            $20.00
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            MS004
+                                        </td>
+                                        <td>
+                                            Razer Python V3
+                                        </td>
+                                        <td>
+                                            $20.00
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr style="border: 3px solid black;">
+                        </div>
+                        <div class="col-md-6 offset-md-1 BoxStyle">
+                            <div class="row">
+                                <h1 class="ImportHeader col-md-12"
+                                    style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                    NHẬP HÀNG
+                                </h1>
+                                <div class="col-md-12 " style="text-align: center;">
+                                    <button class="btn btn-primary" id="contact"
+                                            style="padding: 10px; margin-top: 20px;">
+                                        <i class="fa-solid fa-cart-shopping"></i> Thêm Hàng
+                                    </button>
+                                </div>
+                            </div>
+                            <h1 class="ImportPrice col-md-5 offset-md-7" id="totalCartPrice"
+                                style="border-style: none; font-size: large; padding-top: 5px; color: red; margin-bottom: -10px;">
+                                Total Price: $0
+                            </h1>
+                            <form id="cartForm" action="" method="post">
+                                <hr style="border: 3px solid black;">
+                                <input type="hidden" id="totalCartPriceNumber">
+                                <table id="cart" class="table table-striped"
+                                       style="width:100%; background-color: white;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                            <th>Số Lượng</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                                <hr style="border: 3px solid black;">
+                                <div class="row">
+                                    <div class="col-md-12 " style="text-align: center;">
+                                        <input type="submit" value="THANH TOÁN" class="btn btn-primary"
+                                               style="padding: 10px; margin: 10px;">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="contactForm" class="col-8">
+                            <h1 class="Title">DANH SÁCH SẢN PHẨM TRONG KHO</h1>
+                            <table id="example2" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MS001</td>
+                                        <td>Razer Cortex</td>
+                                        <td>$100</td>
+                                        <td>Razer</td>
+                                        <td>Mouse</td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>KB001</td>
+                                        <td>Razer Black</td>
+                                        <td>$100</td>
+                                        <td>Razer</td>
+                                        <td>Keyboard</td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>MS002</td>
+                                        <td>Corsair V4</td>
+                                        <td>$200</td>
+                                        <td>Corsair</td>
+                                        <td>Mouse</td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td>MS002</td>
+                                        <td>Corsair V4</td>
+                                        <td>$200</td>
+                                        <td>Corsair</td>
+                                        <td>Mouse</td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Define an array to store cart items
+    const cartItems = [];
+
+    // Function to add a product to the cart
+    function addToCart(productID, productName, productPrice) {
+        // Check if the product is already in the cart
+        const existingItem = cartItems.find((item) => item.ID === productID);
+
+        if (existingItem) {
+            // If the product is already in the cart, increase its quantity
+            existingItem.quantity += 1;
+        } else {
+            // If it's not in the cart, add it as a new item with quantity 1
+            const newItem = {
+                ID: productID,
+                name: productName,
+                price: productPrice,
+                quantity: 1
+            };
+            cartItems.push(newItem);
+        }
+
+        // Call a function to update the cart display
+        displayCart();
+    }
+
+    // Function to display the cart with quantity and total price
+    function displayCart() {
+        const cartTable = document.getElementById("cart").getElementsByTagName("tbody")[0];
+        cartTable.innerHTML = "";
+
+        cartItems.forEach((item, index) => {
+            const row = cartTable.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell5 = row.insertCell(3); // Cell for Quantity
+            const cell4 = row.insertCell(4); // Cell for Total Price
+            const cell6 = row.insertCell(5); // Cell for Remove button
+
+            cell1.textContent = item.ID;
+            cell2.textContent = item.name;
+            cell3.textContent = `$${item.price.toFixed(2)}`;
+
+            // Quantity buttons
+            const quantityWrapper = document.createElement("div");
+            quantityWrapper.classList.add("quantity-wrapper");
+
+            const decreaseButton = document.createElement("button");
+            decreaseButton.textContent = "-";
+            decreaseButton.classList.add("btn", "btn-primary");
+            decreaseButton.type = "button";
+            decreaseButton.addEventListener("click", () => {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                    displayCart();
+                }
+            });
+
+            const quantityText = document.createElement("span");
+            quantityText.textContent = item.quantity;
+            quantityText.style.width = "100px";
+            quantityText.style.marginRight = "10px";
+            quantityText.style.marginLeft = "10px";
+
+            const increaseButton = document.createElement("button");
+            increaseButton.textContent = "+";
+            increaseButton.classList.add("btn", "btn-primary");
+            increaseButton.addEventListener("click", () => {
+                item.quantity += 1;
+                displayCart();
+            });
+
+            quantityWrapper.appendChild(decreaseButton);
+            quantityWrapper.appendChild(quantityText);
+            quantityWrapper.appendChild(increaseButton);
+
+            cell4.appendChild(quantityWrapper);
+
+            const totalItemPrice = item.price * item.quantity;
+            cell5.textContent = `$${totalItemPrice.toFixed(2)}`;
+
+            // Create a "Remove" button
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "X";
+            removeButton.classList.add("btn", "btn-danger");
+            // Set type="button" to prevent form submission
+            removeButton.type = "button";
+            // Use a separate function to handle removal and pass the index
+            removeButton.addEventListener("click", () => {
+                removeProduct(index);
+            });
+
+            cell6.appendChild(removeButton);
+
+
+            const hiddenIDInput = document.createElement("input");
+            hiddenIDInput.type = "hidden";
+            hiddenIDInput.name = "productID"; // Use an array to store multiple products
+            hiddenIDInput.value = item.ID;
+
+            const hiddenNameInput = document.createElement("input");
+            hiddenNameInput.type = "hidden";
+            hiddenNameInput.name = "productName"; // Use an array to store multiple products
+            hiddenNameInput.value = item.name;
+
+
+            const hiddenPriceInput = document.createElement("input");
+            hiddenPriceInput.type = "hidden";
+            hiddenPriceInput.name = "productPrice"; // Use an array to store multiple products
+            hiddenPriceInput.value = totalItemPrice;
+
+            const hiddenQuantityInput = document.createElement("input");
+            hiddenQuantityInput.type = "hidden";
+            hiddenQuantityInput.name = "productQuantity"; // Use an array to store multiple products
+            hiddenQuantityInput.value = item.quantity;
+
+            // Append the hidden inputs to the cell
+            cell1.appendChild(hiddenIDInput);
+            cell2.appendChild(hiddenNameInput);
+            cell5.appendChild(hiddenPriceInput);
+            cell4.appendChild(hiddenQuantityInput);
+
+            // Calculate and display the total price based on quantity
+
+        });
+        // Calculate and display the total cart price outside of the loop
+        let totalCartPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalCartPriceElement = document.getElementById("totalCartPrice");
+        totalCartPriceElement.textContent = `Total Price: $${totalCartPrice.toFixed(2)}`;
+
+        const totalCartPriceElement2 = document.getElementById("totalCartPriceNumber");
+        totalCartPriceElement2.value = totalCartPrice;
+    }
+
+    // Add a function to remove a product by index
+    function removeProduct(index) {
+        if (index >= 0 && index < cartItems.length) {
+            cartItems.splice(index, 1);
+            displayCart(); // Refresh the cart display after removal
+        }
+    }
+    // Add event listeners to "Add to Cart" buttons
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productRow = button.parentElement.parentElement;
+            const productID = productRow.querySelector("td:nth-child(1)").textContent;
+            const productName = productRow.querySelector("td:nth-child(2)").textContent;
+            const productPrice = parseFloat(productRow.querySelector("td:nth-child(3)").textContent.split("$")[1]);
+            addToCart(productID, productName, productPrice);
+        });
+    });
+
+    // Call the initial cart display
+    displayCart();
+
+
+    new DataTable('#example2', {
+        initComplete: function () {
+            this.api()
+                .columns()
+                .every(function (index) { // Added 'index' parameter
+                    let column = this;
+
+                    // Check if this is the last column
+                    if (index !== (column.columns()[0].length - 1)) {
+                        // Create select element
+                        let select = document.createElement('select');
+                        select.add(new Option(''));
+                        column.footer().replaceChildren(select);
+
+                        // Apply listener for user change in value
+                        select.addEventListener('change', function () {
+                            var val = DataTable.util.escapeRegex(select.value);
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                        // Add list of options
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.add(new Option(d));
+                            });
+                    }
+                });
+        }
+    });
+
+
+</script>
+

@@ -2,94 +2,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Main.cshtml";
 
-
-    var productsToShow = ViewBag.list as List<SWP391_Group3_FinalProject.Models.Product>;
-
-    // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên
-    var currentPage = Context.Request.Query["page"].ToString() != "" ? Convert.ToInt32(Context.Request.Query["page"]) : 1;
-
-    // Kích thước trang (số sản phẩm mỗi trang)
-    int pageSize = 9;
-
-    // Tính chỉ số bắt đầu của sản phẩm cần hiển thị
-    int startIndex = (currentPage - 1) * pageSize;
-
-
-    //TODO Filter
-    #region fillter
-    var SelectedCategory = Context.Request.Query["category"].ToString().Split(',');
-    var SelectedBrand = Context.Request.Query["brand"].ToString().Split(',');
-    var selectedCategoryIds = new List<int>();
-    var selectedBrandIds = new List<int>();
-
-    //Filter by category
-    if (SelectedCategory.Length > 0 && !SelectedCategory.Equals(""))
-    {
-        foreach (var category in SelectedCategory)
-        {
-            if (int.TryParse(category, out int parsedCategory))
-            {
-                selectedCategoryIds.Add(parsedCategory);
-            }
-            else
-            {
-                // Handle invalid category value (e.g., log an error, skip, or take appropriate action)
-                Console.WriteLine("Invalid Category: " + category);
-            }
-        }
-
-    }
-    var productsByCategory = productsToShow.Where(pro => selectedCategoryIds.Contains(pro.cate_id)).ToList();
-
-    //Filter by brand
-    if (SelectedBrand.Length > 0 && !SelectedBrand.Equals(""))
-    {
-        foreach (var category in SelectedBrand)
-        {
-            if (int.TryParse(category, out int parsedCategory))
-            {
-                selectedBrandIds.Add(parsedCategory);
-            }
-            else
-            {
-                // Handle invalid category value (e.g., log an error, skip, or take appropriate action)
-                Console.WriteLine("Invalid Category: " + category);
-            }
-        }
-
-    }
-    var productsByBrand = productsToShow.Where(pro => selectedBrandIds.Contains(pro.brand_id)).ToList();
-    #endregion
-    //END
-    #region Displaylist
-    // Lấy danh sách sản phẩm để hiển thị trên trang hiện tại
-    var list = productsToShow.Skip(startIndex).Take(pageSize);
-
-    var combineProduct = productsByBrand.Intersect(productsByCategory);
-    if (productsByCategory.Count() > 0 && productsByBrand.Count() > 0)
-    {
-        combineProduct = productsByBrand.Intersect(productsByCategory);
-    }
-    else if (productsByCategory.Count() > 0)
-    {
-        combineProduct = productsByCategory;
-    }
-    else if (productsByBrand.Count() > 0)
-    {
-        combineProduct = productsByBrand;
-    }
-
-
-    if (productsByCategory.Count() > 0 || productsByBrand.Count() > 0)
-    {
-        list = combineProduct.Skip(startIndex).Take(pageSize);
-    }
-    else if (combineProduct.Count() == 0 && (selectedBrandIds.Count() > 0 || selectedCategoryIds.Count() > 0))
-    {
-        list = null;
-    }
-    #endregion
-
+    var selectedBrandIds = ViewBag.selectedBrandIds as List<int>; 
+    var selectedCategoryIds = ViewBag.selectedCategoryIds as List<int>; 
+    var currentPage = ViewBag.currentPage;
+    var pageSize = ViewBag.pageSize;
+    var combineProduct = ViewBag.combineProduct;
+    var list = ViewBag.list;
 }
 
 
@@ -112,6 +30,67 @@
         <!-- Shop Sidebar Start -->
         <div class="col-lg-3 col-md-4">
 
+            @if (selectedBrandIds != null && selectedBrandIds.Count() > 0 ||
+            selectedCategoryIds != null && selectedCategoryIds.Count() > 0)
+            {
+                <!-- Fillter Choosen -->
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">
+                        Used filter
+                    </span>
+                </h5>
+                <div class="bg-light p-4 mb-30">
+                    <div class="list-used-filter">
+                        @{
+                            var filterCateUsed = new List<string>();
+                            foreach (var category in ViewBag.cateList)
+                            {
+                                if (selectedCategoryIds.Contains(category.cate_id))
+                                {
+                                    filterCateUsed.Add(category.cate_name);
+                                }
+                            }
+
+                            var filterBrandUsed = new List<string>();
+                            foreach (var brand in ViewBag.brandList)
+                            {
+                                if (selectedBrandIds.Contains(brand.brand_id))
+                                {
+                                    filterBrandUsed.Add(brand.brand_name);
+                                }
+                            }
+                        }
+                        <!--Start Display used filter-->
+                        @if (filterCateUsed.Count() > 0)
+                        {
+                            @for (int i = 0; i < filterCateUsed.Count(); i++)
+                            {
+                                <div class="element-used-filter" data-cateFilter="@selectedCategoryIds[i]" onclick="RemoveUsedFilter(this, @(i+1))">
+                                    <div class="name-filter">@filterCateUsed[i]</div>
+                                    <ion-icon name="close-circle-outline" class="icon-delete"></ion-icon>
+                                </div>
+                            }
+                        }
+                        @if (filterBrandUsed.Count() > 0)
+                        {
+                            @for (int i = 0; i < filterBrandUsed.Count(); i++)
+                            {
+                                <div class="element-used-filter" data-brandFilter="@selectedBrandIds[i]" onclick="RemoveUsedFilter(this, @(i+1))">
+                                    <div class="name-filter">@filterBrandUsed[i]</div>
+                                    <ion-icon name="close-circle-outline" class="icon-delete"></ion-icon>
+                                </div>
+                            }
+
+                        }
+                        <!--End Display used filter-->
+
+                    </div>
+                    <div class="remove-filter">
+                        <a href="/Product/Shop">Remove all used filter</a>
+                    </div>
+                </div>
+                <!-- Fillter Choosen -->
+            }
 
             <!-- Categories Start -->
             <h5 class="section-title position-relative text-uppercase mb-3">
@@ -122,14 +101,8 @@
             </h5>
             <div class="bg-light p-4 mb-30">
                 <form>
-                    @*                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" id="cat-all" checked>
-                    <label class="custom-control-label" for="cat-all">All</label>
-                    <span class="badge border font-weight-normal">1000</span>
-                    </div> *@
                     @foreach (var item in ViewBag.cateList)
                     {
-                    // @(selectedCategoryIds.Equals(item.cate_id) ? "checked" : "")
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="cat-@item.cate_id" value="@item.cate_id" @(selectedCategoryIds.Contains(item.cate_id) ? "checked" : "")>
                             <label class="custom-control-label" for="cat-@item.cate_id">@item.cate_name</label>
@@ -149,15 +122,8 @@
             </h5>
             <div class="bg-light p-4 mb-30">
                 <form>
-                    @*                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" id="brand-all" checked>
-                    <label class="custom-control-label" for="brand-all">All</label>
-                    <span class="badge border font-weight-normal">1000</span>
-                    </div> *@
-
                     @foreach (var item in ViewBag.brandList)
                     {
-                    //@(SelectedBrand.Equals(item.brand_id) ? "checked" : "")
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="brand-@item.brand_id" value="@item.brand_id" @(selectedBrandIds.Contains(item.brand_id) ? "checked" : "")>
                             <label class="custom-control-label" for="brand-@item.brand_id">@item.brand_name</label>
@@ -271,14 +237,14 @@
                                         </li>
                                     }
 
-                                    @for (var i = 1; i <= Math.Ceiling((double)ViewBag.list.Count / pageSize); i++)
+                                    @for (var i = 1; i <= Math.Ceiling((double)ViewBag.totalProduct / pageSize); i++)
                                     {
                                         <li class="page-item @(i == currentPage ? "active" : "")">
                                             <a class="page-link" href="?page=@i">@i</a>
                                         </li>
                                     }
 
-                                    if (currentPage == Math.Ceiling((double)ViewBag.list.Count / pageSize))
+                                    if (currentPage == Math.Ceiling((double)ViewBag.totalProduct / pageSize))
                                     {
                                         <li class="page-item disabled">
                                             <span class="page-link">Next</span>
@@ -301,18 +267,18 @@
                                     else
                                     {
                                         <li class="page-item">
-                                            <a class="page-link" href="?category=@string.Join(",", SelectedCategory)&brand=@string.Join(",", SelectedBrand)&page=@(currentPage - 1)">Previous</a>
+                                            <a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@(currentPage - 1)">Previous</a>
                                         </li>
                                     }
 
-                                    @for (var i = 1; i <= Math.Ceiling((double)combineProduct.Count() / pageSize); i++)
+                                    @for (var i = 1; i <= Math.Ceiling((double)ViewBag.combineProduct / pageSize); i++)
                                     {
                                         <li class="page-item @(i == currentPage ? "active" : "")">
-                                            <a class="page-link" href="?category=@string.Join(",", SelectedCategory)&brand=@string.Join(",", SelectedBrand)&page=@i">@i</a>
+                                            <a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@i">@i</a>
                                         </li>
                                     }
 
-                                    if (currentPage == Math.Ceiling((double)combineProduct.Count() / pageSize))
+                                    if (currentPage == Math.Ceiling((double)ViewBag.combineProduct / pageSize))
                                     {
                                         <li class="page-item disabled">
                                             <span class="page-link">Next</span>
@@ -320,7 +286,7 @@
                                     }
                                     else
                                     {
-                                        <li class="page-item"><a class="page-link" href="?category=@string.Join(",", SelectedCategory)&brand=@string.Join(",", SelectedBrand)&page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
+                                        <li class="page-item"><a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
                                     }
 
 
