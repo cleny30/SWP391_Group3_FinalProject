@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Web;
+using System;
+using Microsoft.AspNetCore.Mvc;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Drawing.Drawing2D;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -9,9 +13,57 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpGet]
         public IActionResult Shop()
         {
+            var sortFilter = Request.Query["sort"].ToString();
+            var orderFilter = Request.Query["order"].ToString();
+
             #region get List
             ProductDAO dao = new ProductDAO();
-            List<Product> list = dao.GetAllProduct();
+
+            List<Product> list = null;
+            if (sortFilter != "")
+            {
+                if (sortFilter.Equals("discount"))
+                {
+                    list = dao.SortProductByDiscount();
+
+                    if (orderFilter.Equals("highest"))
+                    {
+                        list = list.OrderByDescending(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
+                    }
+                    else
+                    {
+                        list = list.OrderBy(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
+                    }
+                }
+                else
+                {
+                    list = dao.SortProductByBestSelling();
+
+                    if (orderFilter.Equals("highest"))
+                    {
+                        list = list.OrderByDescending(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
+                    }
+                    else
+                    {
+                        list = list.OrderBy(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
+                    }
+                }
+            }
+            else if (orderFilter != "")
+            {
+                if (orderFilter.Equals("highest"))
+                {
+                    list = dao.SortProductByPrice(1);
+                }
+                else
+                {
+                    list = dao.SortProductByPrice(0);
+                }
+            }
+            else
+            {
+                list = dao.GetAllProduct();
+            }
             List<Category> cateList = dao.GetAllCategory();
             List<Brand> brandList = dao.GetAllBrand();
             #endregion
@@ -98,18 +150,45 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             #endregion
 
+            
+
+            int totalItems = selectedCategoryIds.Count == 0 && selectedBrandIds.Count == 0
+                     ? list.Count()
+                     : combineProduct.Count();
+            
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);              
+            bool isFirstPage = currentPage == 1;
+            bool isLastPage = currentPage == totalPages;
+
+
             #region Set attribute to View Bag
+            //Set category list and brand list
             ViewBag.cateList = cateList;
             ViewBag.brandList = brandList;
+
+            //Set category and brand filter used
             ViewBag.selectedCategoryIds = selectedCategoryIds;
             ViewBag.selectedBrandIds = selectedBrandIds;
+
+            //Set page navigation
             ViewBag.currentPage = currentPage;
-            ViewBag.isFilterUsed = (selectedBrandIds.Count() > 0 || selectedCategoryIds.Count() > 0) ? true : false;
-            ViewBag.list = productToshow;
-            ViewBag.combineProduct = combineProduct;
             ViewBag.pageSize = pageSize;
+
+            //Amount of total product and product filter
             ViewBag.totalProduct = list.Count();
-            ViewBag.combineProduct = combineProduct.Count();
+            ViewBag.combineProduct = combineProduct;
+
+            //Store product in list
+            ViewBag.combineProduct = combineProduct;
+            ViewBag.list = productToshow;
+
+            ViewBag.sort = sortFilter;
+            ViewBag.order = orderFilter;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.IsFirstPage = isFirstPage;
+            ViewBag.IsLastPage = isLastPage;
+            ViewBag.CurrentPage = currentPage;
+            //ViewBag.currentUrl = fullPathWithQuery;
             #endregion
 
             return View();
@@ -121,5 +200,6 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             return View();
         }
+
     }
 }
