@@ -24,6 +24,29 @@ function RemoveUsedFilter(element, index) {
 }
 
 
+function Sort(element) {
+    var sort = element.getAttribute("data-sort");
+    var url = window.location.href;
+
+    if (sort.length > 0) {
+        url += (url.includes("?") ? "&" : "?") + 'sort=' + sort;
+    }
+    window.location.href = url;
+}
+
+function Order(element) {
+    var order = element.getAttribute("data-order");
+    var url = window.location.href;
+
+    if (order.length > 0) {
+        url += (url.includes("?") ? "&" : "?") + 'order=' + order;
+    }
+    window.location.href = url;
+}
+
+
+
+
 function filterProducts() {
     var selectedCategories = $('input[id^=cat]:checked').map(function () {
         return this.value;

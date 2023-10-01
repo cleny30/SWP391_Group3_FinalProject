@@ -2,16 +2,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Main.cshtml";
 
-    var selectedBrandIds = ViewBag.selectedBrandIds as List<int>; 
-    var selectedCategoryIds = ViewBag.selectedCategoryIds as List<int>; 
+    var selectedBrandIds = ViewBag.selectedBrandIds as List<int>;
+    var selectedCategoryIds = ViewBag.selectedCategoryIds as List<int>;
     var currentPage = ViewBag.currentPage;
     var pageSize = ViewBag.pageSize;
-    var combineProduct = ViewBag.combineProduct;
     var list = ViewBag.list;
 }
 
 
-<!-- Breadcrumb Start -->
+<!-- Breadcrumb Start -->z
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-12">
@@ -147,12 +146,11 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                         data-toggle="dropdown">
-                                    Showing
+                                    <span>Showing</span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                    <span class="dropdown-item" onclick="Sort(this)" data-sort="discount">On Sale</span>
+                                    <span class="dropdown-item" onclick="Sort(this)" data-sort="best_selling">Best Selling</span>
                                 </div>
                             </div>
                             <div class="btn-group ml-2">
@@ -161,14 +159,15 @@
                                     Sorting by Price
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Highest</a>
-                                    <a class="dropdown-item" href="#">Lowest</a>
+                                    <span class="dropdown-item" onclick="Order(this)" data-order="highest">Highest</span>
+                                    <span class="dropdown-item" onclick="Order(this)" data-order="lowest">Lowest</span>
 
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 @if (list == null)
                 {
                     <h2>Cook</h2>
@@ -222,82 +221,69 @@
                         <nav>
                             <ul class="pagination justify-content-center">
 
-                                @if (selectedBrandIds.Count == 0 && selectedCategoryIds.Count == 0)
+
+                                <li class="page-item @(ViewBag.IsFirstPage ? "disabled" : "")">
+                                    @if (ViewBag.IsFirstPage)
+                                    {
+                                        <span class="page-link">Previous</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildPageUrl(ViewBag.CurrentPage - 1)">Previous</a>
+                                    }
+                                </li>
+
+                                @for (var i = 1; i <= ViewBag.TotalPages; i++)
                                 {
-                                    @if (currentPage == 1)
-                                    {
-                                        <li class="page-item disabled">
-                                            <span class="page-link">Previous</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=@(currentPage - 1)">Previous</a>
-                                        </li>
-                                    }
-
-                                    @for (var i = 1; i <= Math.Ceiling((double)ViewBag.totalProduct / pageSize); i++)
-                                    {
-                                        <li class="page-item @(i == currentPage ? "active" : "")">
-                                            <a class="page-link" href="?page=@i">@i</a>
-                                        </li>
-                                    }
-
-                                    if (currentPage == Math.Ceiling((double)ViewBag.totalProduct / pageSize))
-                                    {
-                                        <li class="page-item disabled">
-                                            <span class="page-link">Next</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item"><a class="page-link" href="?page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
-                                    }
-
-                                }
-                                else
-                                {
-                                    @if (currentPage == 1)
-                                    {
-                                        <li class="page-item disabled">
-                                            <span class="page-link">Previous</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item">
-                                            <a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@(currentPage - 1)">Previous</a>
-                                        </li>
-                                    }
-
-                                    @for (var i = 1; i <= Math.Ceiling((double)ViewBag.combineProduct / pageSize); i++)
-                                    {
-                                        <li class="page-item @(i == currentPage ? "active" : "")">
-                                            <a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@i">@i</a>
-                                        </li>
-                                    }
-
-                                    if (currentPage == Math.Ceiling((double)ViewBag.combineProduct / pageSize))
-                                    {
-                                        <li class="page-item disabled">
-                                            <span class="page-link">Next</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item"><a class="page-link" href="?category=@string.Join(",", selectedCategoryIds)&brand=@string.Join(",", selectedBrandIds)&page=@(int.Parse((currentPage + 1).ToString()))">Next</a></li>
-                                    }
-
-
+                                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                        <a class="page-link" href="@BuildPageUrl(i)">@i</a>
+                                    </li>
                                 }
 
+                                <li class="page-item @(ViewBag.IsLastPage ? "disabled" : "")">
+                                    @if (ViewBag.IsLastPage)
+                                    {
+                                        <span class="page-link">Next</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildPageUrl(ViewBag.CurrentPage + 1)">Next</a>
+                                    }
+                                </li>
+
+                                @functions {
+                                private string BuildPageUrl(int page)
+                                {
+                                    // Initialize a list to store non-empty parameters
+                                    var parameters = new List<string>();
+
+                                    // Add category parameter if selected
+                                    if (ViewBag.selectedCategoryIds != null && ViewBag.selectedCategoryIds.Count > 0)
+                                        parameters.Add($"category={string.Join("&category=", ViewBag.selectedCategoryIds)}");
+
+                                    // Add brand parameter if selected
+                                    if (ViewBag.selectedBrandIds != null && ViewBag.selectedBrandIds.Count > 0)
+                                        parameters.Add($"brand={string.Join("&brand=", ViewBag.selectedBrandIds)}");
+
+                                    // Add page, sort, and order parameters if they have values
+                                    if (!string.IsNullOrEmpty(ViewBag.sort))
+                                        parameters.Add($"sort={ViewBag.sort}");
+
+                                    if (!string.IsNullOrEmpty(ViewBag.order))
+                                        parameters.Add($"order={ViewBag.order}");
+
+                                    // Add page parameter
+                                    parameters.Add($"page={page}");
+
+                                    // Combine with the base URL
+                                    return ViewBag.url + "?" + string.Join("&", parameters);
+                                }
+
+                            }
                             </ul>
                         </nav>
                     </div>
                 }
-
-
             </div>
         </div>
         <!-- Shop Product End -->
