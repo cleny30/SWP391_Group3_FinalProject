@@ -45,17 +45,32 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
 
-        //Edit Brand
         [HttpPost]
         public IActionResult GetBrandInfo(int brand_id)
         {
-            ProductDAO dao = new ProductDAO();
-            Brand brand = new Brand();
-            //----------------------------------
-            brand = dao.GetBrandByID(brand_id);
 
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                ProductDAO dao = new ProductDAO();
+                Brand brand = dao.GetBrandByID(brand_id);
 
-            return Json(brand);
+                if (brand != null)
+                {
+                    Console.WriteLine(brand);
+                    return Ok(brand); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("Brand not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
         }
+
     }
 }

@@ -153,33 +153,35 @@
                                     Add
                                 </button>
                             </div>
-                            <table id="example3" class="table table-striped" style="width:100%; overflow:scroll;">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var items in ViewBag.BrandList)
-                                    {
+                           <div style="overflow:scroll; height: 80%">
+                                <table id="example3" class="table table-striped" style="width:100%; overflow:scroll;">
+                                    <thead>
                                         <tr>
-                                            <td>@items.brand_id</td>
-                                            <td>@items.brand_name</td>
-                                            <td>
-                                                <!--Edit-->
-                                                <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-BrandEdit="@items.brand_id"
-                                                   id="contactBrandEdit" onclick="EditBrand(this)"></i>
-
-                                                
-                                              <!--Delete-->
-                                                <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
-                                            </td>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th></th>
                                         </tr>
-                                    }
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var items in ViewBag.BrandList)
+                                        {
+                                            <tr>
+                                                <td>@items.brand_id</td>
+                                                <td>@items.brand_name</td>
+                                                <td>
+                                                    <!--Edit-->
+                                                    <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.brand_id" onclick="EditBrand(this)"
+                                                       id="contactBrandEdit"></i>
+
+
+                                                    <!--Delete-->
+                                                    <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
                                     </tbody>
-                            </table>
+                                </table>
+                           </div>
 
                             <!--Add Brand-->
                             <div id="contactFormAddBrand" class="col-8">
@@ -219,8 +221,8 @@
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="Brand_Name" id="Brand_Name" value="">
-                                                <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID" value="">
+                                                <input type="text" class="form-control" name="Brand_Name" id="Brand_Name_edit">
+                                                <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID_edit">
                                             </div>
                                         </div>
 
@@ -230,9 +232,9 @@
                                             justify-content: center;
                                             align-items: center;">
                                                 <img src="../assets/images/backgrounds/rocket.png" alt="Smiley face" class="imgStyle"
-                                                     width="100" height="100" title="Original Image" /> 
+                                                     width="100" height="100" title="Original Image" id="brand_img_edit"/> 
                                                      <!--Src lấy trên database-->
-                                                <input type="hidden" class="form-control" name="Brand_Image" id="Brand_Image" value="">
+                                                <input type="hidden" class="form-control" name="Brand_Image" id="Brand_Image_tmp">
                                             </div>
 
                                             <div>

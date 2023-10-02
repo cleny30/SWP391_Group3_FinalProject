@@ -109,9 +109,9 @@ $(function() {
   $(function() {
     
     // contact form animations
-    $('#contactBrandEdit').click(function() {
-      $('#contactFormBrandEdit').fadeToggle();
-    })
+    //$('.contactBrandEdit').click(function() {
+    //  $('#contactFormBrandEdit').fadeToggle();
+    //})
     $(document).mouseup(function (e) {
       var container = $("#contactFormBrandEdit");
   
