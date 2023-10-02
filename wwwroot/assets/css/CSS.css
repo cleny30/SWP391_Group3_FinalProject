@@ -276,7 +276,8 @@ color: purple;
   left:50%;
   height: 60%;
   transform: translate(-50%,-60%);
-  -webkit-transform: translate(-50%,-60%)
+  -webkit-transform: translate(-50%,-60%);
+  overflow:scroll;
   
 }
 

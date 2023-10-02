@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "ProductPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+
 }
+
 <div class="body-wrapper">
     <div class="container">
         <div class="container">
@@ -140,7 +142,9 @@
                             <!--Edit Category-->
                         </div>
                         <!--End Of Categories Pop-up-->
+
                         <!--Beginning Of Brand Pop-up-->
+
                         <div id="contactForm2" class="col-3">
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">BRANDS</h1>
@@ -149,7 +153,7 @@
                                     Add
                                 </button>
                             </div>
-                            <table id="example3" class="table table-striped" style="width:100%">
+                            <table id="example3" class="table table-striped" style="width:100%; overflow:scroll;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -158,15 +162,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>
-                                            <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button"
-                                               id="contactBrandEdit"></i>
-                                            <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var items in ViewBag.BrandList)
+                                    {
+                                        <tr>
+                                            <td>@items.brand_id</td>
+                                            <td>@items.brand_name</td>
+                                            <td>
+                                                <!--Edit-->
+                                                <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-BrandEdit="@items.brand_id"
+                                                   id="contactBrandEdit" onclick="EditBrand(this)"></i>
+
+                                                
+                                              <!--Delete-->
+                                                <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
                             </table>
 
                             <!--Add Brand-->
@@ -199,6 +211,7 @@
                                 </form>
                             </div>
                             <!--Add Brand-->
+
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
                                 <form method="POST" action="" id="" class="" enctype="multipart/form-data">
@@ -206,17 +219,20 @@
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="Brand_Name" id="Brand_Name" value="Razer">
+                                                <input type="text" class="form-control" name="Brand_Name" id="Brand_Name" value="">
+                                                <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID" value="">
                                             </div>
                                         </div>
 
                                         <div class="col-md-12">
                                             <h3 style="color: #5D87FF; text-align: center;">Brand Logo</h3>
                                             <div style="display: flex;
-                            justify-content: center;
-                            align-items: center;">
+                                            justify-content: center;
+                                            align-items: center;">
                                                 <img src="../assets/images/backgrounds/rocket.png" alt="Smiley face" class="imgStyle"
-                                                     width="100" height="100" title="Original Image" /> <!--Src lấy trên database-->
+                                                     width="100" height="100" title="Original Image" /> 
+                                                     <!--Src lấy trên database-->
+                                                <input type="hidden" class="form-control" name="Brand_Image" id="Brand_Image" value="">
                                             </div>
 
                                             <div>

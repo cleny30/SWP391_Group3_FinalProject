@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNet.SignalR.Messaging;
-using SWP391_Group3_FinalProject.Models;
+﻿using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing.Drawing2D;
 
 namespace SWP391_Group3_FinalProject.DAOs
 {
@@ -68,173 +69,6 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
-
-
-        public List<Product> SortProductByDiscount()
-        {
-            List<Product> list = new List<Product>();
-            _command.CommandText = "Select * from Product where discount_percent > 0";
-            _command.Parameters.Clear();
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Product pro = new Product();
-                    pro.pro_id = _reader.GetString(0);
-                    pro.brand_id = _reader.GetInt32(1);
-                    pro.cate_id = _reader.GetInt32(2);
-                    pro.pro_name = _reader.GetString(3);
-                    pro.pro_quan = _reader.GetInt32(4);
-                    pro.pro_des = _reader.GetString(5);
-                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
-                    pro.discount = _reader.GetInt32(7);
-                    pro.isAvailable = _reader.GetBoolean(8);
-                    list.Add(pro);
-                }
-            }
-            foreach (var item in list)
-            {
-                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_img.Add(_reader.GetString(1));
-                    }
-                }
-            }
-
-            foreach (var item in list)
-            {
-                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
-                    }
-                }
-            }
-            return list;
-        }
-
-        public List<Product> SortProductByBestSelling()
-        {
-            List<Product> list = new List<Product>();
-            _command.CommandText = "SELECT p.* FROM Product p JOIN (SELECT pro_id, COUNT(*) AS total_purchases FROM Order_Details GROUP BY pro_id ORDER BY total_purchases DESC) [top_product] ON p.pro_id = [top_product].pro_id;";
-            _command.Parameters.Clear();
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Product pro = new Product();
-                    pro.pro_id = _reader.GetString(0);
-                    pro.brand_id = _reader.GetInt32(1);
-                    pro.cate_id = _reader.GetInt32(2);
-                    pro.pro_name = _reader.GetString(3);
-                    pro.pro_quan = _reader.GetInt32(4);
-                    pro.pro_des = _reader.GetString(5);
-                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
-                    pro.discount = _reader.GetInt32(7);
-                    pro.isAvailable = _reader.GetBoolean(8);
-                    list.Add(pro);
-                }
-            }
-            foreach (var item in list)
-            {
-                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_img.Add(_reader.GetString(1));
-                    }
-                }
-            }
-
-            foreach (var item in list)
-            {
-                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
-                    }
-                }
-            }
-            return list;
-
-        }
-
-        public List<Product> SortProductByPrice(int key)
-        {
-            List<Product> list = new List<Product>();
-            if(key == 1)
-            {
-                _command.CommandText = "SELECT * FROM Product ORDER BY pro_price - ( pro_price * discount_percent) / 100  DESC";
-            }
-            else
-            {
-                _command.CommandText = "SELECT * FROM Product ORDER BY pro_price - ( pro_price * discount_percent) / 100  ASC";
-            }
-            _command.Parameters.Clear();
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Product pro = new Product();
-                    pro.pro_id = _reader.GetString(0);
-                    pro.brand_id = _reader.GetInt32(1);
-                    pro.cate_id = _reader.GetInt32(2);
-                    pro.pro_name = _reader.GetString(3);
-                    pro.pro_quan = _reader.GetInt32(4);
-                    pro.pro_des = _reader.GetString(5);
-                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
-                    pro.discount = _reader.GetInt32(7);
-                    pro.isAvailable = _reader.GetBoolean(8);
-                    list.Add(pro);
-                }
-            }
-            foreach (var item in list)
-            {
-                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_img.Add(_reader.GetString(1));
-                    }
-                }
-            }
-
-            foreach (var item in list)
-            {
-                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
-                    }
-                }
-            }
-            return list;
-
-        }
-
 
         /*This method use to add Product's Details
          * 
@@ -322,6 +156,26 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
+        public Brand GetBrandByID(int ID)
+        {
+            Brand brand = new Brand();
+            _command.CommandText = "Select * from Brand where Brand_ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    brand.brand_id = _reader.GetInt32(0);
+                    brand.brand_name = _reader.GetString(1);
+                    brand.isAvailable = _reader.GetBoolean(2);
+                    brand.brand_img = _reader.GetString(3);
+                }
+            }
+
+            return brand;
+        }
+
 
         public void AddBrand(Brand brand)
         {
@@ -398,6 +252,8 @@ namespace SWP391_Group3_FinalProject.DAOs
             return listMouse;
         }
 
+
+
         /**
          * Method use to get all product have cat_id = 1 ( Keyboard)
          */
@@ -453,77 +309,6 @@ namespace SWP391_Group3_FinalProject.DAOs
             return listKeyboard;
         }
 
-
-        public Product GetProductById(string pro_id)
-        {
-            Product pro = new Product();
-             
-            _command.CommandText = "Select * from Product where pro_id = '"+pro_id+"'";
-
-            _command.Parameters.Clear();
-            using (_reader = _command.ExecuteReader())
-            {
-
-                if (_reader.Read())
-                {
-                 
-                    pro.pro_id = _reader.GetString(0);
-                    pro.brand_id = _reader.GetInt32(1);
-                    pro.cate_id = _reader.GetInt32(2);
-                    pro.pro_name = _reader.GetString(3);
-                    pro.pro_quan = _reader.GetInt32(4);
-                    pro.pro_des = _reader.GetString(5);
-                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
-                    pro.discount = _reader.GetInt32(7);
-                    pro.isAvailable = _reader.GetBoolean(8);
-               
-                }
-            }
-          
-                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + pro.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        pro.pro_img.Add(_reader.GetString(1));
-                    }
-                }
-            
-
-           
-                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + pro.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        pro.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
-                    }
-                }
-
-            return pro;
-        }
-
-
-
-        public int countTotalProductByBrand(int id) {
-            int total = 0;
-            _command.CommandText = "SELECT COUNT(*) FROM Product WHERE Brand_ID=@Brand_ID";
-            _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@Brand_ID", id);
-            using (_reader = _command.ExecuteReader())
-            {
-                if (_reader.Read())
-                {
-                    total = _reader.GetInt32(0);
-              
-                }
-            }
-            return total;
-        }
 
 
     }

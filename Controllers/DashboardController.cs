@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SWP391_Group3_FinalProject.DAOs;
+using SWP391_Group3_FinalProject.Models;
+using System.Drawing.Drawing2D;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -19,6 +22,12 @@ namespace SWP391_Group3_FinalProject.Controllers
         //Trang để coi giỏ hàng
         public IActionResult ProductPage()
         {
+            ProductDAO dao = new ProductDAO();
+            List<Brand> BrandList = dao.GetAllBrand();
+            
+            //ViewBag
+            ViewBag.BrandList = BrandList;
+
             return View();
         }
 
@@ -32,6 +41,21 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult OrderRecieptPage()
         {
             return View();
+        }
+
+
+
+        //Edit Brand
+        [HttpPost]
+        public IActionResult GetBrandInfo(int brand_id)
+        {
+            ProductDAO dao = new ProductDAO();
+            Brand brand = new Brand();
+            //----------------------------------
+            brand = dao.GetBrandByID(brand_id);
+
+
+            return Json(brand);
         }
     }
 }
