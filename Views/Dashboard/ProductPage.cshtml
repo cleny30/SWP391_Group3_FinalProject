@@ -63,10 +63,9 @@
                                         <td>@items.pro_quan</td>
 
                                         <td style="color:#5D87FF;">
-                                            <a href="ProductInformation.html">
-                                                <i class="fa-solid fa-pen"
-                                                   style="color: rgb(255, 200, 0)"></i>
-                                            </a> <!--Edit here-->
+                                            <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                View Details
+                                            </a>
                                         </td>
                                     </tr>
                                 }

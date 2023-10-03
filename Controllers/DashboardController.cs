@@ -79,7 +79,6 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         }
 
-
         //Get Category Info
         [HttpPost]
         public IActionResult GetCategoryInfo(int cate_id)
@@ -165,7 +164,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
-
         //Update Category
         public IActionResult UpdateCategory(Category category)
         {
@@ -232,5 +230,23 @@ namespace SWP391_Group3_FinalProject.Controllers
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
+        //Show Product Details
+        public IActionResult ProductDetailPage(string ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            Product product = dao.GetProductById(ID);
+            List<Brand> BrandList = dao.GetAllBrand();
+            List<Category> CategoryList = dao.GetAllCategory();
+
+            //ViewBag
+            ViewBag.ProductAttribute = product.pro_attribute;
+            ViewBag.ProductImage = product.pro_img;
+            ViewBag.CategoryList = CategoryList;
+            ViewBag.BrandList = BrandList;
+            return View(product);
         }
+
+
+    }
+   
 }

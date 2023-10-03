@@ -18,6 +18,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Connection = conn;
         }
 
+        //Get all product
         public List<Product> GetAllProduct()
         {
             List<Product> list = new List<Product>();
@@ -69,6 +70,64 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
+
+
+        //Get Product by ID to show it's full details
+        public Product GetProductById(string productId)
+        {
+            Product product = null;
+            _command.CommandText = "SELECT * FROM Product WHERE pro_id = @productId";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@productId", productId);
+
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    product = new Product();
+                    product.pro_id = _reader.GetString(0);
+                    product.brand_id = _reader.GetInt32(1);
+                    product.cate_id = _reader.GetInt32(2);
+                    product.pro_name = _reader.GetString(3);
+                    product.pro_quan = _reader.GetInt32(4);
+                    product.pro_des = _reader.GetString(5);
+                    product.pro_price = double.Parse(_reader.GetValue(6).ToString());
+                    product.discount = _reader.GetInt32(7);
+                    product.isAvailable = _reader.GetBoolean(8);
+                }
+            }
+
+            if (product != null)
+            {
+                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = @productId";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@productId", productId);
+
+                using (_reader = _command.ExecuteReader())
+                {
+                    while (_reader.Read())
+                    {
+                        product.pro_img.Add(_reader.GetString(1));
+                    }
+                }
+
+                _command.CommandText = "SELECT * FROM Product_Attribute WHERE pro_id = @productId";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@productId", productId);
+
+                using (_reader = _command.ExecuteReader())
+                {
+                    while (_reader.Read())
+                    {
+                        product.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
+                    }
+                }
+            }
+
+            return product;
+        }
+
+
 
         /*This method use to add Product's Details
          * 
