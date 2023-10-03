@@ -2,10 +2,10 @@ $(function() {
   
     // contact form animations
     $('#contact').click(function() {
-      $('#contactForm').fadeToggle();
+      $('#contactForm3').fadeToggle();
     })
     $(document).mouseup(function (e) {
-      var container = $("#contactForm");
+      var container = $("#contactForm3");
   
       if (!container.is(e.target) // if the target of the click isn't the container...
           && container.has(e.target).length === 0) // ... nor a descendant of the container
@@ -127,9 +127,9 @@ $(function() {
   $(function() {
     
     // contact form animations
-    $('#contactCategoryEdit').click(function() {
-      $('#contactFormEditCategory').fadeToggle();
-    })
+    //$('#contactCategoryEdit').click(function() {
+      //$('#contactFormEditCategory').fadeToggle();
+    //})
     $(document).mouseup(function (e) {
       var container = $("#contactFormEditCategory");
   

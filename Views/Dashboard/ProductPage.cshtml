@@ -1,4 +1,5 @@
-﻿
+﻿@using SWP391_Group3_FinalProject.Models;
+
 @{
     ViewData["Title"] = "ProductPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
@@ -36,40 +37,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>MS001</td>
-                                    <td>Razer Python V3</td>
-                                    <td>Mouse</td>
-                                    <td>Razer</td>
-                                    <td>150$</td>
-                                    <td>10</td>
-                                    <td style="color:#5D87FF;">
-                                        <a href="ProductInformation.html">
-                                            <i class="fa-solid fa-pen"
-                                               style="color: rgb(255, 200, 0)"></i>
-                                        </a> <!--Edit here-->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>MS001</td>
-                                    <td>Razer Python V3</td>
-                                    <td>Mouse</td>
-                                    <td>Razer</td>
-                                    <td>150$</td>
-                                    <td>0</td>
+                                @foreach (var items in ViewBag.ProductList)
+                                {
+                                    <tr>
+                                        <td>@items.pro_id</td>
+                                        <td>@items.pro_name</td>
+                                        <td>
+                                            @{
+                                                int categoryId = items.cate_id;
+                                                var categoryList = ViewBag.CategoryList as List<Category>;
+                                                string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <td>
+                                            @{
+                                                int brandyId = items.brand_id;
+                                                var brandList = ViewBag.BrandList as List<Brand>;
+                                                string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                            }
+                                            @BrandName
 
-                                    <td style="color:#5D87FF;">
-                                        <a href="ProductInformation.html">
-                                            <i class="fa-solid fa-pen"
-                                               style="color: rgb(255, 200, 0)"></i>
-                                        </a> <!--Edit here-->
-                                        <a onclick="return confirm('You are about to delete this product and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a> <!--Chỉ xuất hiện khi quantity == 0-->
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>$@items.pro_price</td>
+                                        <td>@items.pro_quan</td>
+
+                                        <td style="color:#5D87FF;">
+                                            <a href="ProductInformation.html">
+                                                <i class="fa-solid fa-pen"
+                                                   style="color: rgb(255, 200, 0)"></i>
+                                            </a> <!--Edit here-->
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
                         </table>
 
                         <!--Beginning Of Categories Pop-up-->
-                        <div id="contactForm" class="col-3">
+                        <div id="contactForm3" class="col-3">
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">CATEGORIES</h1>
                                 <button type="button" id="contactAddCategory" class="btn btn-outline-primary m-1">
@@ -85,25 +90,33 @@
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>
-                                            <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button"
-                                               id="contactCategoryEdit"></i>
-                                            <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
-                                        </td>
-                                    </tr>
+                                <tbody style="width: 70%; overflow:scroll;">
+                                        @foreach (var items in ViewBag.CategoryList)
+                                        {
+                                        <tr>
+                                            <td>@items.cate_id</td>
+                                            <td>@items.cate_name</td>
+                                            <td>
+
+                                                <!--Edit-->
+                                                <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-CatEdit="@items.cate_id" onclick="EditCat(this)"
+                                                   id="contactCategoryEdit"></i>
+
+                                                <!--Delete-->
+                                                <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                            </td>
+                                        </tr>
+                                        }
+                                </tbody>
                             </table>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
-                                <form method="POST" action="" id="" class="" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/AddCategory" id="" class="" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-612">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="Cat_Name" id="Cat_Name"
+                                                <input type="text" class="form-control" name="cate_name" id="Cat_Name"
                                                        placeholder="Insert Category Name">
                                             </div>
                                         </div>
@@ -118,15 +131,15 @@
                                 </form>
                             </div>
                             <!--Add Category-->
+
                             <!--Edit Category-->
                             <div id="contactFormEditCategory" class="col-8">
-                                <form method="POST" action="" id="" class="" enctype="multipart/form-data">
-                                    <!--Add Action Here for Cleny-->
+                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory" >
                                     <div class="row">
-                                        <div class="col-md-612">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="Cat_Name" id="Cat_Name"
-                                                       value="Gaming Mouse">
+                                                <input type="text" class="form-control"  id="Cat_Name_edit"  name="cate_name">
+                                                <input type="hidden" class="form-control" id="Cat_ID_edit" name="cate_id">
                                             </div>
                                         </div>
                                     </div>
@@ -134,13 +147,13 @@
                                         <div class="form-group" style="text-align: center; padding-top: 20px;">
                                             <input type="submit" value="Submit" class="btn btn-primary">
                                             <input type="reset" value="Reset" class="btn btn-secondary">
-                                            <div class="submitting"></div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <!--Edit Category-->
                         </div>
+
                         <!--End Of Categories Pop-up-->
 
                         <!--Beginning Of Brand Pop-up-->
@@ -185,7 +198,7 @@
 
                             <!--Add Brand-->
                             <div id="contactFormAddBrand" class="col-8">
-                                <form method="POST" action="" id="" class="" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/AddBrand" id="" class="" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
@@ -217,13 +230,12 @@
 
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data" id="EditBrandForm">
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data" >
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="Brand_Name" id="Brand_Name_edit">
                                                 <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID_edit">
-                                                <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID_edit" value="DWDW">
                                             </div>
                                         </div>
 
@@ -249,7 +261,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group" style="text-align: center; padding-top: 20px;">
-                                            <input type="submit" value="Submit" class="btn btn-primary" id="submitButton" value="Upload">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
                                             <input type="reset" value="Reset" class="btn btn-secondary">
                                             <div class="submitting"></div>
                                         </div>
@@ -266,7 +278,7 @@
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">ADD PRODUCT</h1>
                             </div>
-                            <form method="POST" action="Product/AddProduct" id="AddForm" class="AddForm"
+                            <form method="POST" action="/Dashboard/AddProduct" id="AddForm" class="AddForm"
                                   enctype="multipart/form-data">
                                 <div class="row">
 

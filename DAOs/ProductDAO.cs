@@ -119,24 +119,11 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
         }
 
-        public List<Category> GetAllCategory()
-        {
-            List<Category> list = new List<Category>();
-            _command.CommandText = "Select * from Category";
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Category cat = new Category();
-                    cat.cate_id = _reader.GetInt32(0);
-                    cat.cate_name = _reader.GetString(1);
-                    cat.isAvailable = _reader.GetBoolean(2);
-                    list.Add(cat);
-                }
-            }
-            return list;
-        }
+       
 
+
+        //------------------------------------------------------------------------------------------------------------
+        //START BRAND CRUD
         public List<Brand> GetAllBrand()
         {
             List<Brand> list = new List<Brand>();
@@ -217,6 +204,33 @@ namespace SWP391_Group3_FinalProject.DAOs
 
         }
 
+        //------------------------------------------------------------------------------------------------------------
+
+
+
+        //------------------------------------------------------------------------------------------------------------
+        //START CATEGORY CRUD
+
+        //Get all Category
+        public List<Category> GetAllCategory()
+        {
+            List<Category> list = new List<Category>();
+            _command.CommandText = "Select * from Category";
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    Category cat = new Category();
+                    cat.cate_id = _reader.GetInt32(0);
+                    cat.cate_name = _reader.GetString(1);
+                    cat.isAvailable = _reader.GetBoolean(2);
+                    list.Add(cat);
+                }
+            }
+            return list;
+        }
+
+        //Add Category to Database
         public void AddCategory(Category cate)
         {
             _command.CommandText = "INSERT INTO Category (Cat_Name, isAvailable) " +
@@ -226,6 +240,62 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@isAvailable", 1);
             _command.ExecuteNonQuery();
         }
+
+        //Update Category by ID to Database
+        public void EditCategory(Category category)
+        {
+            _command.CommandText = @"UPDATE Category
+                    SET Cat_Name = @Name
+                    WHERE Cat_ID = @ID;";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Name", category.cate_name);
+            _command.Parameters.AddWithValue("@ID", category.cate_id);
+            _command.ExecuteNonQuery();
+
+        }
+
+        //Get Category by ID
+        public Category GetCatByID(int ID)
+        {
+            Category cate = new Category();
+            _command.CommandText = "Select * from Category where Cat_ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    cate.cate_id = _reader.GetInt32(0);
+                    cate.cate_name = _reader.GetString(1);
+                    cate.isAvailable = _reader.GetBoolean(2);
+                }
+            }
+
+            return cate;
+        }
+
+
+        //------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**
          * Method use to get all product have cat_id = 2 ( Mouse)
          */

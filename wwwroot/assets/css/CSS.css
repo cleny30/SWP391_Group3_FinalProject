@@ -239,7 +239,7 @@ color: purple;
 #contact:hover { background: #5D87FF; }
 #contact:active { background: #5D87FF; }
 
-#contactForm { 
+#contactForm3 { 
   display: none;
 
   border: 6px solid #5D87FF; 
@@ -315,7 +315,7 @@ color: purple;
   height: 80%;
   overflow-x: hidden;
   overflow-y: auto;
-  height: 48%;
+  height: 170px;
 }
 
 #contactFormAddBrand { 
@@ -331,7 +331,7 @@ color: purple;
   left:50%;
   transform: translate(-50%,-50%);
   -webkit-transform: translate(-50%,-50%);
-  height: 60%;
+  height: 270px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -368,7 +368,7 @@ color: purple;
   left:50%;
   transform: translate(-50%,-50%);
   -webkit-transform: translate(-50%,-50%);
-  height: 50%;
+  height: 170px;
   overflow-x: hidden;
   overflow-y: auto;
 }
