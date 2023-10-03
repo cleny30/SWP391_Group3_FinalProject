@@ -2,6 +2,7 @@
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
 using System.Drawing.Drawing2D;
+using System.Web.Helpers;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -44,7 +45,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
 
-
+        //Get Brand Info
         [HttpPost]
         public IActionResult GetBrandInfo(int brand_id)
         {
@@ -71,6 +72,66 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
 
         }
+
+
+        private readonly IWebHostEnvironment _environment;
+
+        public DashboardController(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
+
+        //Update Brand
+        public IActionResult UpdateBrand(Brand brand ,IFormFile BrandLogo)
+        {
+
+            ProductDAO dao = new ProductDAO();
+            if (BrandLogo != null && BrandLogo.Length > 0)
+            {
+                try
+                {
+                    var uniqueFileName =  brand.brand_id + "_Logo" + Path.GetExtension(BrandLogo.FileName); ;
+
+                    // Define the path where the file will be saved on the server.
+                    var webRootPath = _environment.WebRootPath;
+                    var uploadPath = Path.Combine(webRootPath, "source_img", "brand_logo");
+                    var filePath = Path.Combine(_environment.WebRootPath, "source_img", "brand_logo", uniqueFileName);
+
+
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        // Copy the uploaded file's content to the stream.
+                        BrandLogo.CopyTo(stream);
+                    }
+
+                    // Create a URL to access the saved file.
+                    var imageUrl = "\\source_img\\brand_logo\\" + uniqueFileName;
+
+                    // Now, imageUrl can be used as the source in your HTML.
+                    brand.brand_img = imageUrl;
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that may occur during file upload or processing.
+                    // You can add logging or return an error response to the client.
+                }
+                dao.EditBrand(brand);
+            }  else
+            {
+                dao.EditBrandWithoutImage(brand);
+            }
+
+            
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+
 
     }
 }

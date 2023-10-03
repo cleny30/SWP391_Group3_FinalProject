@@ -156,6 +156,8 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
+
+        //Get Brand By ID
         public Brand GetBrandByID(int ID)
         {
             Brand brand = new Brand();
@@ -176,7 +178,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             return brand;
         }
 
-
+        //Add Brand
         public void AddBrand(Brand brand)
         {
             _command.CommandText = "INSERT INTO Brand (Brand_Name, isAvailable, Brand_Logo) " +
@@ -186,6 +188,33 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@isAvailable", 1);
             _command.Parameters.AddWithValue("@brand_logo", brand.brand_img);
             _command.ExecuteNonQuery();
+        }
+
+        //Edit Brand
+        public void EditBrand(Brand brand)
+        {
+            _command.CommandText = @"UPDATE Brand
+                    SET Brand_Name = @Name, Brand_Logo = @Logo
+                    WHERE Brand_ID = @ID;";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Name", brand.brand_name);
+            _command.Parameters.AddWithValue("@Logo", brand.brand_img);
+            _command.Parameters.AddWithValue("@ID", brand.brand_id);
+            _command.ExecuteNonQuery();
+
+        }
+
+
+        public void EditBrandWithoutImage(Brand brand)
+        {
+            _command.CommandText = @"UPDATE Brand
+                    SET Brand_Name = @Name
+                    WHERE Brand_ID = @ID;";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Name", brand.brand_name);
+            _command.Parameters.AddWithValue("@ID", brand.brand_id);
+            _command.ExecuteNonQuery();
+
         }
 
         public void AddCategory(Category cate)
