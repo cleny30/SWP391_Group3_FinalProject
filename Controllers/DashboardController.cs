@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
-using System.Drawing.Drawing2D;
-using System.Web.Helpers;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
