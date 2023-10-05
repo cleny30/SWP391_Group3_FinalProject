@@ -178,7 +178,16 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
         }
 
-       
+       public void AddProductQuantity(string ID, int amount)
+        {
+            _command.CommandText = @"update Product
+                                     set pro_quan = @quantity
+                                     where pro_id = @ID;";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@quantity", amount);
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
 
 
         //------------------------------------------------------------------------------------------------------------

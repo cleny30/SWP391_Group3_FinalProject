@@ -34,75 +34,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach (var items in ViewBag.LowQuantityProduct)
+                                {
                                     <tr>
                                         <td>
-                                            MS001
+                                            @items.pro_id
                                         </td>
                                         <td>
-                                            Razer Cortex
+                                            @items.pro_name
                                         </td>
                                         <td>
-                                            $10.00
+                                            $@items.pro_price
                                         </td>
                                         <td>
-                                            0
+                                            @items.pro_quan
                                         </td>
                                         <td>
                                             <button class="add-to-cart btn btn-primary">Add to Cart</button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            MS002
-                                        </td>
-                                        <td>
-                                            Razer Python
-                                        </td>
-                                        <td>
-                                            $10.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            MS003
-                                        </td>
-                                        <td>
-                                            Razer Python V3
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            MS004
-                                        </td>
-                                        <td>
-                                            Razer Python V3
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                }
+                            </tbody>
                             </table>
                             <hr style="border: 3px solid black;">
                         </div>
@@ -123,9 +75,9 @@
                                 style="border-style: none; font-size: large; padding-top: 5px; color: red; margin-bottom: -10px;">
                                 Total Price: $0
                             </h1>
-                            <form id="cartForm" action="" method="post">
+                        <form id="cartForm" action="/Dashboard/GetImportProduct" method="post">
                                 <hr style="border: 3px solid black;">
-                                <input type="hidden" id="totalCartPriceNumber">
+                            <input type="hidden" id="totalCartPriceNumber" name="totalCartPriceNumber">
                                 <table id="cart" class="table table-striped"
                                        style="width:100%; background-color: white;">
                                     <thead>
@@ -323,23 +275,23 @@
 
             const hiddenIDInput = document.createElement("input");
             hiddenIDInput.type = "hidden";
-            hiddenIDInput.name = "productID"; // Use an array to store multiple products
+            hiddenIDInput.name = "pro_id"; // Use an array to store multiple products
             hiddenIDInput.value = item.ID;
 
             const hiddenNameInput = document.createElement("input");
             hiddenNameInput.type = "hidden";
-            hiddenNameInput.name = "productName"; // Use an array to store multiple products
+            hiddenNameInput.name = "pro_name"; // Use an array to store multiple products
             hiddenNameInput.value = item.name;
 
 
             const hiddenPriceInput = document.createElement("input");
             hiddenPriceInput.type = "hidden";
-            hiddenPriceInput.name = "productPrice"; // Use an array to store multiple products
+            hiddenPriceInput.name = "price"; // Use an array to store multiple products
             hiddenPriceInput.value = totalItemPrice;
 
             const hiddenQuantityInput = document.createElement("input");
             hiddenQuantityInput.type = "hidden";
-            hiddenQuantityInput.name = "productQuantity"; // Use an array to store multiple products
+            hiddenQuantityInput.name = "amount"; // Use an array to store multiple products
             hiddenQuantityInput.value = item.quantity;
 
             // Append the hidden inputs to the cell
