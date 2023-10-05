@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -77,7 +80,7 @@
         </div>
         <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
             <div class="col-lg-4">
-                <a href="" class="text-decoration-none">
+                <a href="/Home" class="text-decoration-none">
                     <span class="h1 text-uppercase text-primary bg-dark px-2">GEAR</span>
                     <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                 </a>
@@ -87,9 +90,9 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
+                            <button class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </span>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -124,15 +127,11 @@
                                     style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
                                     Brand
                                 </p>
-                                <a href="" class="dropdown-item">Asus</a>
-                                <a href="" class="dropdown-item">AKKO</a>
-                                <a href="" class="dropdown-item">Razer</a>
 
-                                <a href="" class="dropdown-item">DareU</a>
-                                <a href="" class="dropdown-item">HyperX</a>
-                                <a href="" class="dropdown-item">Corsair</a>
-                                <a href="" class="dropdown-item">Logitech</a>
-                                <a href="" class="dropdown-item">Steelseries</a>
+                                @for (int i = 0; i < ViewBag.brandList.Count; i++)
+                                {
+                                    <a href="/Product/Shop?brand=@ViewBag.brandList[i].brand_id" class="dropdown-item">@ViewBag.brandList[i].brand_name</a>
+                                }
                             </div>
                         </div>
                     </div>

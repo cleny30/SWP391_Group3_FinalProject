@@ -198,6 +198,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
+            List<Brand> brandList = dao.GetAllBrand();
             Product pro1 = dao.GetProductById(pro_id);
             foreach (var item in pro1.pro_img)
             {
@@ -208,7 +209,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             List<Product> productByCateList = list.Where(pro => pro.brand_id == pro1.brand_id).ToList();
             ViewBag.pro = pro1;
             ViewBag.productByCateList = productByCateList;
-
+            ViewBag.brandList = brandList;
 
             return View();
         }
