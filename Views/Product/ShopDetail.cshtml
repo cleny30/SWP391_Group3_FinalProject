@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "ShopDetail";
     Layout = "~/Views/Shared/_Layout_Main.cshtml";
+
+    int itemCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
 }
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -10,7 +13,7 @@
             <nav class="breadcrumb bg-light mb-30">
                 <a class="breadcrumb-item text-dark" href="#">Home</a>
                 <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                <span class="breadcrumb-item active">Shop Detail</span>
+                <span class="breadcrumb-item active">@ViewBag.pro.pro_name</span>
             </nav>
         </div>
     </div>
@@ -22,18 +25,13 @@
         <div class="col-lg-5 mb-30">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
-                    <div class="carousel-item active">
-                        <img class="w-100 h-100" src="~/source_img/advertising_img/product-1.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="~/source_img/advertising_img/product-2.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="~/source_img/advertising_img/product-3.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="w-100 h-100" src="~/source_img/advertising_img/product-4.jpg" alt="Image">
-                    </div>
+                    @for (var i = 0; i < ViewBag.pro.pro_img.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img class="w-100 h-100" src="@ViewBag.pro.pro_img[i]" alt="Image">
+                        </div>
+                    }
+              
                 </div>
                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                     <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -46,7 +44,7 @@
 
         <div class="col-lg-7 h-auto mb-30">
             <div class="h-100 bg-light p-30">
-                <h3>Product Name Goes Here</h3>
+                <h3>@ViewBag.pro.pro_name</h3>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         <small class="fas fa-star"></small>
@@ -57,11 +55,26 @@
                     </div>
                     <small class="pt-1">(99 Reviews)</small>
                 </div>
-                <h3 class="text-muted ml-2"><del style="color: #155724; margin-left: -9px">$1500.0</del></h3>   <h2 class="font-weight-semi-bold mb-4">$1000.0</h2>
+
+                @if (@ViewBag.pro.discount > 0)
+                {
+                    var priceDiscount = ViewBag.pro.pro_price - (ViewBag.pro.pro_price * ViewBag.pro.discount) / 100;
+
+                    <h3 class="text-muted ml-2"><del style="color: #155724; margin-left: -9px">$@ViewBag.pro.pro_price</del></h3>
+                    <h2 class="font-weight-semi-bold mb-4">$@priceDiscount</h2>
+                }
+                else
+                {
+                    <h2 class="font-weight-semi-bold mb-4">$@ViewBag.pro.pro_price</h2>
+                }
+
+                
+                 
+        
+
+
                 <p class="mb-4">
-                    Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit
-                    clita ea. Sanc ipsum et, labore clita lorem magna duo dolor no sea
-                    Nonumy
+                    The product @ViewBag.pro.pro_name is designed with high quality, providing you with a smooth experience and suitability for various types of tasks, from gaming to office work. This makes it an excellent choice for both entertainment enthusiasts and those in need of a reliable tool for daily work.
                 </p>
 
 
@@ -113,9 +126,8 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
-                        <h4 class="mb-3">Product Description</h4>
-                        <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                        <p>Dolore magna est eirmod sanctus dolor, amet diam et eirmod et ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem tempor. Gubergren amet amet labore sadipscing clita clita diam clita. Sea amet et sed ipsum lorem elitr et, amet et labore voluptua sit rebum. Ea erat sed et diam takimata sed justo. Magna takimata justo et amet magna et.</p>
+                        <h4 class="mb-3">@ViewBag.pro.pro_name Description</h4>
+                        <p>@ViewBag.pro.pro_des</p>
                     </div>
                     <div class="tab-pane fade" id="tab-pane-2">
                         <h4 class="mb-3" style="text-align: center;">Technical parameters</h4>
@@ -123,41 +135,25 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush" style="font-weight: bold; color: rgb(62, 60, 60); text-align: center;">
-                                    <li class="list-group-item px-0">
-                                        Thương hiệu
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Kiểu Switch
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Kết nối
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Kích thước
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Chất liệu Keycap
-                                    </li>
+                                    @foreach (var item in ViewBag.pro.pro_attribute)
+                                    {
+                                        <li class="list-group-item px-0">
+                                            @item.Key
+                                        </li>
+                                    }
+                                  
                                 </ul>
                             </div>
 
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush" style="text-align: center;">
-                                    <li class="list-group-item px-0">
-                                        Akko
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        AKKO x Gateron Orange
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Bàn phím cơ
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Fullsize
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        Có dây
-                                    </li>
+                                    @foreach (var item in ViewBag.pro.pro_attribute)
+                                    {
+                                        <li class="list-group-item px-0">
+                                            @item.Value
+                                        </li>
+                                    }
+
 
                                 </ul>
                             </div>
@@ -176,20 +172,26 @@
     <div class="row px-xl-5">
         <div class="col">
             <div class="owl-carousel related-carousel">
-                <div class="product-item bg-light">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="~/source_img/advertising_img/product-1.jpg" alt="">
+
+
+
+                @foreach (var item in ViewBag.productByCateList)
+        {
+                    if (itemCount < 4) // Kiểm tra biến đếm có nhỏ hơn 8 không
+                    {
+                        <div class="product-item bg-light">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
+             
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
+                        <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                    <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-1">
                             <small class="fa fa-star text-primary mr-1"></small>
@@ -200,107 +202,16 @@
                             <small>(99)</small>
                         </div>
                     </div>
-                </div>
-                <div class="product-item bg-light">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="~/source_img/advertising_img/product-2.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                         </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item bg-light">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="~/source_img/advertising_img/product-3.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item bg-light">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="~/source_img/advertising_img/product-4.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item bg-light">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="~/source_img/advertising_img/product-5.jpg" alt="">
-                        <div class="product-action">
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small class="fa fa-star text-primary mr-1"></small>
-                            <small>(99)</small>
-                        </div>
-                    </div>
-                </div>
+                        itemCount++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            
+               
             </div>
         </div>
     </div>

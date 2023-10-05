@@ -197,13 +197,17 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult ShopDetail(string pro_id)
         {
             ProductDAO dao = new ProductDAO();
-            Product pro = dao.GetProductById(pro_id);
-            foreach (var item in pro.pro_img)
+            List<Product> list = dao.GetAllProduct();
+            Product pro1 = dao.GetProductById(pro_id);
+            foreach (var item in pro1.pro_img)
             {
                 Console.WriteLine(item);
 
             }
-            ViewBag.pro = pro;
+
+            List<Product> productByCateList = list.Where(pro => pro.brand_id == pro1.brand_id).ToList();
+            ViewBag.pro = pro1;
+            ViewBag.productByCateList = productByCateList;
 
 
             return View();
