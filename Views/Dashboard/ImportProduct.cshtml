@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ImportProduct";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
 
@@ -7,222 +6,174 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <div>
 
-        <!--  Main wrapper -->
-        <div class="body-wrapper">
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        <div class="container">
             <div class="container">
-                <div class="container">
 
-                    <h1 class="Header">IMPORT PRODUCTS</h1>
-                    <hr>
-                    <div class="row justify-content-between">
-                        <div class="col-md-5 BoxStyle">
-                            <div class="row">
-                                <h1 class="ImportHeader col-md-12"
-                                    style="border-style: none; font-size: x-large; padding-top: 20px; ">
-                                    SẮP HẾT HÀNG
-                                </h1>
-                            </div>
-                            <hr style="border: 3px solid black;">
-                            <table id="example" class="table table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            MS001
-                                        </td>
-                                        <td>
-                                            Razer Cortex
-                                        </td>
-                                        <td>
-                                            $10.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            MS002
-                                        </td>
-                                        <td>
-                                            Razer Python
-                                        </td>
-                                        <td>
-                                            $10.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            MS003
-                                        </td>
-                                        <td>
-                                            Razer Python V3
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            MS004
-                                        </td>
-                                        <td>
-                                            Razer Python V3
-                                        </td>
-                                        <td>
-                                            $20.00
-                                        </td>
-                                        <td>
-                                            0
-                                        </td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr style="border: 3px solid black;">
-                        </div>
-                        <div class="col-md-6 offset-md-1 BoxStyle">
-                            <div class="row">
-                                <h1 class="ImportHeader col-md-12"
-                                    style="border-style: none; font-size: x-large; padding-top: 20px; ">
-                                    NHẬP HÀNG
-                                </h1>
-                                <div class="col-md-12 " style="text-align: center;">
-                                    <button class="btn btn-primary" id="contact"
-                                            style="padding: 10px; margin-top: 20px;">
-                                        <i class="fa-solid fa-cart-shopping"></i> Thêm Hàng
-                                    </button>
-                                </div>
-                            </div>
-                            <h1 class="ImportPrice col-md-5 offset-md-7" id="totalCartPrice"
-                                style="border-style: none; font-size: large; padding-top: 5px; color: red; margin-bottom: -10px;">
-                                Total Price: $0
+                <h1 class="Header">IMPORT PRODUCTS</h1>
+                <hr>
+                <div class="row justify-content-between">
+                    <div class="col-md-5 BoxStyle">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                SẮP HẾT HÀNG
                             </h1>
-                            <form id="cartForm" action="" method="post">
-                                <hr style="border: 3px solid black;">
-                                <input type="hidden" id="totalCartPriceNumber">
-                                <table id="cart" class="table table-striped"
-                                       style="width:100%; background-color: white;">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Đơn giá</th>
-                                            <th>Thành tiền</th>
-                                            <th>Số Lượng</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-
-                                <hr style="border: 3px solid black;">
-                                <div class="row">
-                                    <div class="col-md-12 " style="text-align: center;">
-                                        <input type="submit" value="THANH TOÁN" class="btn btn-primary"
-                                               style="padding: 10px; margin: 10px;">
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                        <div id="contactForm3" class="col-8">
-                            <h1 class="Title">DANH SÁCH SẢN PHẨM TRONG KHO</h1>
-                            <table id="example2" class="display" style="width:100%">
+                        <hr style="border: 3px solid black;">
+                        <table id="example" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var items in ViewBag.LowQuantityProduct)
+                                {
+                                    <tr>
+                                        <td>
+                                            @items.pro_id
+                                        </td>
+                                        <td>
+                                            @items.pro_name
+                                        </td>
+                                        <td>
+                                            $@items.pro_price
+                                        </td>
+                                        <td>
+                                            @items.pro_quan
+                                        </td>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <hr style="border: 3px solid black;">
+                    </div>
+                    <div class="col-md-6 offset-md-1 BoxStyle">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                NHẬP HÀNG
+                            </h1>
+                            <div class="col-md-12 " style="text-align: center;">
+                                <button class="btn btn-primary" id="contact"
+                                        style="padding: 10px; margin-top: 20px;">
+                                    <i class="fa-solid fa-cart-shopping"></i> Thêm Hàng
+                                </button>
+                            </div>
+                        </div>
+                        <h1 class="ImportPrice col-md-5 offset-md-7" id="totalCartPrice"
+                            style="border-style: none; font-size: large; padding-top: 5px; color: red; margin-bottom: -10px;">
+                            Total Price: $0
+                        </h1>
+                        <form id="cartForm" action="/Dashboard/GetImportProduct" method="post">
+                            <hr style="border: 3px solid black;">
+                            <input type="hidden" id="totalCartPriceNumber" name="totalCartPriceNumber">
+                            <table id="cart" class="table table-striped"
+                                   style="width:100%; background-color: white;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Brand</th>
-                                        <th>Category</th>
-                                        <th> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>MS001</td>
-                                        <td>Razer Cortex</td>
-                                        <td>$100</td>
-                                        <td>Razer</td>
-                                        <td>Mouse</td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>KB001</td>
-                                        <td>Razer Black</td>
-                                        <td>$100</td>
-                                        <td>Razer</td>
-                                        <td>Keyboard</td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>MS002</td>
-                                        <td>Corsair V4</td>
-                                        <td>$200</td>
-                                        <td>Corsair</td>
-                                        <td>Mouse</td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                     <tr>
-                                        <td>MS002</td>
-                                        <td>Corsair V4</td>
-                                        <td>$200</td>
-                                        <td>Corsair</td>
-                                        <td>Mouse</td>
-                                        <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Brand</th>
-                                        <th>Category</th>
-                                        <th>Price</th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                        <th>Số Lượng</th>
                                         <th></th>
                                     </tr>
-                                </tfoot>
+                                </thead>
+                                <tbody>
+                                </tbody>
                             </table>
-                        </div>
+
+                            <hr style="border: 3px solid black;">
+                            <div class="row">
+                                <div class="col-md-12 " style="text-align: center;">
+                                    <input type="submit" value="THANH TOÁN" class="btn btn-primary"
+                                           style="padding: 10px; margin: 10px;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="contactForm3" class="col-8">
+                        <h1 class="Title">DANH SÁCH SẢN PHẨM TRONG KHO</h1>
+                        <table id="example2" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>MS001</td>
+                                    <td>Razer Cortex</td>
+                                    <td>$100</td>
+                                    <td>Razer</td>
+                                    <td>Mouse</td>
+                                    <td>
+                                        <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>KB001</td>
+                                    <td>Razer Black</td>
+                                    <td>$100</td>
+                                    <td>Razer</td>
+                                    <td>Keyboard</td>
+                                    <td>
+                                        <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>MS002</td>
+                                    <td>Corsair V4</td>
+                                    <td>$200</td>
+                                    <td>Corsair</td>
+                                    <td>Mouse</td>
+                                    <td>
+                                        <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>MS002</td>
+                                    <td>Corsair V4</td>
+                                    <td>$200</td>
+                                    <td>Corsair</td>
+                                    <td>Mouse</td>
+                                    <td>
+                                        <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script>
     // Define an array to store cart items
@@ -323,23 +274,23 @@
 
             const hiddenIDInput = document.createElement("input");
             hiddenIDInput.type = "hidden";
-            hiddenIDInput.name = "productID"; // Use an array to store multiple products
+            hiddenIDInput.name = "pro_id"; // Use an array to store multiple products
             hiddenIDInput.value = item.ID;
 
             const hiddenNameInput = document.createElement("input");
             hiddenNameInput.type = "hidden";
-            hiddenNameInput.name = "productName"; // Use an array to store multiple products
+            hiddenNameInput.name = "pro_name"; // Use an array to store multiple products
             hiddenNameInput.value = item.name;
 
 
             const hiddenPriceInput = document.createElement("input");
             hiddenPriceInput.type = "hidden";
-            hiddenPriceInput.name = "productPrice"; // Use an array to store multiple products
+            hiddenPriceInput.name = "price"; // Use an array to store multiple products
             hiddenPriceInput.value = totalItemPrice;
 
             const hiddenQuantityInput = document.createElement("input");
             hiddenQuantityInput.type = "hidden";
-            hiddenQuantityInput.name = "productQuantity"; // Use an array to store multiple products
+            hiddenQuantityInput.name = "amount"; // Use an array to store multiple products
             hiddenQuantityInput.value = item.quantity;
 
             // Append the hidden inputs to the cell
