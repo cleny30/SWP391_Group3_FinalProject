@@ -28,7 +28,7 @@
 
                                     <div class="form-group" style="text-align: center;">
                                         <button type="button" id="removeReadonlyButton"
-                                                class="btn btn-outline-primary m-1" onclick="showDeleteButtons()">
+                                                class="btn btn-outline-primary m-1">
                                             Enable Editing
                                         </button>
                                         <h3 id="messagehidden" style="color:red;">
@@ -137,36 +137,20 @@
                                                 @foreach (var pair in ViewBag.ProductAttribute)
                                                 {
                                                     <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
                                                                 <label for="attname">Attribute</label>
                                                                 <input class="form-control" type="text" name="feature" value="@pair.Key" id="attname" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <div class="">
+                                                            <div class="form-group">
                                                                 <label for="attDes">Attribute Description</label>
                                                                 <input class="form-control" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group" style="padding-top: 21px;">
-                                                                <!-- Adjust padding-top as needed -->
-                                                                <button class="btn btn-danger delete-button" style="display:none;" onclick="toggleButtonDisplay(this); deleteAttribute(this)">X</button>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 }
-
-                                                <script>
-                                                    function deleteAttribute(button) {
-                                                        // Find the parent row of the button
-                                                        var row = button.parentElement.parentElement;
-
-                                                        // Remove the entire row containing the attribute and description
-                                                        row.remove();
-                                                    }
-                                                </script>
 
                                                 <!--Foreach-->
                                             </div>
@@ -223,25 +207,20 @@
         var divtest = document.createElement("div");
         divtest.innerHTML = `
     <div class="row">
-        <div class="col-md-3">
-            <div class="">
+        <div class="col-md-6">
+            <div class="form-group">
                 <label for="attname">Attribute</label>
-                <input class="form-control" type="text" name="feature" value="" id="attname" readonly>
+                <input class="form-control" type="text" name="feature">
             </div>
         </div>
         <div class="col-md-6">
-            <div class="">
+            <div class="form-group">
                 <label for="attDes">Attribute Description</label>
-                <input class="form-control" type="text" name="description" value="" id="attDes" readonly>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group" style="padding-top: 21px;">
-                <button class="btn btn-danger delete-button" onclick=" deleteAttribute(this)">X</button>
+                <input class="form-control" type="text" name="description">
             </div>
         </div>
     </div>
-    `;
+    `;;
 
         objTo.appendChild(divtest)
     }
@@ -284,7 +263,6 @@
             hiddenButton.style.display = 'inline';
         }
 
-
         var hiddenButton = document.getElementById('more_fields');
         if (hiddenButton.style.display === 'none') {
             hiddenButton.style.display = 'inline';
@@ -295,24 +273,6 @@
 
 
     });
-</script>
-
-<script>
-    function toggleButtonDisplay(button) {
-        if (button.style.display === 'none') {
-            button.style.display = 'inline';
-        } else {
-            button.style.display = 'none';
-        }
-    }
-
-    function showDeleteButtons() {
-        var deleteButtons = document.querySelectorAll('.delete-button'); // Select all elements with class 'delete-button'
-        deleteButtons.forEach(function (button) {
-            button.style.display = 'inline';
-        });
-    }
-
 </script>
 
 <script>

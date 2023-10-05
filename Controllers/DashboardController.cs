@@ -17,62 +17,8 @@ namespace SWP391_Group3_FinalProject.Controllers
         //Trang để cho admin thêm sản phẩm để bán
         public IActionResult ImportProduct()
         {
-            ProductDAO dao = new ProductDAO();
-            List<Product> list = dao.GetAllProduct();
-            // Use LINQ to filter products with quantity equal to 0 or 1
-            var filteredProducts = list.Where(product => product.pro_quan == 0 || product.pro_quan == 1).ToList();
-            // Use LINQ to filter products with quantity greater than 1
-            var filteredProductsGreaterThanOne = list
-                .Where(product => product.pro_quan > 1)
-                .ToList();
-            ViewBag.LowQuantityProduct = filteredProducts;
-            ViewBag.NormalProduct = filteredProductsGreaterThanOne;
-
-
             return View();
         }
-
-
-        //Do Post của Import Product
-        [HttpPost]
-        public IActionResult GetImportProduct(int totalCartPriceNumber)
-        {
-            
-            var ProductIDs = Request.Form["pro_id"];
-            var ProductNames = Request.Form["pro_name"];
-            var Quantities = Request.Form["amount"];
-            var Prices = Request.Form["price"];
-
-            var ProductImported = new List<Receipt_Product>();
-
-            //Get all the product into recieptProduct
-            for(int i =0; i <ProductIDs.Count; i++)
-            {
-                var recieptProduct = new Receipt_Product
-                {
-                    pro_id = ProductIDs[i].ToString().Trim(),
-                    pro_name = ProductNames[i].ToString().Trim(),
-                    amount = Convert.ToInt32(Quantities[i].ToString().Trim()),
-                    price = Convert.ToInt32(Prices[i].ToString().Trim())
-
-                };
-                ProductImported.Add(recieptProduct);    
-            }
-
-            //Create an Import_Reciept
-            Import_Reciept IR = new Import_Reciept
-            {
-                Date_Import = DateTime.Now,
-                Person_In_Charge = "Nguyen Huu Duy",
-                Payment = totalCartPriceNumber
-            };
-            ImportRecieptDAO dao = new ImportRecieptDAO();
-            dao.CreateOrderReciept(IR, ProductImported);
-
-
-            return RedirectToAction("ProductPage", "Dashboard");
-        }
-
 
         //Trang để coi giỏ hàng
         public IActionResult ProductPage()
