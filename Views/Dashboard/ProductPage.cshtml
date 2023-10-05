@@ -90,8 +90,8 @@
                                     </tr>
                                 </thead>
                                 <tbody style="width: 70%; overflow:scroll;">
-                                        @foreach (var items in ViewBag.CategoryList)
-                                        {
+                                    @foreach (var items in ViewBag.CategoryList)
+                                    {
                                         <tr>
                                             <td>@items.cate_id</td>
                                             <td>@items.cate_name</td>
@@ -105,7 +105,7 @@
                                                 <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                             </td>
                                         </tr>
-                                        }
+                                    }
                                 </tbody>
                             </table>
                             <!--Add Category-->
@@ -117,6 +117,8 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="cate_name" id="Cat_Name"
                                                        placeholder="Insert Category Name">
+                                                <input type="text" class="form-control" name="keyword" id="keyword"
+                                                       placeholder="Insert Product Keyword">
                                             </div>
                                         </div>
                                     </div>
@@ -130,14 +132,13 @@
                                 </form>
                             </div>
                             <!--Add Category-->
-
                             <!--Edit Category-->
                             <div id="contactFormEditCategory" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory" >
+                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control"  id="Cat_Name_edit"  name="cate_name">
+                                                <input type="text" class="form-control" id="Cat_Name_edit" name="cate_name">
                                                 <input type="hidden" class="form-control" id="Cat_ID_edit" name="cate_id">
                                             </div>
                                         </div>
@@ -154,7 +155,6 @@
                         </div>
 
                         <!--End Of Categories Pop-up-->
-
                         <!--Beginning Of Brand Pop-up-->
 
                         <div id="contactForm2" class="col-3">
@@ -165,7 +165,7 @@
                                     Add
                                 </button>
                             </div>
-                           <div style="overflow:scroll; height: 70%">
+                            <div style="overflow:scroll; height: 70%">
                                 <table id="example3" class="table table-striped" style="width:100%; overflow:scroll;">
                                     <thead>
                                         <tr>
@@ -193,7 +193,7 @@
                                         }
                                     </tbody>
                                 </table>
-                           </div>
+                            </div>
 
                             <!--Add Brand-->
                             <div id="contactFormAddBrand" class="col-8">
@@ -212,7 +212,7 @@
                                                 <h3 style="color: #5D87FF;">Brand Logo</h3>
                                                 <input type="file" class="form-control" name="Brand_Logo" id="Brand_Logo"
                                                        placeholder="Insert Brand Logo">
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -226,10 +226,9 @@
                                 </form>
                             </div>
                             <!--Add Brand-->
-
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data" >
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
@@ -285,7 +284,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="label" for="name">Product ID</label>
-                                            <input type="text" class="form-control" name="pro_id" id="pro_id" placeholder="ID">
+                                            <input type="text" class="form-control" name="pro_id" id="pro_id" placeholder="ID" readonly>
                                         </div>
                                     </div>
                                     <!--Product ID -->
@@ -312,11 +311,16 @@
                                             <label class="label" for="category">Category</label>
 
                                             <select name="cate_id" class="form-control" id="cate_id">
-                                                <option value="1">Mouse</option>
-                                                <option value="2">Keyboard</option>
-                                                <option value="3">Headphone</option>
-                                                <option value="4">Gaming Chair</option>
-                                                <option value="5">Controller</option>
+                                                @{
+                                                    int value_cate = 1; // Start value
+
+                                                    // Assuming 'items' is a List<Brand> containing your brand information
+                                                    foreach (var item in ViewBag.CategoryList)
+                                                    {
+                                                        <option value="@value_cate">@item.cate_name</option>
+                                                        value_cate++; // Increment the value
+                                                    }
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -327,14 +331,16 @@
                                             <label class="label" for="brand">Brand</label>
 
                                             <select name="brand_id" class="form-control" id="brand_id">
-                                                <option value="1">Asus</option>
-                                                <option value="2">Logitech</option>
-                                                <option value="3">Corsair</option>
-                                                <option value="4">DareU</option>
-                                                <option value="5">Akko</option>
-                                                <option value="6">Razer</option>
-                                                <option value="7">Steelseries</option>
-                                                <option value="8">Rapoo</option>
+                                                @{
+                                                    int value_brand = 1; // Start value
+
+                                                    // Assuming 'items' is a List<Brand> containing your brand information
+                                                    foreach (var item in ViewBag.BrandList)
+                                                    {
+                                                        <option value="@value_brand">@item.brand_name</option>
+                                                        value_brand++; // Increment the value
+                                                    }
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -415,4 +421,4 @@
     }
 </script>
 
-
+<script src="~/assets/js/productpage.js"></script>

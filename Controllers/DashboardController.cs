@@ -226,6 +226,49 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         }
 
+        //AddProduct
+        [HttpPost]
+        public IActionResult AddProduct(Product pro, List<IFormFile> imgFile, List<string> feature, List<string> description)
+        {
+            ProductDAO dao = new ProductDAO();
+            Category cate = dao.GetCatByID(pro.cate_id);
+            string folder = cate.cate_name.Trim();
+            var webRootPath = _environment.WebRootPath;
+            var uploadPath = Path.Combine(webRootPath, "source_img", "product_image", folder);
+
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+            int index = 1;
+            foreach (var image in imgFile)
+            {
+                if (image != null && image.Length > 0)
+                {
+                    
+                    string fileName = pro.pro_id + "_" + index + Path.GetExtension(image.FileName);
+                    string filePath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(stream);
+                    }
+                    pro.pro_img.Add(filePath);
+                    index++;
+                }
+            }
+
+            int count = feature.Count();
+            for (int i = 0; i < count; i++)
+            {
+                pro.pro_attribute[feature[i]] = description[i];
+            }
+            
+            dao.AddProductWithDetails(pro);
+
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
         //Add Brand
         public IActionResult AddBrand(Brand brand, IFormFile Brand_Logo)
         {
@@ -297,6 +340,16 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.CategoryList = CategoryList;
             ViewBag.BrandList = BrandList;
             return View(product);
+        }
+
+
+
+        //Get new product Id
+        public IActionResult GetNewProductID(int cate_id)
+        {
+            ProductDAO dao = new ProductDAO();
+            string newID = dao.GetNewProductID(cate_id);
+            return Content(newID);
         }
 
 

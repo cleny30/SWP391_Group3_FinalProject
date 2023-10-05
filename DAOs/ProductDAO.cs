@@ -456,6 +456,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     cat.cate_id = _reader.GetInt32(0);
                     cat.cate_name = _reader.GetString(1);
                     cat.isAvailable = _reader.GetBoolean(2);
+                    cat.keyword = _reader.GetString(3);
                     list.Add(cat);
                 }
             }
@@ -465,11 +466,12 @@ namespace SWP391_Group3_FinalProject.DAOs
         //Add Category to Database
         public void AddCategory(Category cate)
         {
-            _command.CommandText = "INSERT INTO Category (Cat_Name, isAvailable) " +
-                      "VALUES (@cat_name, @isAvailable)";
+            _command.CommandText = "INSERT INTO Category (Cat_Name, isAvailable, keyword) " +
+                      "VALUES (@cat_name, @isAvailable, @keyword)";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@cat_name", cate.cate_name);
             _command.Parameters.AddWithValue("@isAvailable", 1);
+            _command.Parameters.AddWithValue("@keyword", cate.keyword);
             _command.ExecuteNonQuery();
         }
 
@@ -495,11 +497,12 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@ID", ID);
             using (_reader = _command.ExecuteReader())
             {
-                while (_reader.Read())
+                if (_reader.Read())
                 {
                     cate.cate_id = _reader.GetInt32(0);
                     cate.cate_name = _reader.GetString(1);
                     cate.isAvailable = _reader.GetBoolean(2);
+                    cate.keyword = _reader.GetString(3);
                 }
             }
 
@@ -509,12 +512,52 @@ namespace SWP391_Group3_FinalProject.DAOs
 
         //------------------------------------------------------------------------------------------------------------
 
+        public string GetNewProductID(int cate_id)
+        {
+            _command.CommandText = "SELECT TOP 1 pro_id FROM Product where Cat_ID = @cate_id ORDER BY pro_id DESC";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@cate_id", cate_id);
+            string? str = null;
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    str = _reader.GetString(0);
+                }
+            }
 
+            if (str == null)
+            {
+                _command.CommandText = "select keyword from Category where Cat_ID = @cate_id";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@cate_id", cate_id);
+                using (_reader = _command.ExecuteReader())
+                {
+                    if (_reader.Read())
+                    {
+                        str = _reader.GetString(0);
+                        int newNumber = 1;
+                        string newProductId = $"{str}{newNumber:D3}";
+                        return newProductId;
+                    }
+                }
+            }
+            else
+            {
+                string numericPart = str.Substring(2);
+                int currentNumber = int.Parse(numericPart);
 
+                // Increment the number
+                int newNumber = currentNumber + 1;
 
+                // Format the new product ID
+                string newProductId = $"{str.Substring(0, 2)}{newNumber:D3}";
 
+                return newProductId;
+            }
+            return str;
 
-
+        }
 
 
 

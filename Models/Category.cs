@@ -5,5 +5,6 @@
         public int cate_id { get; set; }
         public string cate_name { get; set; }
         public bool isAvailable { get; set; }
+        public string keyword { get; set; }
     }
 }
