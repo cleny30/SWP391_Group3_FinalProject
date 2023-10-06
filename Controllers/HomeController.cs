@@ -36,6 +36,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 totalProductCate.Add(list.Count(pro => pro.cate_id == cate.cate_id));
             }
             _contx.HttpContext.Session.SetString("listBrand", JsonConvert.SerializeObject(brandList));
+            _contx.HttpContext.Session.SetString("listCate", JsonConvert.SerializeObject(cateList));
 
             ViewBag.totalProductBrand = totalProductBrand;
             ViewBag.totalProductCate = totalProductCate;

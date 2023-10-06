@@ -8,6 +8,11 @@
 
     // Deserialize the JSON string into a list
     var brandList = JsonConvert.DeserializeObject<List<Brand>>(serializedList);
+
+    var serializedCateList = Context.Session.GetString("listCate");
+
+    // Deserialize the JSON string into a list
+    var cateList = JsonConvert.DeserializeObject<List<Category>>(serializedCateList);
 }
 
 <!DOCTYPE html>
@@ -126,9 +131,13 @@
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
+                    @for( int j = 0; j < cateList.Count; j++)
+                    {
+                        
+                   
                     <div class="navbar-nav w-100">
                         <div class="nav-item dropdown dropright">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Keyboard<i
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@cateList[j].cate_name<i
                                     class="fa fa-angle-right float-right mt-1"></i></a>
                             <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
                                 style="background-color: #f5f5f5;">
@@ -139,99 +148,15 @@
 
                                 @for (int i = 0; i < brandList.Count; i++)
                                 {
-                                    <a href="/Product/Shop?brand=@brandList[i].brand_id" class="dropdown-item">@brandList[i].brand_name</a>
+                                        <a href="/Product/Shop?category=@cateList[j].cate_id&brand=@brandList[i].brand_id" class="dropdown-item">@brandList[i].brand_name</a>
                                 }
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-nav w-100">
-                        <div class="nav-item dropdown dropright">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Mouse<i
-                                    class="fa fa-angle-right float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
-                                style="background-color: #f5f5f5;">
-                                <p href="" class="dropdown-item"
-                                    style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
-                                    Brand
-                                </p>
-                                <a href="" class="dropdown-item">Asus</a>
-                                <a href="" class="dropdown-item">AKKO</a>
-                                <a href="" class="dropdown-item">Razer</a>
+                    }
+                
 
-                                <a href="" class="dropdown-item">DareU</a>
-                                <a href="" class="dropdown-item">HyperX</a>
-                                <a href="" class="dropdown-item">Corsair</a>
-                                <a href="" class="dropdown-item">Logitech</a>
-                                <a href="" class="dropdown-item">Steelseries</a>
-                            </div>
-                        </div>
-
-                        <div class="navbar-nav w-100">
-                            <div class="nav-item dropdown dropright">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Headphone<i
-                                        class="fa fa-angle-right float-right mt-1"></i></a>
-                                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
-                                    style="background-color: #f5f5f5;">
-                                    <p href="" class="dropdown-item"
-                                        style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
-                                        Brand
-                                    </p>
-                                    <a href="" class="dropdown-item">Asus</a>
-                                    <a href="" class="dropdown-item">AKKO</a>
-                                    <a href="" class="dropdown-item">Razer</a>
-
-                                    <a href="" class="dropdown-item">DareU</a>
-                                    <a href="" class="dropdown-item">HyperX</a>
-                                    <a href="" class="dropdown-item">Corsair</a>
-                                    <a href="" class="dropdown-item">Logitech</a>
-                                    <a href="" class="dropdown-item">Steelseries</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="navbar-nav w-100">
-                            <div class="nav-item dropdown dropright">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Controller<i
-                                        class="fa fa-angle-right float-right mt-1"></i></a>
-                                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
-                                    style="background-color: #f5f5f5;">
-                                    <p href="" class="dropdown-item"
-                                        style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
-                                        Brand
-                                    </p>
-                                    <a href="" class="dropdown-item">Asus</a>
-                                    <a href="" class="dropdown-item">AKKO</a>
-                                    <a href="" class="dropdown-item">Razer</a>
-                                    <a href="" class="dropdown-item">DareU</a>
-                                    <a href="" class="dropdown-item">HyperX</a>
-                                    <a href="" class="dropdown-item">Corsair</a>
-                                    <a href="" class="dropdown-item">Logitech</a>
-                                    <a href="" class="dropdown-item">Steelseries</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="navbar-nav w-100">
-                            <div class="nav-item dropdown dropright">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Gaming Chair<i
-                                        class="fa fa-angle-right float-right mt-1"></i></a>
-                                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
-                                    style="background-color: #f5f5f5;">
-                                    <p href="" class="dropdown-item"
-                                        style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
-                                        Brand
-                                    </p>
-                                    <a href="" class="dropdown-item">Asus</a>
-                                    <a href="" class="dropdown-item">AKKO</a>
-                                    <a href="" class="dropdown-item">Razer</a>
-                                    <a href="" class="dropdown-item">DareU</a>
-                                    <a href="" class="dropdown-item">HyperX</a>
-                                    <a href="" class="dropdown-item">Corsair</a>
-                                    <a href="" class="dropdown-item">Logitech</a>
-                                    <a href="" class="dropdown-item">Steelseries</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                     
                 </nav>
             </div>
             <div class="col-lg-9">
@@ -298,60 +223,36 @@
 
                         <h5 class="text-secondary text-uppercase mb-4">Brand</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-secondary mb-2" href="/product/brand?brand=Id=4">
-                                <i class="fa fa-angle-right mr-2"></i>Asus
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>Logitech
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>Corsair
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>DareU
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>Akko
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>Razer
-                            </a>
-                            <a class="text-secondary mb-2" href="/product/brand?brandId=7">
-                                <i class="fa fa-angle-right mr-2"></i>Steelseries
-                            </a>
-                            <a class="text-secondary mb-2" href="#">
-                                <i class="fa fa-angle-right mr-2"></i>HyperX
-                            </a>
+                            @for (int i = 0; i < brandList.Count; i++)
+                            {
+                         
+                                <a class="text-secondary mb-2" href="/Product/Shop?brand=@brandList[i].brand_id">
+                                    <i class="fa fa-angle-right mr-2"></i>@brandList[i].brand_name
+                                </a>
+                            }
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">Categories</h5>
                         <div class="d-flex flex-column justify-content-start">
+                            @for (int i = 0; i < cateList.Count; i++)
+                            {
 
-                            <a class="text-secondary mb-2" href="/product/category?categoryId=8">
-                                <i class="fa fa-angle-right mr-2"></i>Keyboard
-                            </a>
 
-                            <a class="text-secondary mb-2" href="/product/category?categoryId=8">
-                                <i class="fa fa-angle-right mr-2"></i>Mouse
-                            </a>
-
-                            <a class="text-secondary mb-2" href="/product/category?categoryId=8">
-                                <i class="fa fa-angle-right mr-2"></i>Headphone
-                            </a>
-                            <a class="text-secondary mb-2" href="/product/category?categoryId=8">
-                                <i class="fa fa-angle-right mr-2"></i>Controller
-                            </a>
-                            <a class="text-secondary mb-2" href="/product/category?categoryId=8">
-                                <i class="fa fa-angle-right mr-2"></i>Gaming Chair
-                            </a>
+                                <a class="text-secondary mb-2" href="/Product/Shop?category=@cateList[i].cate_id">
+                                    <i class="fa fa-angle-right mr-2"></i>@cateList[i].cate_name
+                                </a>
+                           
+                               
+                            }
+                        
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Sign in</a>
-                            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Sign up</a>
+                            <a class="text-secondary mb-2" href="/Login"><i class="fa fa-angle-right mr-2"></i>Sign in</a>
+                            <a class="text-secondary mb-2" href="/Login/SignUp"><i class="fa fa-angle-right mr-2"></i>Sign up</a>
                         </div>
 
                         <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
