@@ -2,11 +2,17 @@
 using System.Diagnostics;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
+using Newtonsoft.Json;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHttpContextAccessor _contx;
+        public HomeController(IHttpContextAccessor contx)
+        {
+            _contx = contx;
+        }
 
 
         public IActionResult Index()
@@ -29,6 +35,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 totalProductCate.Add(list.Count(pro => pro.cate_id == cate.cate_id));
             }
+            _contx.HttpContext.Session.SetString("listBrand", JsonConvert.SerializeObject(brandList));
 
             ViewBag.totalProductBrand = totalProductBrand;
             ViewBag.totalProductCate = totalProductCate;
