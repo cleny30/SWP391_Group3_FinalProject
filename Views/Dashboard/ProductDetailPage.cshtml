@@ -1,8 +1,5 @@
 ﻿@model SWP391_Group3_FinalProject.Models.Product
 
-
-
-
 @{
     ViewData["Title"] = "ProductDetailPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
@@ -23,7 +20,7 @@
                                 <h1 class="Title">PRODUCT INFORMATION</h1>
 
                             </div>
-                            <form method="POST" action="" id="" class="" enctype="multipart/form-data">
+                            <form method="POST" action="/Dashboard/EditProduct"  enctype="multipart/form-data">
                                 <div class="row">
 
                                     <div class="form-group" style="text-align: center;">
@@ -43,6 +40,9 @@
                                             <label class="label" for="pro_name">Product Name</label>
                                             <input type="text" class="form-control" name="pro_name"
                                                    id="pro_name" value="@Model.pro_name" readonly>
+
+                                            <input type="hidden" class="form-control" name="pro_id"
+                                                   id="pro_name" value="@Model.pro_id" readonly>
                                             <!--Get Value from Database-->
                                         </div>
                                     </div>
@@ -61,8 +61,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="label" for="pro_price">Discount Percent</label>
-                                            <input type="number" class="form-control" name="discount_percent"
-                                                   id="pro_price" value="@Model.discount" readonly> 
+                                            <input type="number" class="form-control" name="discount"
+                                                   id="pro_discount" value="@Model.discount" readonly> 
                                             <!--Get Value from Database-->
                                         </div>
                                     </div>
@@ -103,22 +103,60 @@
                                         <div id="room_fileds_image">
                                             <div class="content">
                                                 <!--Foreach cho hình ảnh đã có sẵn trong database theo ID của sản phẩm-->
-
                                                 @foreach (var pictures in ViewBag.ProductImage)
                                                 {
+                                                    string input = pictures;
+
+                                                    int count = 0;
+                                                    string[] parts = input.Split('_');
+                                                    if (parts.Length >= 2)
+                                                    {
+                                                        string numericPart = parts[parts.Length - 1];
+
+                                                        // Remove the file extension, if any
+                                                        int dotIndex = numericPart.LastIndexOf('.');
+                                                        if (dotIndex != -1)
+                                                        {
+                                                            numericPart = numericPart.Substring(0, dotIndex);
+                                                        }
+
+                                                        // Try to parse the numeric part
+                                                        if (int.TryParse(numericPart, out int number))
+                                                        {
+                                                            count = number;
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.WriteLine("Numeric part is not a valid integer.");
+                                                        }
+                                                    }
+
+                                                    string[] parts2 = pictures.Split('\\');
+                                                    string filenameWithExtension = parts2[parts2.Length - 1];
+
+                                                    // Remove the file extension
+                                                    string[] filenameParts = filenameWithExtension.Split('.');
+                                                    string filenameWithoutExtension = filenameParts[0];
+                                                    int counter = 1;
+
+                                                    <div name="PictureOrInput">
                                                     <img src="@pictures"
                                                          alt="Smiley face" class="imgStyle" width="200"
-                                                         height="200" title="Original Image" />  <!--Src lấy trên database-->
+                                                             height="200" title="Original Image" id="imgPicture" />  <!--Src lấy trên database-->
 
                                                     <div class="hidden" style="display: none;">
-                                                        <input class="form-control" type="file">
+                                                        <!--Input File-->
+                                                            <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
+                                                            <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
+                                                            <!--Input File-->
                                                         <label style="color: red;">
                                                             Input a new file to change
                                                             the image
                                                         </label>
                                                     </div>
+                                                    </div>
+                                                    counter++;
                                                 }
-
                                                 <!--Foreach-->
                                             </div>
                                         </div>
@@ -182,7 +220,6 @@
                                                     class="btn btn-secondary">
                                                 Reset
                                             </button>
-                                            <div class="submitting"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -249,6 +286,7 @@
         document.getElementById('attDes').removeAttribute('readonly');
         document.getElementById('cate_id').removeAttribute('disabled');
         document.getElementById('brand_id').removeAttribute('disabled');
+        document.getElementById('pro_discount').removeAttribute('disabled');
         var hiddenButton = document.getElementById('hiddenButton');
         if (hiddenButton.style.display === 'none') {
             hiddenButton.style.display = 'inline';
@@ -292,4 +330,5 @@
         });
     });
 </script>
+
 

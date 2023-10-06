@@ -342,17 +342,87 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
         }
 
+
+        //Update Product
+        public void UpdateProductWithDetails(Product pro)
+        {
+            // Thêm thông tin chung của sản phẩm
+            _command.CommandText = "UPDATE Product SET pro_name = @pro_name, Brand_ID = @Brand_ID, Cat_ID = @Cat_ID, pro_des = " +
+                                    "@pro_des, pro_price = @pro_price, discount_percent = @discount WHERE pro_id = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Brand_ID", pro.brand_id);
+            _command.Parameters.AddWithValue("@Cat_ID", pro.cate_id);
+            _command.Parameters.AddWithValue("@pro_name", pro.pro_name);
+            _command.Parameters.AddWithValue("@pro_des", pro.pro_des);
+            _command.Parameters.AddWithValue("@pro_price", pro.pro_price);
+            _command.Parameters.AddWithValue("@discount", pro.discount);
+            _command.Parameters.AddWithValue("@ID", pro.pro_id);
+
+            // Thực thi câu lệnh
+            _command.ExecuteNonQuery();
+
+            // Thêm hình ảnh của sản phẩm
+            foreach (var img in pro.pro_img)
+            {
+                _command.CommandText = "INSERT INTO Product_Image (pro_id, Product_Image) VALUES (@pro_id, @pro_img)";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@pro_id", pro.pro_id);
+                _command.Parameters.AddWithValue("@pro_img", img);
+
+                // Thực thi câu lệnh
+                _command.ExecuteNonQuery();
+            }
+
+            // Thêm các thuộc tính của sản phẩm
+            foreach (var kvp in pro.pro_attribute)
+            {
+                _command.CommandText = "INSERT INTO Product_Attribute (pro_id, Feature, Des) VALUES (@pro_id, @feature, @des)";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@pro_id", pro.pro_id);
+                _command.Parameters.AddWithValue("@feature", kvp.Key);
+                _command.Parameters.AddWithValue("@des", kvp.Value);
+
+                // Thực thi câu lệnh
+                _command.ExecuteNonQuery();
+            }
+        }
+        //Update Product
+
         public void AddProductQuantity(string ID, int amount)
         {
-            _command.CommandText = @"update Product
-                              set pro_quan = @quantity
-                              where pro_id = @ID;";
+            _command.CommandText = @"UPDATE Product
+                                     SET pro_quan = pro_quan + @quantity
+                                     WHERE pro_id = @ID;";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@quantity", amount);
             _command.Parameters.AddWithValue("@ID", ID);
             _command.ExecuteNonQuery();
         }
 
+        public void DeleteAttributeByID(string ID)
+        {
+            _command.CommandText = "delete from Product_Attribute where pro_id = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
+    
+
+        public int countProductImage(string ID)
+        {
+            int count = 0;
+            _command.CommandText = "select count(Product_Image)\r\nfrom Product_Image\r\nwhere pro_id = @ID;";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    count = _reader.GetInt32(0);
+                }
+            }
+            return count;
+        }
 
         //------------------------------------------------------------------------------------------------------------
         //START BRAND CRUD

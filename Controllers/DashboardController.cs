@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
+using System;
 using System.Drawing.Drawing2D;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -16,14 +18,21 @@ namespace SWP391_Group3_FinalProject.Controllers
         //Trang để cho admin thêm sản phẩm để bán
         public IActionResult ImportProduct()
         {
+
             ProductDAO dao = new ProductDAO();
+            List<Brand> BrandList = dao.GetAllBrand();
+            List<Category> CategoryList = dao.GetAllCategory();
             List<Product> list = dao.GetAllProduct();
+
             // Use LINQ to filter products with quantity equal to 0 or 1
             var filteredProducts = list.Where(product => product.pro_quan == 0 || product.pro_quan == 1).ToList();
             // Use LINQ to filter products with quantity greater than 1
             var filteredProductsGreaterThanOne = list
                 .Where(product => product.pro_quan > 1)
                 .ToList();
+            //View Bag
+            ViewBag.CategoryList = CategoryList;
+            ViewBag.BrandList = BrandList;
             ViewBag.LowQuantityProduct = filteredProducts;
             ViewBag.NormalProduct = filteredProductsGreaterThanOne;
 
@@ -247,13 +256,15 @@ namespace SWP391_Group3_FinalProject.Controllers
                 {
                     
                     string fileName = pro.pro_id + "_" + index + Path.GetExtension(image.FileName);
+                    string PathIntoDatabase = Path.Combine("\\" + "source_img", "product_image", folder, fileName);
                     string filePath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         image.CopyTo(stream);
                     }
-                    pro.pro_img.Add(filePath);
+
+                    pro.pro_img.Add(PathIntoDatabase);
                     index++;
                 }
             }
@@ -315,6 +326,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                 }
                 dao.AddBrand(brand);
             }
+
+
+
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -350,6 +364,85 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO dao = new ProductDAO();
             string newID = dao.GetNewProductID(cate_id);
             return Content(newID);
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile)
+        {
+            ProductDAO dao =new ProductDAO();
+            Category cate = dao.GetCatByID(pro.cate_id);
+            string folder = cate.cate_name.Trim();
+            List<IFormFile> file = new List<IFormFile>();
+            List<String> name = new List<String>();
+
+
+            int count = dao.countProductImage(pro.pro_id);
+            for (int i =0; i<count; i++)
+            {
+                var Images = Request.Form.Files[pro.pro_id + "_" + Image_ID[i]];
+                name.Add(pro.pro_id + "_" + Image_ID[i]);
+                file.Add(Images);
+                
+            }
+
+            
+            for (int i = 0; i <= count - 1; i++)
+            {
+                var Image = file[i];
+                if (Image != null && Image.Length > 0)
+                {
+                    try
+                    {
+                        var uniqueFileName = name[i] + Path.GetExtension(file[i].FileName);
+                        var webRootPath = _environment.WebRootPath;
+                        var uploadPath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, uniqueFileName);
+
+                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                        {
+                            // Copy the uploaded file's content to the stream.
+                            Image.CopyTo(stream);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any exceptions that may occur during file upload or processing.
+                        // You can add logging or return an error response to the client.
+                    }
+                }
+
+            }
+
+            int index = Image_ID.Max() + 1;
+            foreach (var image in imgFile)
+            {
+                if (image != null && image.Length > 0)
+                {
+
+                    string fileName = pro.pro_id + "_" + index + Path.GetExtension(image.FileName);
+                    string PathIntoDatabase = Path.Combine("\\" + "source_img", "product_image", folder, fileName);
+                    string filePath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(stream);
+                    }
+
+                    pro.pro_img.Add(PathIntoDatabase);
+                    index++;
+                }
+            }
+
+            int counter = feature.Count();
+            for (int i = 0; i < counter; i++)
+            {
+                pro.pro_attribute[feature[i]] = description[i];
+            }
+
+
+            dao.DeleteAttributeByID(pro.pro_id);
+            dao.UpdateProductWithDetails(pro);
+            return RedirectToAction("ProductPage", "Dashboard");
+
         }
 
 
