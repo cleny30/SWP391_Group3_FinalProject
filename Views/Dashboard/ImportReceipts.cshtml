@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewData["Title"] = "ImportReceipts";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+}
+<link rel="stylesheet" href="~/assets/css/Reciept.css" />
+@using SWP391_Group3_FinalProject.Models;
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div>
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        <div class="container">
+            <div class="container">
+
+                <h1 class="Header">IMPORT PRODUCTS</h1>
+                <hr>
+                <div class="row justify-content-between">
+                    <div class="col-md-5 BoxStyle">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                OUT OF STOCKS
+                            </h1>
+                        </div>
+                        <hr style="border: 3px solid black;">
+                        <table id="example" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Person_In_Charge</th>
+                                    <th>Date</th>
+                                    <th>Total Price</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var items in ViewBag.IRList)
+                                {
+                                    DateTime time = items.Date_Import.Date;
+                                    string formattedDate = time.ToString("MM/dd/yyyy");
+                                    <tr>
+                                        <td>
+                                            @items.Reciept_ID
+                                        </td>
+                                        <td>
+                                            @items.Person_In_Charge
+                                        </td>
+                                        <td>
+                                            @formattedDate
+                                        </td>
+                                        <td>
+                                            $@items.Payment
+                                        </td>
+                                        <td>
+                                            <button class=" btn btn-primary">Show</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <hr style="border: 3px solid black;">
+                    </div>
+                    <div class="col-md-6 offset-md-1 BoxStyle">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                IMPORT PRODUCTS
+                            </h1>
+                        </div>
+                        <div class="page-content container ">
+                            <div class="container px-0">
+                                <div class="row mt-4">
+                                    <div class="col-12 col-lg-12">
+                                        <!--row -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <span class="text-sm text-grey-m2 align-middle">To:</span>
+                                                    <span class="text-600 text-110 text-blue align-middle">Nguyen Huu Duy</span> <!--Edit Name-->
+                                                </div>
+                                                <div class="text-grey-m2">
+                                                    <div class="my-1">
+                                                        Can Tho, Thoi Binh, 66 Hung Vuong   <!--Edit Address-->
+                                                    </div>
+                                                    <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">0907124350</b></div> <!--Edit Hhone Number-->
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+
+                                            <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                                <hr class="d-sm-none" />
+                                                <div class="text-grey-m2">
+                                                    <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                                        Invoice
+                                                    </div>
+
+                                                    <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> OR001</div>
+
+                                                    <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> Oct 12, 2019</div>
+
+
+                                                    <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> Pending</div>
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <div class="row text-600 text-white bgc-default-tp1 py-25">
+                                                <div class="d-none d-sm-block col-1">#</div>
+                                                <div class="col-9 col-sm-5">Name</div>
+                                                <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
+                                                <div class="d-none d-sm-block col-sm-2"> Price</div>
+                                            </div>
+                                            <div class="text-95 text-secondary-d3">
+                                                <!-- Foreach -->
+                                                <div class="row mb-2 mb-sm-0 py-25">
+                                                    <div class="d-none d-sm-block col-1">1</div>
+                                                    <div class="col-9 col-sm-5">Domain registration</div>
+                                                    <div class="d-none d-sm-block col-2">2</div>
+                                                    <div class="d-none d-sm-block col-2 text-95">$10</div>
+                                                </div>
+
+                                                <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                                    <div class="d-none d-sm-block col-1">2</div>
+                                                    <div class="col-9 col-sm-5">Web hosting</div>
+                                                    <div class="d-none d-sm-block col-2">1</div>
+                                                    <div class="d-none d-sm-block col-2 text-95">$15</div>
+                                                </div>
+                                                <!-- Foreach -->
+                                            </div>
+                                            <div class="row border-b-2 brc-default-l2"></div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+                                                </div>
+
+                                                <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+
+
+                                                    <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                                        <div class="col-7 text-right">
+                                                            Total Amount
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <span class="text-150 text-success-d3 opacity-2">$2,475</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

@@ -45,5 +45,28 @@ namespace SWP391_Group3_FinalProject.DAOs
                 dao.AddProductQuantity(items.pro_id, items.amount);
             }
         }
+
+        //Get All Import Reciepts
+        public List<Import_Reciept> GetAllImportReceipt() {
+        List<Import_Reciept> import_Reciepts = new List<Import_Reciept>();
+            _command.CommandText = "Select * from Import_Receipt";
+            _command.Parameters.Clear();
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    Import_Reciept IR = new Import_Reciept();
+                    IR.Reciept_ID = _reader.GetInt32(0);
+                    IR.Person_In_Charge = _reader.GetString(1);
+                    decimal payment = _reader.GetDecimal(2);
+                    IR.Date_Import = _reader.GetDateTime(3);
+                    IR.Payment = (int)payment;
+
+                    import_Reciepts.Add(IR);
+                }
+            }
+
+            return import_Reciepts;
+        }   
     }
 }

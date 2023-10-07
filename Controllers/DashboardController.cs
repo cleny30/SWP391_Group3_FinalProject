@@ -15,6 +15,19 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
+        //Trang để coi đơn nhập hàng
+        public IActionResult ImportReceipts()
+        {
+            ImportRecieptDAO IRdao = new ImportRecieptDAO();
+            List<Import_Reciept> IRList = IRdao.GetAllImportReceipt();
+
+
+            //ViewBag
+            ViewBag.IRList = IRList;
+            return View();
+        }
+
+
         //Trang để cho admin thêm sản phẩm để bán
         public IActionResult ImportProduct()
         {
