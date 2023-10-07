@@ -103,10 +103,11 @@
                             </div>
                         </form>
                     </div>
-                    <div id="contactForm3" class="col-8" style="height: 700px; overflow-y:scroll">
+                    <div id="contactForm3" class="col-8" style="height: 750px;">
                         <h1 class="Title">PRODUCTS LIST</h1>
-                        <table id="example2" class="display" style="width:100%">
-                            <thead>
+                        <div style="overflow-y:scroll; height: 90%">
+                            <table id="example2" class="display" style="width:100%">
+                            <thead style="">
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
@@ -117,7 +118,7 @@
                                     <th> </th>
                                 </tr>
                             </thead>
-                            <tbody>                                                            
+                            <tbody style="max-height: 200px; overflow-y: scroll;">
 
                                 @foreach (var items in ViewBag.NormalProduct)
                                 {
@@ -160,6 +161,7 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
