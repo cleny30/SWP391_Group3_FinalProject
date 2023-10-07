@@ -276,7 +276,7 @@
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">ADD PRODUCT</h1>
                             </div>
-                            <form method="POST" action="/Dashboard/AddProduct" id="AddForm" class="AddForm"
+                            <form method="POST" action="/Dashboard/AddProduct" id="AddForm" class="AddForm addProduct"
                                   enctype="multipart/form-data">
                                 <div class="row">
 
@@ -294,6 +294,7 @@
                                             <label class="label" for="pro_name">Product Name</label>
                                             <input type="text" class="form-control" name="pro_name" id="pro_name"
                                                    placeholder="Product Name">
+                                            <p style="color:red"></p>
                                         </div>
                                     </div>
                                     <!--Product Name -->
@@ -302,6 +303,7 @@
                                         <div class="form-group">
                                             <label class="label" for="pro_price">Price</label>
                                             <input type="text" class="form-control" name="pro_price" id="pro_price" placeholder="Price">
+                                            <p style="color:red"></p>
                                         </div>
                                     </div>
                                     <!--Price -->
@@ -371,8 +373,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="label" for="#">Description</label>
-                                            <textarea name="pro_des" class="form-control" id="message" cols="30" rows="10"
+                                            <textarea name="pro_des" class="form-control" id="pro_des" cols="30" rows="10"
                                                       placeholder="Description"></textarea>
+                                            <p style="color:red"></p>
                                         </div>
                                     </div>
                                     <!--Description -->
@@ -384,6 +387,7 @@
                                             <div class="submitting"></div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                         <!--Add Product -->
@@ -401,7 +405,7 @@
         room++;
         var objTo = document.getElementById('room_fileds')
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Attribute ' + room + '</label> <input class="form-control" type="text" name="feature" value="" /> <label>Attribute Description</label> <input class="form-control" type="text" name="description" value="" />';
+        divtest.innerHTML = ' <label>Attribute ' + room + '</label> <input class="form-control feature" type="text" name="feature" value="" />' + '<p style="color:red"></p>' + ' <label>Attribute Description</label> <input class="form-control description" type="text" name="description" value="" />' + '<p style="color:red"></p>';
 
         objTo.appendChild(divtest)
     }
@@ -415,10 +419,11 @@
         img++;
         var objTo = document.getElementById('room_fileds_image')
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Image ' + room_image + '</label> <input class="form-control" type="file" name="imgFile"> ';
+        divtest.innerHTML = ' <label>Image ' + room_image + '</label> <input class="form-control imgFile" type="file" name="imgFile"> ' + '<p style="color:red"></p>';
 
         objTo.appendChild(divtest)
     }
 </script>
 
 <script src="~/assets/js/productpage.js"></script>
+<script src="~/assets/js/jsaddproduct.js"></script>

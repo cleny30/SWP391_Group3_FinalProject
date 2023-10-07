@@ -35,7 +35,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                     selling = dao.SortProductByDiscount();
                 }
 
-                if (discount.Count() > 0 && selling.Count()>0)
+                if (discount.Count() > 0 && selling.Count() > 0)
                 {
                     sortCombine = discount.Intersect(selling);
                 }
@@ -59,7 +59,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 list = list.OrderByDescending(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
             }
-            else if(orderFilter.Equals("lowest"))
+            else if (orderFilter.Equals("lowest"))
             {
                 list = list.OrderBy(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
             }
@@ -159,6 +159,23 @@ namespace SWP391_Group3_FinalProject.Controllers
             bool isFirstPage = currentPage == 1;
             bool isLastPage = currentPage == totalPages;
 
+            //Get total product by brand
+            List<int> totalProductBrand = new List<int>();
+            foreach (Brand brand in brandList)
+            {
+                totalProductBrand.Add(list.Count(pro => pro.brand_id == brand.brand_id));
+            }
+
+            //Get total product by category
+            List<int> totalProductCate = new List<int>();
+            foreach (Category cate in cateList)
+            {
+                totalProductCate.Add(list.Count(pro => pro.cate_id == cate.cate_id));
+            }
+
+            //Get total product on sale
+            int totalProductOnsale = list.Count(pro => pro.discount > 0);
+
 
             #region Set attribute to View Bag
             //Set category list and brand list
@@ -176,6 +193,9 @@ namespace SWP391_Group3_FinalProject.Controllers
             //Amount of total product and product filter
             ViewBag.totalProduct = list.Count();
             ViewBag.combineProduct = combineProduct;
+            ViewBag.totalProductBrand = totalProductBrand;
+            ViewBag.totalProductCate = totalProductCate;
+            ViewBag.totalProductOnsale = totalProductOnsale;
 
             //Store product in list
             ViewBag.combineProduct = combineProduct;

@@ -118,7 +118,7 @@
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="sort-discount" value="discount" @(selectedSort.Contains("discount") ? "checked" : "")>
                         <label class="custom-control-label" for="sort-discount">On Sale</label>
-                        <span class="badge border font-weight-normal">150</span>
+                        <span class="badge border font-weight-normal">@ViewBag.totalProductOnsale</span>
                     </div>
 
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -139,13 +139,17 @@
             </h5>
             <div class="bg-light p-4 mb-30">
                 <form>
+                    @{
+                        int index = 0;
+                    }
                     @foreach (var item in ViewBag.cateList)
                     {
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="cat-@item.cate_id" value="@item.cate_id" @(selectedCategoryIds.Contains(item.cate_id) ? "checked" : "")>
                             <label class="custom-control-label" for="cat-@item.cate_id">@item.cate_name</label>
-                            <span class="badge border font-weight-normal">150</span>
+                            <span class="badge border font-weight-normal">@ViewBag.totalProductCate[index]</span>
                         </div>
+                        index++;
                     }
 
                 </form>
@@ -160,13 +164,17 @@
             </h5>
             <div class="bg-light p-4 mb-30">
                 <form>
+                    @{
+                        index = 0;
+                    }
                     @foreach (var item in ViewBag.brandList)
                     {
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="brand-@item.brand_id" value="@item.brand_id" @(selectedBrandIds.Contains(item.brand_id) ? "checked" : "")>
                             <label class="custom-control-label" for="brand-@item.brand_id">@item.brand_name</label>
-                            <span class="badge border font-weight-normal">150</span>
+                            <span class="badge border font-weight-normal">@ViewBag.totalProductBrand[index]</span>
                         </div>
+                        index++;
                     }
 
                 </form>
@@ -215,7 +223,7 @@
                                             <i class="fa fa-shopping-cart"></i>
                                         </a>
 
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
