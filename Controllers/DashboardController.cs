@@ -27,6 +27,57 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult GetIRInfo(int ID)
+        {
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                ImportRecieptDAO dao = new ImportRecieptDAO();
+                Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
+
+                if (importReciept != null)
+                {
+                    Console.WriteLine(importReciept);
+                    return Ok(importReciept); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("IR not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult GetRPInfo(int ID)
+        {
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                ImportRecieptDAO dao = new ImportRecieptDAO();
+                List<Receipt_Product> list = dao.GetRPByID(ID);
+
+                if (list != null)
+                {
+                    Console.WriteLine(list);
+                    return Ok(list); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("IR not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
 
         //Trang để cho admin thêm sản phẩm để bán
         public IActionResult ImportProduct()
