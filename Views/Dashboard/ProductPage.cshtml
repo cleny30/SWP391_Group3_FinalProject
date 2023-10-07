@@ -73,7 +73,7 @@
                         </table>
 
                         <!--Beginning Of Categories Pop-up-->
-                        <div id="contactForm3" class="col-3">
+                        <div id="contactForm3" class="col-3" style="height:650px;">
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">CATEGORIES</h1>
                                 <button type="button" id="contactAddCategory" class="btn btn-outline-primary m-1">
@@ -81,7 +81,8 @@
                                     Add
                                 </button>
                             </div>
-                            <table id="example2" class="table table-striped" style="width:100%">
+                            <div style="overflow:scroll; height: 70%">
+                            <table id="example2" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -89,7 +90,7 @@
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody style="width: 70%; overflow:scroll;">
+                                    <tbody style=" max-height: 200px; overflow:scroll;">
                                     @foreach (var items in ViewBag.CategoryList)
                                     {
                                         <tr>
@@ -108,6 +109,7 @@
                                     }
                                 </tbody>
                             </table>
+                            </div>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
                                 <form method="POST" action="/Dashboard/AddCategory" id="" class="" enctype="multipart/form-data">
@@ -166,7 +168,7 @@
                                 </button>
                             </div>
                             <div style="overflow:scroll; height: 70%">
-                                <table id="example3" class="table table-striped" style="width:100%; overflow:scroll;">
+                                <table id="example3" class="table table-striped" style="width:100%; overflow-y:scroll;">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -196,7 +198,7 @@
                             </div>
 
                             <!--Add Brand-->
-                            <div id="contactFormAddBrand" class="col-8">
+                            <div id="contactFormAddBrand" class="col-8" >
                                 <form method="POST" action="/Dashboard/AddBrand" id="" class="" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
