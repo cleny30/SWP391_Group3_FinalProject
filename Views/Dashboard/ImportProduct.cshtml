@@ -234,6 +234,10 @@
             const quantityWrapper = document.createElement("div");
             quantityWrapper.classList.add("quantity-wrapper");
 
+            // Add the flex styles
+            quantityWrapper.style.display = "flex";
+            quantityWrapper.style.flexDirection = "row";
+
             const decreaseButton = document.createElement("button");
             decreaseButton.innerHTML = '-';
             decreaseButton.classList.add("btn", "btn-primary");
@@ -247,7 +251,7 @@
 
             const quantityText = document.createElement("span");
             quantityText.textContent = item.quantity;
-            quantityText.style.width = "100px";
+            quantityText.style.marginTop = "5px";
             quantityText.style.marginRight = "10px";
             quantityText.style.marginLeft = "10px";
             quantityText.style.fontWeight = "bold"; // Make the text bold
