@@ -3,6 +3,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 
 
 namespace SWP391_Group3_FinalProject.Controllers
@@ -216,22 +217,28 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpGet]
         public IActionResult ShopDetail(string pro_id)
         {
+            int numberOfRandomProducts = 5;
+            Random random = new Random();
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
             List<Brand> brandList = dao.GetAllBrand();
             Product pro1 = dao.GetProductById(pro_id);
-            foreach (var item in pro1.pro_img)
+            List<Product> randomProducts = new List<Product>();
+            for (int i = 0; i < numberOfRandomProducts && list.Count > 0; i++)
             {
-                Console.WriteLine(item);
-
+                int randomIndex = random.Next(0, list.Count);
+                Product randomProduct = list[randomIndex];
+                randomProducts.Add(randomProduct);
+                //remove duplicated item.
+                list.RemoveAt(randomIndex);
             }
-
             List<Product> productByCateList = list.Where(pro => pro.brand_id == pro1.brand_id).ToList();
             ViewBag.pro = pro1;
             ViewBag.productByCateList = productByCateList;
             ViewBag.brandList = brandList;
-
+            ViewBag.RandomProducts = randomProducts;
             return View();
         }
+    
     }
 }
