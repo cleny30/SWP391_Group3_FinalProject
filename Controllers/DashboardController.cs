@@ -28,13 +28,13 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetIRInfo(int ID)
+        public async Task<IActionResult> GetIRInfoAsync(int ID)
         {
             try
             {
                 // Assuming you have a data access layer (ProductDAO) to retrieve brand information
                 ImportRecieptDAO dao = new ImportRecieptDAO();
-                Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
+                Import_Reciept importReciept = await dao.GetImportReceiptByID(ID);
 
                 if (importReciept != null)
                 {
@@ -54,13 +54,13 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         [HttpPost]
-        public IActionResult GetRPInfo(int ID)
+        public async Task<IActionResult> GetRPInfoAsync(int ID)
         {
             try
             {
                 // Assuming you have a data access layer (ProductDAO) to retrieve brand information
                 ImportRecieptDAO dao = new ImportRecieptDAO();
-                List<Receipt_Product> list = dao.GetRPByID(ID);
+                List<Receipt_Product> list = await dao.GetRPByID(ID);
 
                 if (list != null)
                 {
