@@ -50,7 +50,7 @@
                                             @items.pro_quan
                                         </td>
                                         <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                            <button class="add-to-cart btn btn-primary"><i class="fa-solid fa-plus"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -144,7 +144,7 @@
                                         </td>
                                         <th>@items.pro_quan</th>
                                         <td>
-                                            <button class="add-to-cart btn btn-primary">Add to Cart</button>
+                                            <button class="add-to-cart btn btn-primary"><i class="fa-solid fa-plus"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -235,7 +235,7 @@
             quantityWrapper.classList.add("quantity-wrapper");
 
             const decreaseButton = document.createElement("button");
-            decreaseButton.innerHTML = '<i class="fa-solid fa-minus"></i>';
+            decreaseButton.innerHTML = '-';
             decreaseButton.classList.add("btn", "btn-primary");
             decreaseButton.type = "button";
             decreaseButton.addEventListener("click", () => {
@@ -253,7 +253,7 @@
             quantityText.style.fontWeight = "bold"; // Make the text bold
 
             const increaseButton = document.createElement("button");
-            increaseButton.innerHTML = '<i class="fa-solid fa-plus"></i>';
+            increaseButton.innerHTML = '+';
             increaseButton.classList.add("btn", "btn-primary");
             increaseButton.addEventListener("click", () => {
                 item.quantity += 1;
