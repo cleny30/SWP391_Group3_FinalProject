@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
 using System;
@@ -431,8 +432,33 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile)
+        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages)
         {
+
+            if(selectedImages != null)
+            {
+                List<string> selectedImageList = JsonConvert.DeserializeObject<List<string>>(selectedImages);
+                foreach (var path in selectedImageList)
+                {
+                    var webRootPath = _environment.WebRootPath;
+                    string filePath = webRootPath  + path;
+                    try
+                    {
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            System.IO.File.Delete(filePath);
+                           
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Content("Error: " + ex.Message);
+                    }
+
+                }
+            }
+           
+
             ProductDAO dao =new ProductDAO();
             Category cate = dao.GetCatByID(pro.cate_id);
             string folder = cate.cate_name.Trim();

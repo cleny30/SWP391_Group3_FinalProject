@@ -20,7 +20,7 @@
                                 <h1 class="Title">PRODUCT INFORMATION</h1>
 
                             </div>
-                            <form method="POST" action="/Dashboard/EditProduct"  enctype="multipart/form-data">
+                            <form method="POST" action="/Dashboard/EditProduct" enctype="multipart/form-data">
                                 <div class="row">
 
                                     <div class="form-group" style="text-align: center;">
@@ -143,8 +143,9 @@
                                                     <img src="@pictures"
                                                          alt="Smiley face" class="imgStyle" width="200"
                                                              height="200" title="Original Image" id="imgPicture" />  <!--Src lấy trên database-->
-
+                                                        
                                                     <div class="hidden" style="display: none;">
+                                                            <button class="delete-image" data-src="@pictures">Delete</button>
                                                         <!--Input File-->
                                                             <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
                                                             <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
@@ -158,6 +159,28 @@
                                                     counter++;
                                                 }
                                                 <!--Foreach-->
+                                                <input type="hidden" id="selectedImages" name="selectedImages" value="">
+                                                <script>
+                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                        const deleteButtons = document.querySelectorAll(".delete-image");
+                                                        const selectedImagesInput = document.getElementById("selectedImages");
+                                                        const imageContainers = document.querySelectorAll('div[name="PictureOrInput"]');
+
+                                                        const selectedImages = [];
+
+                                                        deleteButtons.forEach((button, index) => {
+                                                            button.addEventListener("click", function () {
+                                                                const src = button.getAttribute("data-src");
+                                                                selectedImages.push(src);
+                                                                selectedImagesInput.value = JSON.stringify(selectedImages);
+
+                                                                // Optionally, you can provide some visual feedback that the image is selected for deletion.
+                                                                // Remove the entire image container (div)
+                                                                imageContainers[index].remove();
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                         </div>
                                         <br>
@@ -175,7 +198,7 @@
                                                 @foreach (var pair in ViewBag.ProductAttribute)
                                                 {
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="attname">Attribute</label>
                                                                 <input class="form-control" type="text" name="feature" value="@pair.Key" id="attname" readonly>
@@ -183,12 +206,21 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="attDes">Attribute Description</label>
+                                                                <label for="attDes">Description</label>
                                                                 <input class="form-control" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-3" style="margin-top:21px">
+                                                            <button class="btn btn-danger delete-button" style="display:none;" onclick="deleteRow(this)">X</button>
+                                                        </div>
                                                     </div>
                                                 }
+                                                <script>
+                                                    function deleteRow(button) {
+                                                        var row = button.closest('.row'); // Find the closest parent row element
+                                                        row.remove(); // Remove the row from the DOM
+                                                    }
+                                                </script>
 
                                                 <!--Foreach-->
                                             </div>
@@ -216,7 +248,7 @@
                                              style="text-align: center; padding-top: 20px;">
                                             <input type="submit" value="Submit" class="btn btn-primary"
                                                    id="hiddenButton" style="display: none;">
-                                            <button id="resetButton" style="display: none;"
+                                            <button id="resetButton" type="button" style="display: none;"
                                                     class="btn btn-secondary">
                                                 Reset
                                             </button>
@@ -243,19 +275,22 @@
         var objTo = document.getElementById('room_fileds')
         var divtest = document.createElement("div");
         divtest.innerHTML = `
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="attname">Attribute</label>
-                <input class="form-control" type="text" name="feature">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="attDes">Attribute Description</label>
-                <input class="form-control" type="text" name="description">
-            </div>
-        </div>
+         <div class="row">
+       <div class="col-md-3">
+       <div class="form-group">
+     <label for="attname">Attribute</label>
+       <input class="form-control" type="text" name="feature" value="" id="attname" readonly>
+      </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+     <label for="attDes">Description</label>
+      <input class="form-control" type="text" name="description" value="" id="attDes" readonly>
+     </div>
+    </div>
+    <div class="col-md-3" style="margin-top:21px">
+    <button class="btn btn-danger delete-button"  onclick="deleteRow(this)">X</button>
+    </div>
     </div>
     `;;
 
@@ -264,16 +299,29 @@
 </script>
 <script>
 
-    var room_image = 0;
-    var img = 1;
     function add_fieldsImage() {
-        room_image++;
-        img++;
-        var objTo = document.getElementById('room_fileds_image')
+        var objTo = document.getElementById('room_fileds_image');
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Image ' + room_image + '</label> <input class="form-control" type="file" name="imgFile"> ';
+        var fileInput = document.createElement("input");
+        var deleteButton = document.createElement("button");
 
-        objTo.appendChild(divtest)
+        fileInput.className = "form-control";
+        fileInput.type = "file";
+        fileInput.name = "imgFile";
+
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "btn btn-danger";
+        deleteButton.style.margin = "5px"; // Add padding here
+        deleteButton.onclick = function () {
+            // Remove the parent div when the delete button is clicked
+            objTo.removeChild(divtest);
+        };
+
+        divtest.innerHTML = '<label>Image </label>';
+        divtest.appendChild(fileInput);
+        divtest.appendChild(deleteButton);
+
+        objTo.appendChild(divtest);
     }
 </script>
 
@@ -292,7 +340,6 @@
             console.error("Elements with IDs 'attname' and 'attDes' not found.");
         }
         document.getElementById('cate_id').removeAttribute('disabled');
-        document.getElementById('brand_id').removeAttribute('disabled');
         document.getElementById('pro_discount').removeAttribute('readonly');
         var hiddenButton = document.getElementById('hiddenButton');
         if (hiddenButton.style.display === 'none') {
@@ -318,11 +365,21 @@
 
 
     });
+
+    document.getElementById('removeReadonlyButton').addEventListener('click', function () {
+        // Select all elements with the class "delete-button"
+        var deleteButtons = document.querySelectorAll('.delete-button');
+
+        // Loop through the delete buttons and set their display style to "inline-block"
+        deleteButtons.forEach(function (button) {
+            button.style.display = 'inline-block';
+        });
+    });
 </script>
 
 <script>
     document.getElementById('resetButton').addEventListener('click', function () {
-        location.reload();
+        location.reload;
     });
 </script>
 
