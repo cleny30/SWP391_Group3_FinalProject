@@ -338,15 +338,18 @@
         document.getElementById('pro_name').removeAttribute('readonly');
         document.getElementById('pro_price').removeAttribute('readonly');
         document.getElementById('message').removeAttribute('readonly');
-        var attnameElement = document.getElementById('attname');
-        var attDesElement = document.getElementById('attDes');
+        var attnameElements = document.getElementsByName('feature');
+        var attDesElements = document.getElementsByName('description');
 
-        if (attnameElement && attDesElement) {
-            attnameElement.removeAttribute('readonly');
-            attDesElement.removeAttribute('readonly');
+        if (attnameElements.length > 0 && attDesElements.length > 0) {
+            for (var i = 0; i < attnameElements.length; i++) {
+                attnameElements[i].removeAttribute('readonly');
+                attDesElements[i].removeAttribute('readonly');
+            }
         } else {
-            console.error("Elements with IDs 'attname' and 'attDes' not found.");
+            console.error("Elements with names 'feature' and 'description' not found.");
         }
+
         document.getElementById('cate_id').removeAttribute('disabled');
         document.getElementById('brand_id').removeAttribute('disabled');
         document.getElementById('pro_discount').removeAttribute('readonly');

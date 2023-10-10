@@ -57,9 +57,9 @@ namespace SWP391_Group3_FinalProject.DAOs
                 {
                     Import_Reciept IR = new Import_Reciept();
                     IR.Reciept_ID = _reader.GetInt32(0);
-                    IR.Person_In_Charge = _reader.GetString(1);
-                    decimal payment = _reader.GetDecimal(2);
-                    IR.Date_Import = _reader.GetDateTime(3);
+                    IR.Person_In_Charge = _reader.GetString(2);
+                    decimal payment = _reader.GetDecimal(3);
+                    IR.Date_Import = _reader.GetDateTime(1);
                     IR.Payment = (int)payment;
 
                     import_Reciepts.Add(IR);
