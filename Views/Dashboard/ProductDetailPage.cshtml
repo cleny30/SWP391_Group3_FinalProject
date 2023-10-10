@@ -282,8 +282,15 @@
         document.getElementById('pro_name').removeAttribute('readonly');
         document.getElementById('pro_price').removeAttribute('readonly');
         document.getElementById('message').removeAttribute('readonly');
-        document.getElementById('attname').removeAttribute('readonly');
-        document.getElementById('attDes').removeAttribute('readonly');
+        var attnameElement = document.getElementById('attname');
+        var attDesElement = document.getElementById('attDes');
+
+        if (attnameElement && attDesElement) {
+            attnameElement.removeAttribute('readonly');
+            attDesElement.removeAttribute('readonly');
+        } else {
+            console.error("Elements with IDs 'attname' and 'attDes' not found.");
+        }
         document.getElementById('cate_id').removeAttribute('disabled');
         document.getElementById('brand_id').removeAttribute('disabled');
         document.getElementById('pro_discount').removeAttribute('readonly');

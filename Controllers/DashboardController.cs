@@ -476,7 +476,17 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             }
 
-            int index = Image_ID.Max() + 1;
+            int index;
+
+            if (Image_ID.Any()) // Check if the sequence contains any elements
+            {
+                index = Image_ID.Max() + 1;
+            }
+            else
+            {
+                // The sequence is empty, so set index to 1 or any other default value as needed
+                index = 1;
+            }
             foreach (var image in imgFile)
             {
                 if (image != null && image.Length > 0)
