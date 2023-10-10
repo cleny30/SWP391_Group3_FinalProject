@@ -69,50 +69,78 @@ namespace SWP391_Group3_FinalProject.DAOs
             return import_Reciepts;
         }
 
-        public Import_Reciept GetImportReceiptByID(int ID)
+        public async Task<Import_Reciept> GetImportReceiptByID(int ID)
         {
             Import_Reciept import_Reciepts = new Import_Reciept();
-            _command.CommandText = "Select * from Import_Receipt where Receipt_ID = @ID";
-            _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@ID", ID);
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    import_Reciepts.Reciept_ID = _reader.GetInt32(0);
-                    import_Reciepts.Person_In_Charge = _reader.GetString(1);
-                    decimal payment = _reader.GetDecimal(2);
-                    import_Reciepts.Date_Import = _reader.GetDateTime(3);
-                    import_Reciepts.Payment = (int)payment;
 
+            try
+            {
+                _command.CommandText = "Select * from Import_Receipt where Receipt_ID = @ID";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@ID", ID);
+
+                using (_reader = await _command.ExecuteReaderAsync())
+                {
+                    while (await _reader.ReadAsync())
+                    {
+                        import_Reciepts.Reciept_ID = _reader.GetInt32(0);
+                        import_Reciepts.Person_In_Charge = _reader.GetString(1);
+                        decimal payment = _reader.GetDecimal(2);
+                        import_Reciepts.Date_Import = _reader.GetDateTime(3);
+                        import_Reciepts.Payment = (int)payment;
+                    }
+                }
+            }
+            finally
+            {
+                // Ensure that the connection is closed, even in case of exceptions
+                if (_reader != null && !_reader.IsClosed)
+                {
+                    _reader.Close();
                 }
             }
 
             return import_Reciepts;
         }
 
-        public List<Receipt_Product> GetRPByID(int ID)
+
+        public async Task<List<Receipt_Product>> GetRPByID(int ID)
         {
             List<Receipt_Product> list = new List<Receipt_Product>();
-            _command.CommandText = "Select * from Receipt_Product where Receipt_ID = @ID";
-            _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@ID", ID);
-            using (_reader = _command.ExecuteReader())
+
+            try
             {
-                while (_reader.Read())
+                _command.CommandText = "Select * from Receipt_Product where Receipt_ID = @ID";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@ID", ID);
+
+                using (_reader = await _command.ExecuteReaderAsync())
                 {
-                    Receipt_Product RP = new Receipt_Product();
-                    RP.pro_id = _reader.GetString(1);
-                    RP.pro_name = _reader.GetString(2);
-                    RP.amount = _reader.GetInt32(3);
-                    var payment = _reader.GetDecimal(4);
-                    RP.price = (int)payment;
-                    list.Add(RP);
+                    while (await _reader.ReadAsync())
+                    {
+                        Receipt_Product RP = new Receipt_Product();
+                        RP.pro_id = _reader.GetString(1);
+                        RP.pro_name = _reader.GetString(2);
+                        RP.amount = _reader.GetInt32(3);
+                        var payment = _reader.GetDecimal(4);
+                        RP.price = (int)payment;
+                        list.Add(RP);
+                    }
+                }
+            }
+            finally
+            {
+                // Ensure that the connection is closed, even in case of exceptions
+                if (_reader != null && !_reader.IsClosed)
+                {
+                    _reader.Close();
                 }
             }
 
             return list;
         }
+
+
 
 
     }

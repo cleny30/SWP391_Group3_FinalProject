@@ -175,6 +175,8 @@
     </div>
 </div>
 <!-- Shop Detail End -->
+
+
 <!-- Products Start -->
 <div class="container-fluid py-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
@@ -184,10 +186,9 @@
 
 
 
-                @foreach (var item in ViewBag.productByCateList)
+                @foreach (var item in ViewBag.RandomProducts)
                 {
-                    if (itemCount < 4) // Kiểm tra biến đếm có nhỏ hơn 8 không
-                    {
+                   
                         <div class="product-item bg-light">
                             <div class="product-img position-relative overflow-hidden">
                                 <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
@@ -212,12 +213,7 @@
                                 </div>
                             </div>
                         </div>
-                        itemCount++;
-                    }
-                    else
-                    {
-                        break;
-                    }
+
                 }
 
 
