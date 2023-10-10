@@ -87,7 +87,7 @@
         if (!pro_des) {
             showError('pro_des', 'Hãy điền mô tả sản phẩm');
             noError = false;
-        } else if (pro_des.length > 500) {
+        } else if (pro_des.length > 5000) {
             showError('pro_des', 'Mô tả sản phẩm không quá');
             noError = false;
         } else {
