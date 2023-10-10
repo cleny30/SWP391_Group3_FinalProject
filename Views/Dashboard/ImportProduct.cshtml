@@ -241,6 +241,8 @@
             const decreaseButton = document.createElement("button");
             decreaseButton.innerHTML = '-';
             decreaseButton.classList.add("btn", "btn-primary");
+            decreaseButton.style.setProperty('--bs-btn-padding-x', '7px');
+            decreaseButton.style.setProperty('--bs-btn-padding-y', '7px');
             decreaseButton.type = "button";
             decreaseButton.addEventListener("click", () => {
                 if (item.quantity > 1) {
@@ -259,6 +261,8 @@
             const increaseButton = document.createElement("button");
             increaseButton.innerHTML = '+';
             increaseButton.classList.add("btn", "btn-primary");
+            increaseButton.style.setProperty('--bs-btn-padding-x', '7px');
+            increaseButton.style.setProperty('--bs-btn-padding-y', '7px');
             increaseButton.addEventListener("click", () => {
                 item.quantity += 1;
                 displayCart();
