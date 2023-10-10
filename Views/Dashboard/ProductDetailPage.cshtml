@@ -140,14 +140,22 @@
                                                     int counter = 1;
 
                                                     <div name="PictureOrInput">
-                                                    <img src="@pictures"
-                                                         alt="Smiley face" class="imgStyle" width="200"
-                                                             height="200" title="Original Image" id="imgPicture" />  <!--Src lấy trên database-->
+                                                        <div class="row">
+                                                           
+                                                                 <div class="col-6">
+                                                                <img src="@pictures"
+                                                                     alt="Smiley face" class="imgStyle" width="200"
+                                                                     height="200" title="Original Image" id="imgPicture" />
+                                                                     </div>
+                                                            
+                                                        </div>
+                                                    
                                                         
                                                     <div class="hidden" style="display: none;">
-                                                            <button class="delete-image" data-src="@pictures">Delete</button>
+                                                            <button class="delete-image btn btn-danger " data-src="@pictures">Delete</button>
                                                         <!--Input File-->
                                                             <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
+                                                           
                                                             <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
                                                             <!--Input File-->
                                                         <label style="color: red;">
@@ -340,6 +348,7 @@
             console.error("Elements with IDs 'attname' and 'attDes' not found.");
         }
         document.getElementById('cate_id').removeAttribute('disabled');
+        document.getElementById('brand_id').removeAttribute('disabled');
         document.getElementById('pro_discount').removeAttribute('readonly');
         var hiddenButton = document.getElementById('hiddenButton');
         if (hiddenButton.style.display === 'none') {

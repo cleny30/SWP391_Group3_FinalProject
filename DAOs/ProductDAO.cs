@@ -424,6 +424,14 @@ namespace SWP391_Group3_FinalProject.DAOs
             return count;
         }
 
+        public void DeleteImageByPath(string path)
+        {
+            _command.CommandText = "delete from Product_Image where Product_Image = @path";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@path", path);
+            _command.ExecuteNonQuery();
+        }
+
         //------------------------------------------------------------------------------------------------------------
         //START BRAND CRUD
         public List<Brand> GetAllBrand()

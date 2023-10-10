@@ -434,8 +434,8 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpPost]
         public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages)
         {
-
-            if(selectedImages != null)
+            ProductDAO dao = new ProductDAO();
+            if (selectedImages != null)
             {
                 List<string> selectedImageList = JsonConvert.DeserializeObject<List<string>>(selectedImages);
                 foreach (var path in selectedImageList)
@@ -447,7 +447,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                         if (System.IO.File.Exists(filePath))
                         {
                             System.IO.File.Delete(filePath);
-                           
+                            dao.DeleteImageByPath(path);
                         }
                     }
                     catch (Exception ex)
@@ -459,7 +459,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
            
 
-            ProductDAO dao =new ProductDAO();
+            
             Category cate = dao.GetCatByID(pro.cate_id);
             string folder = cate.cate_name.Trim();
             List<IFormFile> file = new List<IFormFile>();
