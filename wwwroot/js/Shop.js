@@ -1,5 +1,5 @@
 ﻿
-$('input[type="checkbox"]').change(function () {
+$('input[type="checkbox"].shop').change(function () {
     filterProducts();
 });
 
