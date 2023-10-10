@@ -19,7 +19,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             _contx = contx;
         }
 
-        [HttpGet]
+        [HttpGet("/Login")]
         public IActionResult Index()
         {
             try
