@@ -1,3 +1,5 @@
+using SWP391_Group3_FinalProject.Filter;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,9 @@ builder.Services.AddSession(o =>
     o.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
+builder.Services.AddScoped<CustomerFilter>();
+builder.Services.AddScoped<ManagerFilter>();
+builder.Services.AddScoped<LoginFilter>();
 
 var app = builder.Build();
 app.UseSession();
@@ -27,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

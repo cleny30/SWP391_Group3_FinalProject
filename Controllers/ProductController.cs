@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
-
+using SWP391_Group3_FinalProject.Filter;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
     public class ProductController : Controller
     {
         [HttpGet]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult Shop()
         {
             var sortFilter = Request.Query["sort"].ToString();
@@ -215,6 +216,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ShopDetail(string pro_id)
         {
             int numberOfRandomProducts = 5;

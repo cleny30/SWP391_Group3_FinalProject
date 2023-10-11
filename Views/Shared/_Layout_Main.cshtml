@@ -15,10 +15,10 @@
     var cateList = JsonConvert.DeserializeObject<List<Category>>(serializedCateList);
 
     var serialiedAccount = Context.Session.GetString("Session");
-    Customer Account = null;
+    Customer acc = null;
     if (serialiedAccount != null)
     {
-        Account = JsonConvert.DeserializeObject<Customer>(serialiedAccount);
+        acc = JsonConvert.DeserializeObject<Customer>(serialiedAccount);
     }
     
 }
@@ -80,7 +80,7 @@
                             Account
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            @if (Account == null)
+                            @if (acc == null)
                             {
                                 <button class="dropdown-item" type="button"><a href="/Login">Sign in</a></button>
 

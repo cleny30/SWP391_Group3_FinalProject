@@ -19,26 +19,10 @@ namespace SWP391_Group3_FinalProject.Controllers
             _contx = contx;
         }
 
+        
         [HttpGet("/Login")]
         public IActionResult Index()
         {
-            try
-            {
-                int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["Role"]);
-                if (cookievalue == 0 || cookievalue == 1)
-                {
-                    return RedirectToAction("Index", "Dashboard"); // chuyen sang trang 
-
-                }
-                else if (cookievalue == 2)
-                {
-                    return RedirectToAction("Index", "Home"); // chuyen sang trang 
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
             return View();
         }
 
@@ -55,37 +39,56 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Verify(String username, String password, String isRem)
+        public ActionResult Verify(string username, string password, string isRem)
         {
             AccountDAO dao = new AccountDAO(); // goi ham dao
-            Account acc = dao.GetAccount(username, password); // lay thong tin dao
 
-            if (acc != null)
+            Customer cus = dao.GetCustomer(username, password);
+
+            Manager manager = dao.GetManager(username, password);
+
+            if (cus != null)
             {
                 if (isRem != null)
                 {
-                    HttpContext.Response.Cookies.Append("Username", acc.username, new Microsoft.AspNetCore.Http.CookieOptions
+                    HttpContext.Response.Cookies.Append("username", cus.username, new Microsoft.AspNetCore.Http.CookieOptions
                     {
                         Expires = DateTime.Now.AddDays(3),
                     });
-                    HttpContext.Response.Cookies.Append("Role", acc.role.ToString(), new Microsoft.AspNetCore.Http.CookieOptions
+                    HttpContext.Response.Cookies.Append("role", "0", new Microsoft.AspNetCore.Http.CookieOptions
                     {
                         Expires = DateTime.Now.AddDays(3),
                     });
                 }
 
-                if (acc.role == 2)
+                List<Addresses> list = dao.GetCustomerAddress(username);
+                if (list.Count() > 0)
                 {
-                    Customer customer = dao.GetCustomer(username);
-                    _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(customer));
-                    return RedirectToAction("Index", "Home");
+                    cus.addresses.AddRange(list);
                 }
-                else
+
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus)); //Store information customer to Session
+                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("0")); //Store action filter about manager is 0
+                return RedirectToAction("Index", "Home");
+            }
+            else if (manager != null)
+            {
+                if (isRem != null)
                 {
-                    AdminAndStaff adminandstaff = dao.GetAdminAndStaff(username, acc.role);
-                    _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(adminandstaff));
-                    return RedirectToAction("Index", "Dashboard");
+                    HttpContext.Response.Cookies.Append("username", manager.username, new Microsoft.AspNetCore.Http.CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(3),
+                    });
+                    HttpContext.Response.Cookies.Append("role", "1", new Microsoft.AspNetCore.Http.CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(3),
+                    });
                 }
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager)); //Store information manager to Session
+                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1")); //Store action filter about manager is 1
+                return RedirectToAction("Index", "Dashboard");
+
+
             }
             return RedirectToAction("Index", "Login"); // neu sai quay lai trang login
 

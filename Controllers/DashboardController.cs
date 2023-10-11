@@ -1,22 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
+using SWP391_Group3_FinalProject.Filter;
 using SWP391_Group3_FinalProject.Models;
 using System;
-using System.Drawing.Drawing2D;
-using static NuGet.Packaging.PackagingConstants;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
     public class DashboardController : Controller
     {
         //Trang chủ của dashboard
+        private readonly IHttpContextAccessor _contx;
+        private readonly IWebHostEnvironment _environment;
+
+        public DashboardController(IHttpContextAccessor contx, IWebHostEnvironment environment)
+        {
+            _contx = contx;
+            _environment = environment;
+        }
+
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult Index()
         {
             return View();
         }
 
         //Trang để coi đơn nhập hàng
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult ImportReceipts()
         {
             ImportRecieptDAO IRdao = new ImportRecieptDAO();
@@ -81,6 +91,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để cho admin thêm sản phẩm để bán
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult ImportProduct()
         {
 
@@ -148,6 +159,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để coi giỏ hàng
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult ProductPage()
         {
             ProductDAO dao = new ProductDAO();
@@ -166,12 +178,14 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Statistic page
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult Statistic()
         {
             return View();
         }
 
         //Coi đơn hàng của khách hàng
+        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult OrderRecieptPage()
         {
             return View();
@@ -233,12 +247,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
         }
 
-        private readonly IWebHostEnvironment _environment;
-
-        public DashboardController(IWebHostEnvironment environment)
-        {
-            _environment = environment;
-        }
 
         //Update Brand
         public IActionResult UpdateBrand(Brand brand, IFormFile BrandLogo)

@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Net;
 using System.Security.Principal;
 using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
@@ -16,64 +17,72 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command = new SqlCommand();
             _command.Connection = conn;
         }
-        public Account GetAccount(String username, String password)
+        public Manager GetManager(string username, string password)
         {
-            _command.CommandText = "Select * from account where username= @username and password = @password";
+            {
+                _command.CommandText = "Select * from Manager where username= @username and password = @password";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@username", username);
+                _command.Parameters.AddWithValue("@password", password);
+                using (_reader = _command.ExecuteReader())
+                {
+                    Manager manager = new Manager();
+                    if (_reader.Read())
+                    {
+                        manager.username = _reader.GetString(1);
+                        manager.password = _reader.GetString(2);
+                        manager.fullname = _reader.GetString(3);
+                        manager.phone = _reader.GetString(4);
+                        manager.email = _reader.GetString(5);
+                        manager.SSN = _reader.GetString(6);
+                        manager.address = _reader.GetString(7);
+                        manager.isAdmin = _reader.GetBoolean(8);
+                        return manager;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public Manager GetManagerByUsername(string username)
+        {
+            {
+                _command.CommandText = "Select * from Manager where username= @username";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@username", username);
+                using (_reader = _command.ExecuteReader())
+                {
+                    Manager manager = new Manager();
+                    if (_reader.Read())
+                    {
+                        manager.username = _reader.GetString(1);
+                        manager.password = _reader.GetString(2);
+                        manager.fullname = _reader.GetString(3);
+                        manager.phone = _reader.GetString(4);
+                        manager.email = _reader.GetString(5);
+                        manager.SSN = _reader.GetString(6);
+                        manager.address = _reader.GetString(7);
+                        manager.isAdmin = _reader.GetBoolean(8);
+                        return manager;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public Customer GetCustomer(string username, string password)
+        {
+            _command.CommandText = "Select * from Customer where username= @username and password = @password";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@username", username);
             _command.Parameters.AddWithValue("@password", password);
             using (_reader = _command.ExecuteReader())
             {
-                Account acc = new Account();
-                if (_reader.Read())
-                {
-                    acc.username = _reader.GetString(0);
-                    acc.password = _reader.GetString(1);
-                    acc.role = _reader.GetInt32(2);
-                    return acc;
-                }
-            }
-            return null;
-        }
-        public AdminAndStaff GetAdminAndStaff(String username, int role)
-        {
-            if (role == 0)
-            {
-                _command.CommandText = "Select * from Admin where username= @username";
-            }
-            else
-            {
-                _command.CommandText = "Select * from Staff where username= @username";
-            }
-            _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@username", username);
-            using (_reader = _command.ExecuteReader())
-            {
-                AdminAndStaff adminandstaff = new AdminAndStaff();
-                if (_reader.Read())
-                {
-                    adminandstaff.username = _reader.GetString(1);
-                    adminandstaff.fullname = _reader.GetString(2);
-                    adminandstaff.email = _reader.GetString(3);
-                    adminandstaff.SSN = _reader.GetString(4);
-                    adminandstaff.address = _reader.GetString(5);
-                    adminandstaff.phone = _reader.GetString(6);
-                    return adminandstaff;
-                }
-            }
-            return null;
-        }
-        public Customer GetCustomer(String username)
-        {
-            _command.CommandText = "Select * from Customer where username= @username";
-            _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@username", username);
-            using (_reader = _command.ExecuteReader())
-            {
                 Customer customer = new Customer();
                 if (_reader.Read())
                 {
-                    customer.username = _reader.GetString(1);
+                    customer.username = _reader.GetString(0);
+                    customer.password = _reader.GetString(1);
                     customer.fullname = _reader.GetString(2);
                     customer.phone = _reader.GetString(3);
                     customer.email = _reader.GetString(4);
@@ -82,6 +91,67 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return null;
         }
+
+        public Customer GetCustomerByUsername(string username)
+        {
+            Customer customer = new Customer();
+            _command.CommandText = "Select * from Customer where username= @username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@username", username);
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    customer.username = _reader.GetString(0);
+                    customer.password = _reader.GetString(1);
+                    customer.fullname = _reader.GetString(2);
+                    customer.phone = _reader.GetString(3);
+                    customer.email = _reader.GetString(4);
+                }
+            }
+
+            List<Addresses> list = new List<Addresses>();
+            _command.CommandText = "Select * from Delivery_Address where username= @username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@username", username);
+            using (_reader = _command.ExecuteReader())
+            {
+                Addresses add = new Addresses();
+                while (_reader.Read())
+                {
+                    add.address = _reader.GetString(1);
+                    add.fullname = _reader.GetString(2);
+                    add.phonenum = _reader.GetString(3);
+                    list.Add(add);
+                }
+            }
+            if (list != null)
+            {
+                customer.addresses = list;
+            }
+            return customer;
+        }
+
+        public List<Addresses> GetCustomerAddress(string username)
+        {
+            List<Addresses> list = new List<Addresses>();
+            _command.CommandText = "Select * from Delivery_Address where username= @username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@username", username);
+            using (_reader = _command.ExecuteReader())
+            {
+                Addresses add = new Addresses();
+                while (_reader.Read())
+                {
+                    add.address = _reader.GetString(1);
+                    add.fullname = _reader.GetString(2);
+                    add.phonenum = _reader.GetString(3);
+                    list.Add(add);
+                }
+            }
+            return list;
+        }
+
         public void AddCustomer(String username, String password, String fullname, String email, String phone_num)
         {
             _command.CommandText = "INSERT INTO Account(username, password, Role_ID) values(@username,@password, 2)  ";

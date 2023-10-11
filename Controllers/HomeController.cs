@@ -3,6 +3,7 @@ using System.Diagnostics;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
 using Newtonsoft.Json;
+using SWP391_Group3_FinalProject.Filter;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -14,7 +15,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             _contx = contx;
         }
 
-
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult Index()
         {
             ProductDAO dao = new ProductDAO();
