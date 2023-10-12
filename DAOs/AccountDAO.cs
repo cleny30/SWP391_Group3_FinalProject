@@ -72,7 +72,7 @@ namespace SWP391_Group3_FinalProject.DAOs
 
         public Customer GetCustomer(string username, string password)
         {
-            _command.CommandText = "Select * from Customer where username= @username and password = @password";
+            _command.CommandText = "Select * from Customer where username= @username and password= @password";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@username", username);
             _command.Parameters.AddWithValue("@password", password);
@@ -152,18 +152,14 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
-        public void AddCustomer(String username, String password, String fullname, String email, String phone_num)
+        public void AddCustomer(Customer customer)
         {
-            _command.CommandText = "INSERT INTO Account(username, password, Role_ID) values(@username,@password, 2)  ";
-            _command.Parameters.AddWithValue("@username", username);
-            _command.Parameters.AddWithValue("@password", password);
-            _command.ExecuteNonQuery();
-
-            _command.CommandText = "INSERT INTO Customer(username, fullname, email, phone_num) values(@username, @fullname, @email, @phone_num)  ";
-            _command.Parameters.AddWithValue("@username", username);
-            _command.Parameters.AddWithValue("@fullname", fullname);
-            _command.Parameters.AddWithValue("@email", email);
-            _command.Parameters.AddWithValue("@phone_num", phone_num);
+            _command.CommandText = "INSERT INTO Customer(username, password, fullname, email, phone_num) values(@username, @password, @fullname, @email, @phone_num)  ";
+            _command.Parameters.AddWithValue("@username", customer.username);
+            _command.Parameters.AddWithValue("@password", customer.password);
+            _command.Parameters.AddWithValue("@fullname", customer.fullname);
+            _command.Parameters.AddWithValue("@email", customer.email);
+            _command.Parameters.AddWithValue("@phone_num", customer.phone);
             _command.ExecuteNonQuery();
         }
     }

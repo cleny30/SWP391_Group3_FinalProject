@@ -19,7 +19,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             _contx = contx;
         }
 
-        
+
         [HttpGet("/Login")]
         public IActionResult Index()
         {
@@ -84,32 +84,42 @@ namespace SWP391_Group3_FinalProject.Controllers
                         Expires = DateTime.Now.AddDays(3),
                     });
                 }
-                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager)); //Store information manager to Session
-                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1")); //Store action filter about manager is 1
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
+                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
                 return RedirectToAction("Index", "Dashboard");
 
 
             }
-            return RedirectToAction("Index", "Login"); // neu sai quay lai trang login
+            return RedirectToAction("Index", "Login");
 
         }
 
-        //[HttpPost]
-        //public ActionResult Register(Custo)
-        //{
-        //    AccountDAO dao = new AccountDAO(); // goi ham dao
-        //    Customer customer = dao.GetCustomer(ustxt); // lay thong tin dao
+        [HttpGet("/Logout")]
+        public ActionResult Logout()
+        {
+            try
+            {
+                int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+                if (cookievalue != null)
+                {
+                    Response.Cookies.Delete("username");
+                    Response.Cookies.Delete("role");
+                }
+            }
+            catch (Exception ex)
+            {
 
-        //    if (customer != null)
-        //    {
-        //        return RedirectToAction("SignUp", "Login");
-        //    }
-        //    else
-        //    {
-        //        dao.AddCustomer(ustxt, pwdtxt, nametxt, emailtxt, phonetxt);
-        //        return RedirectToAction("Index", "Login");
-        //    }
+            }
+            _contx.HttpContext.Session.Remove("Session");
+            return RedirectToAction("Index", "Home");
+        }
 
-        //}
+        [HttpPost]
+        public ActionResult Register(Customer customer)
+        {
+            AccountDAO dao = new AccountDAO();
+            dao.AddCustomer(customer);
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
