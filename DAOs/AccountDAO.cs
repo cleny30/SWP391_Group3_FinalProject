@@ -183,5 +183,33 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@username", username);
             _command.ExecuteNonQuery();
         }
+
+        public int CheckEmail(string email)
+        {
+            _command.CommandText = "Select * from Customer where email= @email";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@email", email);
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    return 1;
+                }
+            }
+
+            _command.CommandText = "Select * from Manager where email= @email";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@email", email);
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    return 1;
+                }
+            }
+
+            return 0;
+
+        }
     }
 }

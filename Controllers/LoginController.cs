@@ -121,5 +121,33 @@ namespace SWP391_Group3_FinalProject.Controllers
             dao.AddCustomer(customer);
             return RedirectToAction("Index", "Login");
         }
+
+        [HttpPost]
+        public IActionResult CheckUsername(string username)
+        {
+            AccountDAO dao = new AccountDAO();
+            Customer cus = dao.GetCustomerByUsername(username);
+
+            Manager manager = dao.GetManagerByUsername(username);
+
+            if (cus.username != null || manager != null)
+            {
+                return Content("true");
+            }
+            return Content("false");
+        }
+
+        [HttpPost]
+        public IActionResult CheckEmail(string email)
+        {
+            AccountDAO dao = new AccountDAO();
+            int kq = dao.CheckEmail(email);
+
+            if (kq == 1)
+            {
+                return Content("true");
+            }
+            return Content("false");
+        }
     }
 }

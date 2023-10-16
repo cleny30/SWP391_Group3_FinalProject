@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Login.cshtml";
 }
@@ -17,16 +16,16 @@
                         <div class="card-body p-5 text-center">
 
                             <h3 style="color: rgb(32, 27, 27)" class="mb-5">Sign in</h3>
-                            <form method="post" action="/Login/Verify">
+                            <form method="post" action="/Login/Verify" class="LoginFunction">
 
                                 <div class="form-outline mb-4">
                                     <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="username" placeholder="Username" />
-
+                                    <p style="color:red; text-align:left"></p>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password" placeholder="Password" />
-
+                                    <p style="color:red; text-align:left"></p>
                                 </div>
 
                                 <!-- Checkbox -->
@@ -48,7 +47,7 @@
 
                                     </div>
                                 </div>
-                                <button style="font-weight: bold;" class="btn btn-primary btn-lg btn-block" type="submit" value="Submit" name="signinSubmit"><span style=" color: #06040c;">Login</span></button>
+                                <button style="font-weight: bold;" class="btn btn-primary btn-lg btn-block" id="BtnSubmitLogin" type="submit" value="Submit" name="signinSubmit"><span style=" color: #06040c;">Login</span></button>
                             </form>
                         </div>
                     </div>
