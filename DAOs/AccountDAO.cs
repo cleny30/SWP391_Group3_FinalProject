@@ -162,5 +162,26 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@phone_num", customer.phone);
             _command.ExecuteNonQuery();
         }
+
+        public void UpdateCustomer(Customer acc)
+        {
+            AccountDAO dao = new AccountDAO();
+            _command.CommandText = "UPDATE Customer SET Fullname=@Fullname,Email= @Email,Phone_Num= @Phone_Num where username=@username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Fullname", acc.fullname);
+            _command.Parameters.AddWithValue("@Email", acc.email);
+            _command.Parameters.AddWithValue("@Phone_Num", acc.phone);
+            _command.Parameters.AddWithValue("@username", acc.username);
+            _command.ExecuteNonQuery();
+        }
+        public void ChangePassword(string username, string pw)
+        {
+            AccountDAO dao = new AccountDAO();
+            _command.CommandText = "UPDATE Customer SET password=@pw where username=@username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@pw", pw);
+            _command.Parameters.AddWithValue("@username", username);
+            _command.ExecuteNonQuery();
+        }
     }
 }
