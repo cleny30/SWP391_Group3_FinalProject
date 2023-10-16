@@ -241,6 +241,49 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.RandomProducts = randomProducts;
             return View();
         }
-    
+        [HttpGet]
+        public IActionResult ShopSearch(string searchTerm)
+        {
+            ProductDAO dao = new ProductDAO();
+            List<Product> searchList = dao.GetAllProduct();
+            List<Product> foundProducts = new List<Product>();
+            // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên
+            var currentPage = Request.Query["page"].ToString() != "" ? Convert.ToInt32(Request.Query["page"]) : 1; ; // Default value
+
+
+            if (searchTerm != null)
+            {
+                foundProducts = searchList.Where(product => product.pro_name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            // Kích thước trang (số sản phẩm mỗi trang)
+            int pageSize = 12;
+
+            // Tính chỉ số bắt đầu của sản phẩm cần hiển thị
+            int startIndex = (currentPage - 1) * pageSize;
+
+            int totalItems = foundProducts.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            bool isFirstPage = currentPage == 1;
+            bool isLastPage = currentPage == totalPages;
+
+            var productToshow = foundProducts.Skip(startIndex).Take(pageSize).ToList();
+
+            ViewBag.foundProducts = productToshow;
+            ViewBag.searchterm = searchTerm;
+            //Set page navigation
+            ViewBag.currentPage = currentPage;
+            ViewBag.pageSize = pageSize;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.IsFirstPage = isFirstPage;
+            ViewBag.IsLastPage = isLastPage;
+            ViewBag.CurrentPage = currentPage;
+
+            return View();
+
+
+        }
+
+
     }
 }

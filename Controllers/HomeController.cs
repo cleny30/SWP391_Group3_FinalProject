@@ -50,5 +50,21 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
 
         }
+        [HttpPost]
+        public IActionResult SearchItem(string searchbox)
+        {
+            ProductDAO dao = new ProductDAO();
+            List<Product> list = dao.GetAllProduct();
+
+            List<Product> foundProducts = new List<Product>();
+            if (searchbox != null)
+            {
+                foundProducts = list.Where(product => product.pro_name.Contains(searchbox, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+
+            return Json(foundProducts);
+
+        }
     }
 }

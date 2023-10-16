@@ -59,6 +59,7 @@
     <link href="~/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/CSS.css" />
     <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
+
 </head>
 <body>
     <!-- Topbar Start -->
@@ -114,17 +115,21 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form action="/Product/ShopSearch" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" placeholder="Search for products" name="searchTerm" id="search-item" onkeyup="search()">
                         <div class="input-group-append">
-                            <button class="input-group-text bg-transparent text-primary">
+                            <button class="input-group-text bg-transparent text-primary" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
                     </div>
                 </form>
-            </div>
+                <div class="search-results" id="search-results">
+                    <div class="sproduct-list" id="product-list"></div>
+
+                </div>
+                </div>
             <div class="col-lg-4 col-6 text-right">
                 <p class="m-0">Customer Service</p>
                 <h5 class="m-0">+012 345 6789</h5>
@@ -296,7 +301,7 @@
     <!-- Contact Javascript File -->
     <script src="~/mail/jqBootstrapValidation.min.js"></script>
     <script src="~/mail/contact.js"></script>
-
+        <script src="~/js/search.js"></script>
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>
     <script src="~/js/shop.js"></script>
