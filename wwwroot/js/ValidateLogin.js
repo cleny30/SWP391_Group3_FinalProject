@@ -41,7 +41,7 @@
 
 $('#typeEmailX-2').on('blur', function () {
     var username = getValueById('typeEmailX-2');
-    if (username !== null || username !== '') {
+    if (username !== null && username.trim().length > 0) {
         $.ajax({
             url: '/Login/CheckUsername',
             type: "POST",
@@ -52,7 +52,7 @@ $('#typeEmailX-2').on('blur', function () {
                 // Update DOM elements with retrieved data
                 if (data == 'false') {
                     $('#BtnSubmitLogin').css('pointer-events', 'none');
-                    showError('typeEmailX-2', 'Username is not exist');
+                    showError('typeEmailX-2', 'Username does not exist');
                 } else {
                     $('#BtnSubmitLogin').css('pointer-events', 'auto');
                     hideError('typeEmailX-2');

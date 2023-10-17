@@ -14,8 +14,8 @@
 
                 <h1 class="Header">IMPORT PRODUCTS</h1>
                 <hr>
-                <div class="row justify-content-between">
-                    <div class="col-md-5 BoxStyle">
+                <div class="flex-row d-flex col-12 flex-between-center">
+                    <div class=" flex-grow-1 p-4 me-4 BoxStyle">
                         <div class="row">
                             <h1 class="ImportHeader col-md-12"
                                 style="border-style: none; font-size: x-large; padding-top: 20px; ">
@@ -24,6 +24,7 @@
                         </div>
                         <hr style="border: 3px solid black;">
                         <table id="example" class="table table-striped" style="width:100%">
+                            
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -58,7 +59,9 @@
                         </table>
                         <hr style="border: 3px solid black;">
                     </div>
-                    <div class="col-md-6 offset-md-1 BoxStyle">
+
+
+                    <div class=" col-5 p-4 BoxStyle">
                         <div class="row">
                             <h1 class="ImportHeader col-md-12"
                                 style="border-style: none; font-size: x-large; padding-top: 20px; ">
@@ -185,6 +188,7 @@
     // Call the function initially to set the initial visibility
     updateSubmitButtonVisibility();
 </script>
+
 <script>
     // Define an array to store cart items
     const cartItems = [];
@@ -228,7 +232,38 @@
 
             cell1.textContent = item.ID;
             cell2.textContent = item.name;
-            cell3.textContent = `$${item.price.toFixed(2)}`;
+            const priceInput = createPriceInput(index, item.price);
+            cell3.innerHTML = "";
+            cell3.appendChild(priceInput);
+            function updateProductPrice(index, newPrice) {
+                if (index >= 0 && index < cartItems.length) {
+                    cartItems[index].price = parseFloat(newPrice);
+                    displayCart(); // Refresh the cart display after updating the price
+                }
+            }
+
+            // Function to create a number input field for updating the price
+            function createPriceInput(index, currentPrice) {
+                const priceInput = document.createElement("input");
+                priceInput.type = "number";
+                priceInput.value = currentPrice;
+                priceInput.step = "0.01"; // Set the step to control decimal places
+                priceInput.size = "5";
+                priceInput.style.width = "60px"; // Set the width directly
+                priceInput.addEventListener("blur", function () {
+                    const inputValue = parseFloat(priceInput.value);
+                    if (inputValue <= 0) {
+                        priceInput.value = currentPrice; // Revert to the original value
+                    } else {
+                        updateProductPrice(index, inputValue);
+                    }
+                });
+                return priceInput;
+            }
+
+            // ... (your existing code)
+
+
 
             // Quantity buttons
             const quantityWrapper = document.createElement("div");

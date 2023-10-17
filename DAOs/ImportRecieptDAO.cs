@@ -57,9 +57,9 @@ namespace SWP391_Group3_FinalProject.DAOs
                 {
                     Import_Reciept IR = new Import_Reciept();
                     IR.Reciept_ID = _reader.GetInt32(0);
+                    IR.Date_Import = _reader.GetDateTime(1);
                     IR.Person_In_Charge = _reader.GetString(2);
                     decimal payment = _reader.GetDecimal(3);
-                    IR.Date_Import = _reader.GetDateTime(1);
                     IR.Payment = (int)payment;
 
                     import_Reciepts.Add(IR);
@@ -69,7 +69,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             return import_Reciepts;
         }
 
-        public async Task<Import_Reciept> GetImportReceiptByID(int ID)
+        public Import_Reciept GetImportReceiptByID(int ID)
         {
             Import_Reciept import_Reciepts = new Import_Reciept();
 
@@ -79,14 +79,14 @@ namespace SWP391_Group3_FinalProject.DAOs
                 _command.Parameters.Clear();
                 _command.Parameters.AddWithValue("@ID", ID);
 
-                using (_reader = await _command.ExecuteReaderAsync())
+                using (_reader = _command.ExecuteReader())
                 {
-                    while (await _reader.ReadAsync())
+                    while (_reader.Read())
                     {
                         import_Reciepts.Reciept_ID = _reader.GetInt32(0);
-                        import_Reciepts.Person_In_Charge = _reader.GetString(1);
-                        decimal payment = _reader.GetDecimal(2);
-                        import_Reciepts.Date_Import = _reader.GetDateTime(3);
+                        import_Reciepts.Person_In_Charge = _reader.GetString(2);
+                        decimal payment = _reader.GetDecimal(3);
+                        import_Reciepts.Date_Import = _reader.GetDateTime(1);
                         import_Reciepts.Payment = (int)payment;
                     }
                 }
@@ -104,7 +104,7 @@ namespace SWP391_Group3_FinalProject.DAOs
         }
 
 
-        public async Task<List<Receipt_Product>> GetRPByID(int ID)
+        public List<Receipt_Product> GetRPByID(int ID)
         {
             List<Receipt_Product> list = new List<Receipt_Product>();
 
@@ -114,9 +114,9 @@ namespace SWP391_Group3_FinalProject.DAOs
                 _command.Parameters.Clear();
                 _command.Parameters.AddWithValue("@ID", ID);
 
-                using (_reader = await _command.ExecuteReaderAsync())
+                using (_reader = _command.ExecuteReader())
                 {
-                    while (await _reader.ReadAsync())
+                    while (_reader.Read())
                     {
                         Receipt_Product RP = new Receipt_Product();
                         RP.pro_id = _reader.GetString(1);
