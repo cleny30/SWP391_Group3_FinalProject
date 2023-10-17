@@ -1,6 +1,13 @@
-﻿@{
+﻿@using Newtonsoft.Json;
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Login.cshtml";
+    var erSession = Context.Session.GetString("ErrorLogin");
+    string? ErrorMessage = null;
+    if (erSession != null)
+    {
+        ErrorMessage = JsonConvert.DeserializeObject<String>(erSession);
+    }
 }
 
 <div style="width: 100%; height: 100%;">
@@ -25,7 +32,7 @@
 
                                 <div class="form-outline mb-4">
                                     <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="password" placeholder="Password" />
-                                    <p style="color:red; text-align:left"></p>
+                                    <p style="color:red; text-align:left">@ErrorMessage</p>
                                 </div>
 
                                 <!-- Checkbox -->

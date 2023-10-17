@@ -90,6 +90,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             }
+            _contx.HttpContext.Session.SetString("ErrorLogin", JsonConvert.SerializeObject("Username or password is incorrect"));
             return RedirectToAction("Index", "Login");
 
         }
