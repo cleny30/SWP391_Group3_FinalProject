@@ -73,20 +73,40 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             else if (manager != null)
             {
-                if (isRem != null)
+                if(manager.isAdmin == true)
                 {
-                    HttpContext.Response.Cookies.Append("username", manager.username, new Microsoft.AspNetCore.Http.CookieOptions
+                    if (isRem != null)
                     {
-                        Expires = DateTime.Now.AddDays(3),
-                    });
-                    HttpContext.Response.Cookies.Append("role", "1", new Microsoft.AspNetCore.Http.CookieOptions
+                            
+                        HttpContext.Response.Cookies.Append("username", manager.username, new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                        HttpContext.Response.Cookies.Append("role", "1", new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                    }
+                    _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
+                    _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
+                    return RedirectToAction("Index", "Dashboard");
+                } else
+                {
+                    if (isRem != null)
                     {
-                        Expires = DateTime.Now.AddDays(3),
-                    });
+                        HttpContext.Response.Cookies.Append("username", manager.username, new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                        HttpContext.Response.Cookies.Append("role", "1", new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                    }
+                    _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
+                    _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
+                    return RedirectToAction("Index", "Dashboard");
                 }
-                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
-                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
-                return RedirectToAction("Index", "Dashboard");
 
 
             }

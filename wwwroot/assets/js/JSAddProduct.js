@@ -8,16 +8,16 @@
         if (!pro_name) {
             showError('pro_name', 'Hãy điền tên sản phẩm');
             noError = false;
-        } else if (pro_name.length > 100) {
+        } else if (pro_name.length > 100) { 
             showError('pro_name', 'Tên sản phẩm không quá');
             noError = false;
         } else {
-            hideError('pro_name');
-        }
+            hideError('pro_name');                  
+        }           
 
         if (!pro_price) {
             showError('pro_price', 'Hãy điền giá sản phẩm');
-            noError = false;
+            noError = false;    
         }
         if (pro_price.trim() === '' || isNaN(parseInt(pro_price))) {
             showError('pro_price','Vui lòng nhập giá sản phẩm là một số nguyên.');

@@ -19,7 +19,7 @@
                 <input type="radio" id="tab-1" name="tabby-tabs" checked>
                 <label for="tab-1" class="tabby-tablabel">STAFF ACCOUNTS</label>
                 <div class="tabby-content">
-                    <h1 class="Title">List of Pending Orders</h1>
+                    <h1 class="Title">List of Staff</h1>
                     <div class="col-12">
                         <div class="row " style=" padding-bottom: 20px;">
                             <div class="col-2">
@@ -31,71 +31,23 @@
                     <table id="example" class="display nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Full name</th>
                                 <th>Phone Number</th>
-                                <th>Price</th>
-                                <th>Start date</th>
+                                <th>SSN</th>
+                                <th>Address</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>OR001</td>
                                 <td>Nguyen Huu Duy</td>
                                 <td>0907124350</td>
-                                <td>$500</td>
-                                <td>2011-04-25</td>
+                                <td>097203022991</td>
+                                <td>Hung Vuong, Can Tho</td>
                                 <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
                             </tr>
-                            <tr>
-                                <td>OR001</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>$500</td>
-                                <td>2012-04-25</td>
-                                <td> <a class="SmallTitle">Show Order</a></td>
-                            </tr>
-
-
-
                         </tbody>
                     </table>
-                    <script>
-                        let minDateColumn4, maxDateColumn5;
-
-                        // Custom filtering function which will search data in column four between two values
-                        DataTable.ext.search.push(function (settings, data, dataIndex) {
-                            let min4 = minDateColumn4.val();
-                            let max5 = maxDateColumn5.val();
-                            let date4 = new Date(data[4]);
-                            let date5 = new Date(data[5]);
-
-                            if (
-                                (min4 === null && max5 === null) ||
-                                (min4 === null && date5 <= max5) ||
-                                (min4 <= date4 && max5 === null) ||
-                                (min4 <= date4 && date5 <= max5)
-                            ) {
-                                return true;
-                            }
-                            return false;
-                        });
-
-                        // Create date inputs for column 4 and column 5
-                        minDateColumn4 = new DateTime('#minColumn4', {
-                            format: 'MMMM Do YYYY'
-                        });
-
-                        // DataTables initialization
-                        let table = new DataTable('#example');
-
-                        // Re-filter the table when date inputs change
-                        document.querySelectorAll('#minColumn4, #maxColumn5').forEach((el) => {
-                            el.addEventListener('change', () => table.draw());
-                        });
-
-                    </script>
                 </div>
             </div>                    
         </div>

@@ -89,6 +89,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     return customer;
                 }
             }
+
             return null;
         }
 

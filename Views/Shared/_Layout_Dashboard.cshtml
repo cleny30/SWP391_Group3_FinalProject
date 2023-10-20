@@ -1,5 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json;
+@using SWP391_Group3_FinalProject.Models;
 
+
+<!DOCTYPE html>
+@{
+    string Manager = Context.Session.GetString("Session");
+    Manager manager = new Manager();
+    if (Manager != null)
+    {
+        manager = JsonConvert.DeserializeObject<Manager>(Manager);
+    }
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -81,14 +92,18 @@
                                 <span class="hide-menu">Products</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/Dashboard/ImportProduct" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-alert-circle"></i>
-                                </span>
-                                <span class="hide-menu">Import Products</span>
-                            </a>
-                        </li>
+                        @if (manager.isAdmin == true)
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/Dashboard/ImportProduct" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-alert-circle"></i>
+                                    </span>
+                                    <span class="hide-menu">Import Products</span>
+                                </a>
+                            </li>
+                        }
+                        
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Orders Management</span>
@@ -109,31 +124,48 @@
                                 <span class="hide-menu">Customer Orders</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Staffs Management</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/Dashboard/StaffList" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-file-description"></i>
-                                </span>
-                                <span class="hide-menu">Staff's Account</span>
-                            </a>
-                            <a class="sidebar-link" href="./StaffList.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-file-description"></i>
-                                </span>
-                                <span class="hide-menu">Create Accounts</span>
-                            </a>
-                        </li>
 
+                        @if (manager.isAdmin == true)
+                        {
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Staffs Management</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/Dashboard/StaffList" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-file-description"></i>
+                                    </span>
+                                    <span class="hide-menu">Staff's Account</span>
+                                </a>
+                                <a class="sidebar-link" href="/Dashboard/CreateAccount" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-file-description"></i>
+                                    </span>
+                                    <span class="hide-menu">Create Accounts</span>
+                                </a>
+                            </li>
+                        } else
+                        {
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Personal Information</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/Dashboard/StaffList" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-file-description"></i>
+                                    </span>
+                                    <span class="hide-menu">Account <span>
+                                </a>
+                            </li>
+                        }
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Chatroom</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./StaffList.html" aria-expanded="false">
+                            <a class="sidebar-link" href="random" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-file-description"></i>
                                 </span>
@@ -145,7 +177,7 @@
                             <span class="hide-menu">AUTH</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                            <a class="sidebar-link" href="/Dashboard/Logout" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-login"></i>
                                 </span>

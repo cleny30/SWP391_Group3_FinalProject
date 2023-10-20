@@ -32,7 +32,26 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(ManagerFilter))]
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
 
+
+        [HttpPost]
+        public IActionResult CreateAccount( Manager manager)
+        {
+            //Check if the account created is admin
+            bool isAdmin = Request.Form["isAdmin"] == "on";
+
+            //---------------Code Here----------------
+            //trước tiên check là username có tồn tại chưa, nếu có đưa error về trang create account
+            //nếu không thì lưu account vào database và đưa qua trang stafflist
+
+            //----------------------------------------
+            return RedirectToAction("StaffList", "Dashboard");
+        }
 
         //Trang để coi đơn nhập hàng
         [ServiceFilter(typeof(ManagerFilter))]
@@ -45,6 +64,36 @@ namespace SWP391_Group3_FinalProject.Controllers
             //ViewBag
             ViewBag.IRList = IRList;
             return View();
+        }
+
+        //Logging out for Admin And Staff
+        [ServiceFilter(typeof(ManagerFilter))]
+        public IActionResult Logout()
+        {
+            //Delete Session
+            string ManagerInfo, role;
+            ManagerInfo = _contx.HttpContext.Session.GetString("Session");
+            role = _contx.HttpContext.Session.GetString("action");
+
+            if (!string.IsNullOrEmpty(ManagerInfo) && !string.IsNullOrEmpty(role))
+            {
+                _contx.HttpContext.Session.Remove("Session");
+                _contx.HttpContext.Session.Remove("action");
+            }
+
+            //Delete Cookie
+            if (Request.Cookies.ContainsKey("username"))
+            {
+                // The "username" cookie is present. You can choose to delete it or perform other actions.
+                HttpContext.Response.Cookies.Delete("username");
+            }
+
+            if (Request.Cookies.ContainsKey("role"))
+            {
+                // The "role" cookie is present. You can choose to delete it or perform other actions.
+                HttpContext.Response.Cookies.Delete("role");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -180,8 +229,8 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             //ViewBag
-            ViewBag.BrandList = BrandList;
-            ViewBag.CategoryList = CategoryList;
+            ViewBag.BrandList = BrandList.Where(brand => brand.isAvailable == true).ToList();
+            ViewBag.CategoryList = CategoryList.Where(cate => cate.isAvailable == true).ToList();
             ViewBag.ProductList = ProductList;
             return View();
         }
@@ -433,8 +482,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             //ViewBag
             ViewBag.ProductAttribute = product.pro_attribute;
             ViewBag.ProductImage = product.pro_img;
-            ViewBag.CategoryList = CategoryList;
-            ViewBag.BrandList = BrandList;
+            ViewBag.CategoryList = CategoryList.Where(c => c.isAvailable == true).ToList();
+            ViewBag.BrandList = BrandList.Where(b => b.isAvailable == true).ToList();
             return View(product);
         }
 

@@ -1,9 +1,16 @@
-﻿@using SWP391_Group3_FinalProject.Models;
+﻿@using Newtonsoft.Json;
+@using SWP391_Group3_FinalProject.Models;
 
 @{
     ViewData["Title"] = "ProductPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
 
+    string Manager = Context.Session.GetString("Session");
+    Manager manager = new Manager();
+    if (Manager != null)
+    {
+        manager = JsonConvert.DeserializeObject<Manager>(Manager);
+    }
 }
 
 <div class="body-wrapper">
@@ -17,9 +24,13 @@
                     <div class="tabby-content">
                         <div class="col-12" style="text-align: center;">
                             <h1 class="Title">DANH SÁCH SẢN PHẨM TRONG KHO</h1>
-                            <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
-                                <i class="fa-solid fa-plus"></i> Add Product
-                            </button>
+                            @if(manager.isAdmin == true)
+                            {
+                                <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
+                                    <i class="fa-solid fa-plus"></i> Add Product
+                                </button>
+                            }
+                            
                             <button type="button" id="contact" class="btn btn-outline-primary m-1">Categories</button>
 
                             <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
@@ -76,10 +87,14 @@
                         <div id="contactForm3" class="col-3" style="height:650px;">
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">CATEGORIES</h1>
-                                <button type="button" id="contactAddCategory" class="btn btn-outline-primary m-1">
-                                    <i class="fa-solid fa-plus"></i>
-                                    Add
-                                </button>
+                                @if (manager.isAdmin == true)
+                                {
+                                    <button type="button" id="contactAddCategory" class="btn btn-outline-primary m-1">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Add
+                                    </button>
+                                }
+                               
                             </div>
                             <div style="overflow:scroll; height: 70%">
                             <table id="example2" class="table table-striped">
@@ -97,14 +112,16 @@
                                             <td>@items.cate_id</td>
                                             <td>@items.cate_name</td>
                                             <td>
+                                                    @if (manager.isAdmin == true)
+                                                    {
+                                                        <!--Edit-->
+                                                        <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-CatEdit="@items.cate_id" onclick="EditCat(this)"
+                                                           id="contactCategoryEdit"></i>
 
-                                                <!--Edit-->
-                                                <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-CatEdit="@items.cate_id" onclick="EditCat(this)"
-                                                   id="contactCategoryEdit"></i>
-
-                                                <!--Delete-->
-                                                <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
-                                            </td>
+                                                        <!--Delete-->
+                                                        <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                    }
+                                                </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -162,10 +179,14 @@
                         <div id="contactForm2" class="col-3">
                             <div class="col-12" style="text-align: center; padding: 10px;">
                                 <h1 class="Title">BRANDS</h1>
-                                <button type="button" class="btn btn-outline-primary m-1" id="contactAddBrand">
-                                    <i class="fa-solid fa-plus"></i>
-                                    Add
-                                </button>
+                                @if (manager.isAdmin == true)
+                                {
+                                    <button type="button" class="btn btn-outline-primary m-1" id="contactAddBrand">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Add
+                                    </button>
+                                }
+                               
                             </div>
                             <div style="overflow:scroll; height: 70%">
                                 <table id="example3" class="table table-striped" style="width:100%; overflow-y:scroll;">
@@ -183,13 +204,16 @@
                                                 <td>@items.brand_id</td>
                                                 <td>@items.brand_name</td>
                                                 <td>
-                                                    <!--Edit-->
-                                                    <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.brand_id" onclick="EditBrand(this)"
-                                                       id="contactBrandEdit"></i>
+                                                    @if (manager.isAdmin == true)
+                                                    {
+                                                        <!--Edit-->
+                                                        <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.brand_id" onclick="EditBrand(this)"
+                                                           id="contactBrandEdit"></i>
 
 
-                                                    <!--Delete-->
-                                                    <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        <!--Delete-->
+                                                        <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                    }
                                                 </td>
                                             </tr>
                                         }

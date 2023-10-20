@@ -1,8 +1,16 @@
-﻿@model SWP391_Group3_FinalProject.Models.Product
+﻿@using Newtonsoft.Json;
+@model SWP391_Group3_FinalProject.Models.Product
+@using SWP391_Group3_FinalProject.Models;
 
 @{
     ViewData["Title"] = "ProductDetailPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    string Manager = Context.Session.GetString("Session");
+    Manager manager = new Manager();
+    if (Manager != null)
+    {
+        manager = JsonConvert.DeserializeObject<Manager>(Manager);
+    }
 }
 
 <div class="body-wrapper">
@@ -23,16 +31,20 @@
                             <form method="POST" action="/Dashboard/EditProduct" enctype="multipart/form-data">
                                 <div class="row">
 
-                                    <div class="form-group" style="text-align: center;">
-                                        <button type="button" id="removeReadonlyButton"
-                                                class="btn btn-outline-primary m-1">
-                                            Enable Editing
-                                        </button>
-                                        <h3 id="messagehidden" style="color:red;">
-                                            The table is currently
-                                            readonly, clicked the above button to enable editing
-                                        </h3>
-                                    </div>
+                                    
+                                    @if(manager.isAdmin == true)
+                                    {
+                                        <div class="form-group" style="text-align: center;">
+                                            <button type="button" id="removeReadonlyButton"
+                                                    class="btn btn-outline-primary m-1">
+                                                Enable Editing
+                                            </button>
+                                            <h3 id="messagehidden" style="color:red;">
+                                                The table is currently
+                                                readonly, clicked the above button to enable editing
+                                            </h3>
+                                        </div>
+                                    }
 
                                     <!--Product Name -->
                                     <div class="col-md-6">
@@ -257,8 +269,8 @@
                                             <input type="submit" value="Submit" class="btn btn-primary"
                                                    id="hiddenButton" style="display: none;">
                                             <button id="resetButton" type="button" style="display: none;"
-                                                    class="btn btn-secondary">
-                                                Reset
+                                                    class="btn btn-danger">
+                                                Delete
                                             </button>
                                         </div>
                                     </div>
@@ -266,10 +278,6 @@
                             </form>
                         </div>
                         <!-- Product Info here-->
-
-
-
-
                     </div>
                 </div>
             </div>
