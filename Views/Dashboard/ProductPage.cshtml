@@ -50,35 +50,70 @@
                             <tbody>
                                 @foreach (var items in ViewBag.ProductList)
                                 {
-                                    <tr>
-                                        <td>@items.pro_id</td>
-                                        <td>@items.pro_name</td>
-                                        <td>
-                                            @{
-                                                int categoryId = items.cate_id;
-                                                var categoryList = ViewBag.CategoryList as List<Category>;
-                                                string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
-                                            }
-                                            @categoryName
-                                        </td>
-                                        <td>
-                                            @{
-                                                int brandyId = items.brand_id;
-                                                var brandList = ViewBag.BrandList as List<Brand>;
-                                                string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
-                                            }
-                                            @BrandName
+                                    
+                                    @if (items.pro_quan == 0)
+                                    {
+                                        <tr style="background-color: #FFC0CB;">
+                                            <td>@items.pro_id</td>
+                                            <td>@items.pro_name</td>
+                                            <td>
+                                                @{
+                                                    int categoryId = items.cate_id;
+                                                    var categoryList = ViewBag.CategoryList as List<Category>;
+                                                    string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                }
+                                                @categoryName
+                                            </td>
+                                            <td>
+                                                @{
+                                                    int brandyId = items.brand_id;
+                                                    var brandList = ViewBag.BrandList as List<Brand>;
+                                                    string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                }
+                                                @BrandName
 
-                                        </td>
-                                        <td>$@items.pro_price</td>
-                                        <td>@items.pro_quan</td>
+                                            </td>
+                                            <td>$@items.pro_price</td>
+                                            <td>@items.pro_quan</td>
 
-                                        <td style="color:#5D87FF;">
-                                            <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
-                                                View Details
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            <td style="color:#5D87FF;">
+                                                <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                    View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    } else
+                                    {
+                                        <tr>
+                                            <td>@items.pro_id</td>
+                                            <td>@items.pro_name</td>
+                                            <td>
+                                                @{
+                                                    int categoryId = items.cate_id;
+                                                    var categoryList = ViewBag.CategoryList as List<Category>;
+                                                    string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                }
+                                                @categoryName
+                                            </td>
+                                            <td>
+                                                @{
+                                                    int brandyId = items.brand_id;
+                                                    var brandList = ViewBag.BrandList as List<Brand>;
+                                                    string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                }
+                                                @BrandName
+
+                                            </td>
+                                            <td>$@items.pro_price</td>
+                                            <td>@items.pro_quan</td>
+
+                                            <td style="color:#5D87FF;">
+                                                <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                    View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </table>

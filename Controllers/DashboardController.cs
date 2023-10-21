@@ -4,6 +4,7 @@ using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Filter;
 using SWP391_Group3_FinalProject.Models;
 using System;
+using System.Collections.Generic;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -22,6 +23,11 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult Index()
         {
+            ProductDAO dao = new ProductDAO();
+            List<Product> list = dao.GetAllProduct();
+            var filteredProducts = list.Where(product => product.pro_quan == 0 || product.pro_quan == 1).ToList();
+            ViewBag.LowQuantityProduct = filteredProducts;
+
             return View();
         }
 
@@ -29,6 +35,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult StaffList()
         {
+
             return View();
         }
 

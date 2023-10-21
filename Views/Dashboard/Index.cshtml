@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-lg-4 ">
                     <div class="card w-100 shadowred">
-                        <div class="card-body p-4">
+                    <div class="card-body p-4" style="overflow-y: auto; height: 700px;">
                             <div class="mb-4">
                                 <h5 class="card-title fw-semibold mb-4" style="text-align: center; color: red;">OUT OF STOCKS</h5>
                                 <hr>
@@ -94,82 +94,20 @@
                                             </tr>
                                         </thead>
                                         <tbody class="body">
+                                        @foreach (var items in ViewBag.LowQuantityProduct)
+                                        {
                                             <tr>
                                                 <td class="border-bottom-1">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">KB009</h6>
+                                                    <h6 class="fw-semibold mb-0 text-lg-center">@items.pro_id</h6>
                                                 </td>
                                                 <td class="border-bottom-0" style="overflow: hidden; width: 50px;">
-                                                    <h6 class="fw-semibold mb-1">Akko Tokyo Pink </h6>
+                                                    <h6 class="fw-semibold mb-1 cut-text">@items.pro_name </h6>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
+                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">@items.pro_quan</p>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">MS001</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-1">DareU </h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">CH001</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <div>
-                                                        <h6 class="fw-semibold mb-1 cut-text">DXRacer Tank Ultimate Edition</h6>
-
-                                                    </div>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">CH001</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <div>
-                                                        <h6 class="fw-semibold mb-1 cut-text">DXRacer Tank Ultimate Edition</h6>
-                                                    </div>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">CH001</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <div>
-                                                        <h6 class="fw-semibold mb-1 cut-text">DXRacer Tank Ultimate Edition</h6>
-                                                    </div>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <h6 class="fw-semibold mb-0 text-lg-center">CH001</h6>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <div>
-                                                        <h6 class="fw-semibold mb-1 cut-text">DXRacer Tank Ultimate Edition</h6>
-                                                    </div>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">1</p>
-                                                </td>
-                                            </tr>
+                                        }
                                         </tbody>
                                     </table>
                                 </div>

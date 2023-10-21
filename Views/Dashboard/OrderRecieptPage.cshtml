@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "OrderRecieptPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
 }
@@ -27,6 +26,137 @@
                 <label for="tab-1" class="tabby-tablabel">PENDING ORDERS</label>
                 <div class="tabby-content">
                     <h1 class="Title">List of Pending Orders</h1>
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+
+                        <div class="invoice-box modal-content">
+                            <span class="close">&times;</span>
+                            <table cellpadding="0" cellspacing="0" style="color: black">
+                                <tr class="top">
+                                    <td colspan="3">
+                                        <table>
+                                            <tr>
+                                                <td class="title">
+                                                    <img src="~/source_img/advertising_img/GearShopBanner.png"
+                                                         style="width: 100%; max-width: 300px" />
+                                                </td>
+                                                <td style="text-align: end;">
+                                                    <span style="color: #5D87FF; font-weight:bold">Invoice #:</span> 1<br />
+                                                    <span style="color: #5D87FF; font-weight:bold">Created Date:</span> January 1, 2023<br />
+                                                    <span style="color: #5D87FF; font-weight:bold">Shipping Date:</span> To be Decided
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr class="information" style="color: black;">
+                                    <td colspan="3" style="padding-left: 0px;">
+                                        <table>
+                                            <tr>
+                                                <td style="padding: 0px;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color: #5D87FF; font-weight:bold">Fullname:</span>
+
+                                                            </td>
+                                                            <td>
+                                                                Nguyen Huu Duy
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color: #5D87FF; font-weight:bold">Phone Number:</span>
+
+                                                            </td>
+                                                            <td>
+                                                                0907124350
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color: #5D87FF; font-weight:bold">Email:</span>
+                                                            </td>
+                                                            <td>
+                                                                tin66hv@gmail.com
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="color: #5D87FF; font-weight:bold">In Charge:</span>
+                                                            </td>
+                                                            <td>
+                                                                To be Decided
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td style="text-align: end;">
+                                                    11 Tran Bach Dang, Ninh Kieu, Can Tho
+                                                </td>
+
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr class="heading">
+                                    <td colspan="3" style="color: #5D87FF;">Reminder</td>
+
+                                </tr>
+
+                                <tr class="details">
+                                    <td colspan="3">Delivery at noon</td>
+
+                                </tr>
+
+                                <tr class="heading" style="color: #5D87FF;">
+                                    <td>Item</td>
+
+                                    <td>Quantity</td>
+
+                                    <td>Price</td>
+                                </tr>
+
+                                <tr class="item">
+                                    <td>Website design</td>
+
+                                    <td>3</td>
+
+                                    <td>$300.00</td>
+                                </tr>
+
+                                <tr class="item">
+                                    <td>Hosting (3 months)</td>
+
+                                    <td>6</td>
+
+                                    <td>$300.00</td>
+                                </tr>
+
+                                <tr class="item last">
+                                    <td>Domain name (1 year)</td>
+
+                                    <td>3</td>
+
+                                    <td>$300.00</td>
+                                </tr>
+
+                                <tr class="total">
+                                    <td></td>
+
+                                    <td></td>
+                                    <td>Total: $385.00</td>
+                                </tr>
+                            </table>
+                            <button class="btn btn-primary">Accept Order</button>
+                        </div>
+
+
+                    </div>
                     <div class="col-12">
                         <div class="row " style=" padding-bottom: 20px;">
                             <div class="col-2">
@@ -61,7 +191,7 @@
                                 <td>0907124350</td>
                                 <td>$500</td>
                                 <td>2012-04-25</td>
-                                <td> <a class="SmallTitle">Show Order</a></td>
+                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
                             </tr>
 
 
@@ -233,9 +363,6 @@
                                 <td>2012-04-25</td>
                                 <td> <a class="SmallTitle">Show Order</a></td>
                             </tr>
-
-
-
                         </tbody>
                     </table>
                     <script>
@@ -283,4 +410,32 @@
         <!--  Row 1 -->
     </div>
 </div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 

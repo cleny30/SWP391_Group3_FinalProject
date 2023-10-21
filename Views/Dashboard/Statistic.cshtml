@@ -1,7 +1,13 @@
-﻿
+﻿@using System.Globalization;
+
 @{
     ViewData["Title"] = "Statistic";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    DateTime currentDate = DateTime.Now;
+
+    // Get the current month as an integer (1 for January, 2 for February, and so on)
+    int currentMonth = currentDate.Month;
+    string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth);
 }
 
 <div class="body-wrapper">
@@ -12,7 +18,7 @@
                 <input type="radio" id="tab-1" name="tabby-tabs" checked>
                 <label for="tab-1" class="tabby-tablabel">SẢN PHẨM</label>
                 <div class="tabby-content">
-                    <h1 class="Title">Sản phẩm bán trong tháng 9</h1>
+                    <h1 class="Title">Product sale in @monthName</h1>
                     <!--Danh sách sản phẩm sort theo số lượng bán-->
                     <table id="example" class="table table-striped" style="width:100%">
                         <thead>
@@ -63,7 +69,7 @@
                 <input type="radio" id="tab-2" name="tabby-tabs">
                 <label for="tab-2" class="tabby-tablabel">KHÁCH HÀNG</label>
                 <div class="tabby-content">
-                    <h1 class="Title">Khách hàng thân thiết trong tháng 9</h1>
+                    <h1 class="Title">Customer Purchases in @monthName</h1>
                     <!--Danh sách account sort theo số tiền sử dụng-->
                     <table id="example2" class="table table-striped" style="width:100%">
                         <thead>
@@ -103,7 +109,7 @@
                 <input type="radio" id="tab-3" name="tabby-tabs">
                 <label for="tab-3" class="tabby-tablabel">DOANH THU</label>
                 <div class="tabby-content">
-                    <h1 class="Title" style="padding-bottom: 20px;">Doanh thu trong tháng 9</h1>
+                    <h1 class="Title" style="padding-bottom: 20px;">Revenue in @monthName</h1>
                     <!--Thống kê doanh thu và có bảng-->
                     <table class="col-3 centerTable">
                         <tr class="DoanhThu">
