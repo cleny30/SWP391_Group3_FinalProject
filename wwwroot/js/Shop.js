@@ -29,11 +29,32 @@ function Order(element) {
     var order = element.getAttribute("data-order");
     var url = window.location.href;
 
-    if (order.length > 0) {
-        url += (url.includes("?") ? "&" : "?") + 'order=' + order;
+    // Kiểm tra nếu order === 'standout', loại bỏ tham số 'order' trong URL
+    if (order === 'standout') {
+        url = url.replace(/([&?])order=[^&]+/, ''); // Loại bỏ tham số 'order'
+        url = url.replace(/[?&]$/, ''); // Loại bỏ dấu '?' hoặc '&' cuối cùng nếu có
+    } else {
+        if (url.includes("order=")) {
+            // Nếu URL đã có 'order=highest' thì thay thế nó bằng 'order=lowest'
+            url = url.replace('order=highest', 'order=lowest');
+            if (order === 'highest') {
+                if (url.includes("order=lowest")) {
+                    url = url.replace('order=lowest', 'order=highest');
+                }
+            } else if (order === 'lowest') {
+                if (url.includes("order=highest")) {
+                    url = url.replace('order=highest', 'order=lowest');
+                }
+            }
+        } else if (order.length > 0) {
+            // Nếu không có 'order=highest' trong URL, thì kiểm tra xem có '?' trong URL chưa
+            url += (url.includes("?") ? "&" : "?") + 'order=' + order;
+        }
     }
+
     window.location.href = url;
 }
+
 
 
 
