@@ -151,7 +151,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             Manager manager = dao.GetManagerByUsername(username);
 
-            if (cus.username != null || manager != null)
+            if (cus != null || manager != null)
             {
                 return Content("true");
             }

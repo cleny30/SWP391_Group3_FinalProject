@@ -8,6 +8,8 @@ using System.Collections.Generic;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
+    [ServiceFilter(typeof(LoginFilter))]
+    [ServiceFilter(typeof(ManagerFilter))]
     public class DashboardController : Controller
     {
         //Trang chủ của dashboard
@@ -20,7 +22,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             _environment = environment;
         }
 
-        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult Index()
         {
             ProductDAO dao = new ProductDAO();
@@ -32,14 +33,14 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult StaffList()
         {
 
             return View();
         }
 
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult CreateAccount()
         {
             return View();
@@ -61,7 +62,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Trang để coi đơn nhập hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult ImportReceipts()
         {
             ImportRecieptDAO IRdao = new ImportRecieptDAO();
@@ -74,7 +75,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Logging out for Admin And Staff
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult Logout()
         {
             //Delete Session
@@ -156,7 +157,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để cho admin thêm sản phẩm để bán
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult ImportProduct()
         {
 
@@ -224,7 +225,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để coi giỏ hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult ProductPage()
         {
             ProductDAO dao = new ProductDAO();
@@ -243,14 +244,14 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Statistic page
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult Statistic()
         {
             return View();
         }
 
         //Coi đơn hàng của khách hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult OrderRecieptPage()
         {
             return View();
