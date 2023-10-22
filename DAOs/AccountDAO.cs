@@ -141,9 +141,9 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@username", username);
             using (_reader = _command.ExecuteReader())
             {
-                Addresses add = new Addresses();
                 while (_reader.Read())
                 {
+                    Addresses add = new Addresses();
                     add.address = _reader.GetString(1);
                     add.fullname = _reader.GetString(2);
                     add.phonenum = _reader.GetString(3);

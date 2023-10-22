@@ -64,6 +64,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 List<Addresses> list = dao.GetCustomerAddress(username);
                 if (list.Count() > 0)
                 {
+                    cus.addresses = new List<Addresses>();
                     cus.addresses.AddRange(list);
                 }
 
