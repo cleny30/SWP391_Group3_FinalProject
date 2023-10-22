@@ -79,27 +79,15 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult Logout()
         {
             //Delete Session
-            string ManagerInfo, role;
-            ManagerInfo = _contx.HttpContext.Session.GetString("Session");
-            role = _contx.HttpContext.Session.GetString("action");
-
-            if (!string.IsNullOrEmpty(ManagerInfo) && !string.IsNullOrEmpty(role))
-            {
+            string ManagerInfo, role;          
                 _contx.HttpContext.Session.Remove("Session");
                 _contx.HttpContext.Session.Remove("action");
-            }
-
-            //Delete Cookie
-            if (Request.Cookies.ContainsKey("username"))
+            
+            int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+            if (cookievalue != null)
             {
-                // The "username" cookie is present. You can choose to delete it or perform other actions.
-                HttpContext.Response.Cookies.Delete("username");
-            }
-
-            if (Request.Cookies.ContainsKey("role"))
-            {
-                // The "role" cookie is present. You can choose to delete it or perform other actions.
-                HttpContext.Response.Cookies.Delete("role");
+                Response.Cookies.Delete("username");
+                Response.Cookies.Delete("role");
             }
             return RedirectToAction("Index", "Home");
         }
