@@ -82,8 +82,11 @@ namespace SWP391_Group3_FinalProject.Controllers
             string ManagerInfo, role;          
                 _contx.HttpContext.Session.Remove("Session");
                 _contx.HttpContext.Session.Remove("action");
-            
-            int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+            int cookievalue = 0;
+            if(_contx.HttpContext.Request.Cookies["role"] != null)
+            {
+                cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+            }
             if (cookievalue != null)
             {
                 Response.Cookies.Delete("username");
