@@ -121,7 +121,7 @@ function validateEmail() {
         });
     }
     // If you reach here, the form submission will be allowed
-    return false;
+    return true;
 }
 
 
@@ -152,7 +152,7 @@ function validateForm() {
         });
     }
     // If you reach here, the form submission will be allowed
-    return false;
+    return true;
 } 
 
 function Validate() {

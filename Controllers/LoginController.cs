@@ -152,11 +152,11 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             Manager manager = dao.GetManagerByUsername(username);
 
-            if (cus != null && manager != null)
+            if (cus.username == null && manager == null)
             {
-                return Content("true");
+                return Content("false");
             }
-            return Content("false");
+            return Content("true");
         }
 
         [HttpPost]
