@@ -12,275 +12,286 @@
         manager = JsonConvert.DeserializeObject<Manager>(Manager);
     }
 }
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 <div class="body-wrapper">
     <div class="container">
         <div class="container">
             <h1 class="Header">PRODUCTS MANAGEMENT</h1>
-            <div class="tabs">
-                <div class="tabby-tab">
-                    <input type="radio" id="tab-1" name="tabby-tabs" checked>
-                    <label for="tab-1" class="tabby-tablabel">PRODUCT INFORMATION</label>
-                    <div class="tabby-content">
-                        <!-- Product Info here-->
-                        <div id="" class="col-12">
-                            <div class="col-12" style="text-align: center; padding: 10px;">
-                                <h1 class="Title">PRODUCT INFORMATION</h1>
+                <div class=" p-4 BoxStyle rounded-4" style="border-color: #5D87FF; border-style:solid; border-width:8px;">                   
+                    <div id="" class="col-12">                       
+                        <div class="col-12" style="text-align: center; padding: 10px;">
+                            <h1 class="Title">PRODUCT INFORMATION</h1>
 
-                            </div>
-                            <form method="POST" action="/Dashboard/EditProduct" enctype="multipart/form-data">
-                                <div class="row">
-
-                                    
-                                    @if(manager.isAdmin == true)
-                                    {
-                                        <div class="form-group" style="text-align: center;">
-                                            <button type="button" id="removeReadonlyButton"
-                                                    class="btn btn-outline-primary m-1">
-                                                Enable Editing
-                                            </button>
-                                            <h3 id="messagehidden" style="color:red;">
-                                                The table is currently
-                                                readonly, clicked the above button to enable editing
-                                            </h3>
-                                        </div>
-                                    }
-
-                                    <!--Product Name -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label" for="pro_name">Product Name</label>
-                                            <input type="text" class="form-control" name="pro_name"
-                                                   id="pro_name" value="@Model.pro_name" readonly>
-
-                                            <input type="hidden" class="form-control" name="pro_id"
-                                                   id="pro_name" value="@Model.pro_id" readonly>
-                                            <!--Get Value from Database-->
-                                        </div>
+                        </div>
+                   
+                        <form method="POST" action="/Dashboard/EditProduct" enctype="multipart/form-data">
+                            <div class="row">                            
+                                @if (manager.isAdmin == true)
+                                {
+                                    <div class="form-group" style="text-align: center;">
+                                        <button type="button" id="removeReadonlyButton"
+                                                class="btn btn-outline-primary m-1">
+                                            Enable Editing
+                                        </button>
+                                        <h3 id="messagehidden" style="color:red;">
+                                            The table is currently
+                                            readonly, clicked the above button to enable editing
+                                        </h3>
                                     </div>
-                                    <!--Product Name -->
-                                    <!--Price -->
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="label" for="pro_price">Price</label>
-                                            <input type="number" class="form-control" name="pro_price"
-                                                   id="pro_price" value="@Model.pro_price" readonly> 
-                                            <!--Get Value from Database-->
-                                        </div>
-                                    </div>
-                                    <!--Price -->
-                                    <!--Price -->
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="label" for="pro_price">Discount Percent</label>
-                                            <input type="number" class="form-control" name="discount"
-                                                   id="pro_discount" value="@Model.discount" readonly> 
-                                            <!--Get Value from Database-->
-                                        </div>
-                                    </div>
-                                    <!--Price -->
-                                    <!--Categories -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label" for="category">Category</label>
+                                }
 
-                                            <select name="cate_id" class="form-control" id="cate_id" disabled>
-                                                @foreach (var category in ViewBag.CategoryList)
+                                <!--Product Name -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="pro_name">Product Name</label>
+                                        <input type="text" class="form-control" name="pro_name"
+                                               id="pro_name" value="@Model.pro_name" readonly>
+
+                                        <input type="hidden" class="form-control" name="pro_id"
+                                               id="pro_name" value="@Model.pro_id" readonly>
+                                        <!--Get Value from Database-->
+                                    </div>
+                                </div>
+                                <!--Product Name -->
+                                <!--Price -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="pro_price">Price</label>
+                                        <input type="number" class="form-control" name="pro_price"
+                                               id="pro_price" value="@Model.pro_price" readonly>
+                                        <!--Get Value from Database-->
+                                    </div>
+                                </div>
+                                <!--Price -->
+                                <!--Price -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="pro_price">Discount Percent</label>
+                                        <input type="number" class="form-control" name="discount"
+                                               id="pro_discount" value="@Model.discount" readonly>
+                                        <!--Get Value from Database-->
+                                    </div>
+                                </div>
+                                <!--Price -->
+                                <!--Categories -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="category">Category</label>
+
+                                        <select name="cate_id" class="form-control" id="cate_id" disabled>
+                                            @foreach (var category in ViewBag.CategoryList)
+                                            {
+                                                <option value="@category.cate_id" @(Model.cate_id == category.cate_id ? "selected" : "")>@category.cate_name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <!--Categories -->
+                                <!--Brands -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="brand">Brand</label>
+
+                                        <select name="brand_id" class="form-control" id="brand_id" disabled>
+                                            @foreach (var brand in ViewBag.BrandList)
+                                            {
+                                                <option value="@brand.brand_id" @(Model.brand_id == brand.brand_id ? "selected" : "")>@brand.brand_name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <!--Brands -->
+                                <!--Add Images -->
+                                <div class="col-md-6 ">
+                                    <h1 class="Title" style="padding: 10px;">Images List</h1>
+                                    <div id="room_fileds_image">
+                                        <div class="content">
+                                            <!--Foreach cho hình ảnh đã có sẵn trong database theo ID của sản phẩm-->
+                                            @foreach (var pictures in ViewBag.ProductImage)
+                                            {
+                                                string input = pictures;
+
+                                                int count = 0;
+                                                string[] parts = input.Split('_');
+                                                if (parts.Length >= 2)
                                                 {
-                                                    <option value="@category.cate_id" @(Model.cate_id == category.cate_id ? "selected" : "")>@category.cate_name</option>
-                                                }
-                                            </select>
+                                                    string numericPart = parts[parts.Length - 1];
 
-                                        </div>
-                                    </div>
-                                    <!--Categories -->
-                                    <!--Brands -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="label" for="brand">Brand</label>
-
-                                            <select name="brand_id" class="form-control" id="brand_id" disabled>
-                                                @foreach (var brand in ViewBag.BrandList)
-                                                {
-                                                    <option value="@brand.brand_id" @(Model.brand_id == brand.brand_id ? "selected" : "")>@brand.brand_name</option>
-                                                }
-                                            </select>
-
-                                        </div>
-                                    </div>
-                                    <!--Brands -->
-                                    <!--Add Images -->
-                                    <div class="col-md-6 ">
-                                        <h1 class="Title" style="padding: 10px;">Images List</h1>
-                                        <div id="room_fileds_image">
-                                            <div class="content">
-                                                <!--Foreach cho hình ảnh đã có sẵn trong database theo ID của sản phẩm-->
-                                                @foreach (var pictures in ViewBag.ProductImage)
-                                                {
-                                                    string input = pictures;
-
-                                                    int count = 0;
-                                                    string[] parts = input.Split('_');
-                                                    if (parts.Length >= 2)
+                                                    // Remove the file extension, if any
+                                                    int dotIndex = numericPart.LastIndexOf('.');
+                                                    if (dotIndex != -1)
                                                     {
-                                                        string numericPart = parts[parts.Length - 1];
-
-                                                        // Remove the file extension, if any
-                                                        int dotIndex = numericPart.LastIndexOf('.');
-                                                        if (dotIndex != -1)
-                                                        {
-                                                            numericPart = numericPart.Substring(0, dotIndex);
-                                                        }
-
-                                                        // Try to parse the numeric part
-                                                        if (int.TryParse(numericPart, out int number))
-                                                        {
-                                                            count = number;
-                                                        }
-                                                        else
-                                                        {
-                                                            Console.WriteLine("Numeric part is not a valid integer.");
-                                                        }
+                                                        numericPart = numericPart.Substring(0, dotIndex);
                                                     }
 
-                                                    string[] parts2 = pictures.Split('\\');
-                                                    string filenameWithExtension = parts2[parts2.Length - 1];
+                                                    // Try to parse the numeric part
+                                                    if (int.TryParse(numericPart, out int number))
+                                                    {
+                                                        count = number;
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Numeric part is not a valid integer.");
+                                                    }
+                                                }
 
-                                                    // Remove the file extension
-                                                    string[] filenameParts = filenameWithExtension.Split('.');
-                                                    string filenameWithoutExtension = filenameParts[0];
-                                                    int counter = 1;
+                                                string[] parts2 = pictures.Split('\\');
+                                                string filenameWithExtension = parts2[parts2.Length - 1];
 
-                                                    <div name="PictureOrInput">
-                                                        <div class="row">
-                                                           
-                                                                 <div class="col-6">
-                                                                <img src="@pictures"
-                                                                     alt="Smiley face" class="imgStyle" width="200"
-                                                                     height="200" title="Original Image" id="imgPicture" />
-                                                                     </div>
-                                                            
+                                                // Remove the file extension
+                                                string[] filenameParts = filenameWithExtension.Split('.');
+                                                string filenameWithoutExtension = filenameParts[0];
+                                                int counter = 1;
+
+                                                <div name="PictureOrInput">
+                                                    <div class="row">
+
+                                                        <div class="col-6">
+                                                            <img src="@pictures"
+                                                                 alt="Smiley face" class="imgStyle" width="200"
+                                                                 height="200" title="Original Image" id="imgPicture" />
                                                         </div>
-                                                    
-                                                        
+
+                                                    </div>
+
+
                                                     <div class="hidden" style="display: none;">
-                                                            <button class="delete-image btn btn-danger " data-src="@pictures">Delete</button>
+                                                        <button class="delete-image btn btn-danger " data-src="@pictures">Delete</button>
                                                         <!--Input File-->
-                                                            <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
-                                                           
-                                                            <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
-                                                            <!--Input File-->
+                                                        <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
+
+                                                        <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
+                                                        <!--Input File-->
                                                         <label style="color: red;">
                                                             Input a new file to change
                                                             the image
                                                         </label>
                                                     </div>
-                                                    </div>
-                                                    counter++;
-                                                }
-                                                <!--Foreach-->
-                                                <input type="hidden" id="selectedImages" name="selectedImages" value="">
-                                                <script>
-                                                    document.addEventListener("DOMContentLoaded", function () {
-                                                        const deleteButtons = document.querySelectorAll(".delete-image");
-                                                        const selectedImagesInput = document.getElementById("selectedImages");
-                                                        const imageContainers = document.querySelectorAll('div[name="PictureOrInput"]');
+                                                </div>
+                                                counter++;
+                                            }
+                                            <!--Foreach-->
+                                            <input type="hidden" id="selectedImages" name="selectedImages" value="">
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    const deleteButtons = document.querySelectorAll(".delete-image");
+                                                    const selectedImagesInput = document.getElementById("selectedImages");
+                                                    const imageContainers = document.querySelectorAll('div[name="PictureOrInput"]');
 
-                                                        const selectedImages = [];
+                                                    const selectedImages = [];
 
-                                                        deleteButtons.forEach((button, index) => {
-                                                            button.addEventListener("click", function () {
-                                                                const src = button.getAttribute("data-src");
-                                                                selectedImages.push(src);
-                                                                selectedImagesInput.value = JSON.stringify(selectedImages);
+                                                    deleteButtons.forEach((button, index) => {
+                                                        button.addEventListener("click", function () {
+                                                            const src = button.getAttribute("data-src");
+                                                            selectedImages.push(src);
+                                                            selectedImagesInput.value = JSON.stringify(selectedImages);
 
-                                                                // Optionally, you can provide some visual feedback that the image is selected for deletion.
-                                                                // Remove the entire image container (div)
-                                                                imageContainers[index].remove();
-                                                            });
+                                                            // Optionally, you can provide some visual feedback that the image is selected for deletion.
+                                                            // Remove the entire image container (div)
+                                                            imageContainers[index].remove();
                                                         });
                                                     });
-                                                </script>
-                                            </div>
+                                                });
+                                            </script>
                                         </div>
-                                        <br>
-                                        <input class="btn btn-outline-primary m-1" type="button"
-                                               id="more_fieldsimage" onclick="add_fieldsImage();"
-                                               value="Add new Image" style="display: none;" />
                                     </div>
-                                    <div class="col-md-6 ">
-                                        <h1 class="Title" style="padding: 10px;">Attribute List</h1>
+                                    <br>
+                                    <input class="btn btn-outline-primary m-1" type="button"
+                                           id="more_fieldsimage" onclick="add_fieldsImage();"
+                                           value="Add new Image" style="display: none;" />
+                                </div>
+                                <div class="col-md-6 ">
+                                    <h1 class="Title" style="padding: 10px;">Attribute List</h1>
 
-                                        <!--Add Attribute-->
-                                        <div id="room_fileds">
-                                            <div class="content">
-                                                <!--Foreach lấy trong database theo ID của sản phẩm-->
-                                                @foreach (var pair in ViewBag.ProductAttribute)
-                                                {
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="attname">Attribute</label>
-                                                                <input class="form-control" type="text" name="feature" value="@pair.Key" id="attname" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="attDes">Description</label>
-                                                                <input class="form-control" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3" style="margin-top:21px">
-                                                            <button class="btn btn-danger delete-button" style="display:none;" onclick="deleteRow(this)">X</button>
+                                    <!--Add Attribute-->
+                                    <div id="room_fileds">
+                                        <div class="content">
+                                            <!--Foreach lấy trong database theo ID của sản phẩm-->
+                                            @foreach (var pair in ViewBag.ProductAttribute)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="attname">Attribute</label>
+                                                            <input class="form-control" type="text" name="feature" value="@pair.Key" id="attname" readonly>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="attDes">Description</label>
+                                                            <input class="form-control" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3" style="margin-top:21px">
+                                                        <button class="btn btn-danger delete-button" style="display:none;" onclick="deleteRow(this)">X</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <script>
+                                                function deleteRow(button) {
+                                                    var row = button.closest('.row'); // Find the closest parent row element
+                                                    row.remove(); // Remove the row from the DOM
                                                 }
-                                                <script>
-                                                    function deleteRow(button) {
-                                                        var row = button.closest('.row'); // Find the closest parent row element
-                                                        row.remove(); // Remove the row from the DOM
-                                                    }
-                                                </script>
+                                            </script>
 
-                                                <!--Foreach-->
-                                            </div>
+                                            <!--Foreach-->
                                         </div>
-                                        <br>
-                                        <input class="btn btn-outline-primary m-1" type="button"
-                                               id="more_fields" onclick="add_fieldsDetails();"
-                                               value="Add new Details" style="display: none;" />
                                     </div>
-                                    <!--Add Attribute-->
-                                    <hr style="padding: 10px; ">
-                                    <!--Description -->
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="label" for="#">Description</label>
-                                            <textarea name="pro_des" class="form-control" id="message"
-                                                      cols="30" rows="10" placeholder="Description"
-                                                      readonly> @Model.pro_des</textarea>
-                                        </div> <!--Get Value trên Database-->
+                                    <br>
+                                    <input class="btn btn-outline-primary m-1" type="button"
+                                           id="more_fields" onclick="add_fieldsDetails();"
+                                           value="Add new Details" style="display: none;" />
+                                </div>
+                                <!--Add Attribute-->
+                                <hr style="padding: 10px; ">
+                                <!--Description -->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="#">Description</label>
+                                        <textarea name="pro_des" class="form-control" id="message"
+                                                  cols="30" rows="10" placeholder="Description"
+                                                  readonly> @Model.pro_des</textarea>
+                                    </div> <!--Get Value trên Database-->
+                                </div>
+                                <!--Description -->
+                            <div id="myModal" class="modal" >
+                                <div class=" modal-content invoice-box" style="left:6%">
+                                    <span class="close">&times;</span>
+                                    <div style="text-align: center">
+                                        <i class="fa-solid fa-triangle-exclamation fa-10x" style="color: red;"></i>
                                     </div>
-                                    <!--Description -->
-
-                                    <div class="col-md-12">
-                                        <div class="form-group"
-                                             style="text-align: center; padding-top: 20px;">
-                                            <input type="submit" value="Submit" class="btn btn-primary"
-                                                   id="hiddenButton" style="display: none;">
-                                            <button id="resetButton" type="button" style="display: none;"
-                                                    class="btn btn-danger">
-                                                Delete
-                                            </button>
-                                        </div>
+                                    <h1 style="text-align:center; color:red; font-weight:bold">You are about to disable this product!</h1>
+                                    <div style="text-align:center">
+                                        <a class="btn btn-danger" href="/Dashboard/DisableProduct/@Model.pro_id">Proceed</a>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <!-- Product Info here-->
+                            </div>
+                                <div class="col-md-12">
+                                    <div class="form-group"
+                                         style="text-align: center; padding-top: 20px;">
+                                        <input type="submit" value="Submit" class="btn btn-primary"
+                                               id="hiddenButton" style="display: none;">
+                                        
+                                    @if(Model.isAvailable == true)
+                                    {
+                                        <button id="myBtn" name="myBtn" type="button" style="display: none;"
+                                                class="btn btn-danger">
+                                            Disable
+                                        </button>
+                                    }else
+                                    {
+                                        <a class="btn btn-secondary" type="button" name="myBtn" style="display: none;" href="/Dashboard/EnableProduct/@Model.pro_id">Enable</a>
+                                    }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div>
-            </div>
+                 </div>
+           
         </div>
     </div>
 </div>
@@ -365,10 +376,14 @@
         if (hiddenButton.style.display === 'none') {
             hiddenButton.style.display = 'inline';
         }
-        var hiddenButton = document.getElementById('resetButton');
-        if (hiddenButton.style.display === 'none') {
-            hiddenButton.style.display = 'inline';
+        var hiddenButtons = document.getElementsByName('myBtn');
+
+        for (var i = 0; i < hiddenButtons.length; i++) {
+            if (hiddenButtons[i].style.display === 'none') {
+                hiddenButtons[i].style.display = 'inline';
+            }
         }
+
 
         var hiddenButton = document.getElementById('more_fieldsimage');
         if (hiddenButton.style.display === 'none') {
@@ -380,10 +395,11 @@
             hiddenButton.style.display = 'inline';
         }
 
+        
         var hiddenButton = document.getElementById('messagehidden');
         hiddenButton.style.display = 'none';
 
-
+        document.getElementById('removeReadonlyButton').style.display = 'none';
     });
 
     document.getElementById('removeReadonlyButton').addEventListener('click', function () {
@@ -397,11 +413,6 @@
     });
 </script>
 
-<script>
-    document.getElementById('resetButton').addEventListener('click', function () {
-        location.reload;
-    });
-</script>
 
 <script>
     var showButtons = document.getElementById('removeReadonlyButton');
@@ -415,4 +426,45 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('.click').click(function () {
+            $('.popup_box').css("display", "block");
+        });
+        $('.btn1').click(function () {
+            $('.popup_box').css("display", "none");
+        });
+        $('.btn2').click(function () {
+            $('.popup_box').css("display", "none");
+            alert("Account Permanently Deleted.");
+        });
+    });
 
+</script>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

@@ -432,6 +432,38 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
 
+
+        public void DisableProduct(string ID)
+        {
+            _command.CommandText = "update  Product set isAvailable = 0 where pro_id = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
+
+        public void EnableProduct(string ID)
+        {
+            _command.CommandText = "update  Product set isAvailable = 1 where pro_id = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
+
+        public void DisableBrand(int ID)
+        {
+            _command.CommandText = "update Brand set isAvailable = 0 where Brand_ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
+
+        public void DisableCategory(int ID)
+        {
+            _command.CommandText = "update Category set isAvailable = 0 where Cat_ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
+            _command.ExecuteNonQuery();
+        }
         //------------------------------------------------------------------------------------------------------------
         //START BRAND CRUD
         public List<Brand> GetAllBrand()

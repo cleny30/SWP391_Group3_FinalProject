@@ -230,7 +230,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             //ViewBag
             ViewBag.BrandList = BrandList.Where(brand => brand.isAvailable == true).ToList();
             ViewBag.CategoryList = CategoryList.Where(cate => cate.isAvailable == true).ToList();
-            ViewBag.ProductList = ProductList;
+            ViewBag.ProductList = ProductList.Where(pro => pro.isAvailable == true).ToList();
+            ViewBag.ProductListDisable = ProductList.Where(pro => pro.isAvailable == false).ToList();
             return View();
         }
 
@@ -610,7 +611,34 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         }
 
+        public IActionResult DisableProduct(string ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableProduct(ID);
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
 
+        public IActionResult EnableProduct(string ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.EnableProduct(ID);
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+
+        public IActionResult DisableBrand(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableBrand(ID);
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        public IActionResult DisableCategory(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableCategory(ID);
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
     }
 
 }

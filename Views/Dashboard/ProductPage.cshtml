@@ -35,89 +35,177 @@
 
                             <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
                         </div>
-                        <table id="example" class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Brand</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var items in ViewBag.ProductList)
-                                {
-                                    
-                                    @if (items.pro_quan == 0)
+                        <button class="btn btn-primary" onclick="toggleDivs()" style="padding:7px; margin-bottom:7px " id="toggleButton">Show Disable Products </button>
+                        <div id="div1">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var items in ViewBag.ProductList)
                                     {
-                                        <tr style="background-color: #FFC0CB;">
-                                            <td>@items.pro_id</td>
-                                            <td>@items.pro_name</td>
-                                            <td>
-                                                @{
-                                                    int categoryId = items.cate_id;
-                                                    var categoryList = ViewBag.CategoryList as List<Category>;
-                                                    string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
-                                                }
-                                                @categoryName
-                                            </td>
-                                            <td>
-                                                @{
-                                                    int brandyId = items.brand_id;
-                                                    var brandList = ViewBag.BrandList as List<Brand>;
-                                                    string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
-                                                }
-                                                @BrandName
 
-                                            </td>
-                                            <td>$@items.pro_price</td>
-                                            <td>@items.pro_quan</td>
+                                        @if (items.pro_quan == 0)
+                                        {
+                                            <tr style="background-color: #FFC0CB;">
+                                                <td>@items.pro_id</td>
+                                                <td>@items.pro_name</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.cate_id;
+                                                        var categoryList = ViewBag.CategoryList as List<Category>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.brand_id;
+                                                        var brandList = ViewBag.BrandList as List<Brand>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                    }
+                                                    @BrandName
 
-                                            <td style="color:#5D87FF;">
-                                                <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
-                                                    View Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    } else
-                                    {
-                                        <tr>
-                                            <td>@items.pro_id</td>
-                                            <td>@items.pro_name</td>
-                                            <td>
-                                                @{
-                                                    int categoryId = items.cate_id;
-                                                    var categoryList = ViewBag.CategoryList as List<Category>;
-                                                    string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
-                                                }
-                                                @categoryName
-                                            </td>
-                                            <td>
-                                                @{
-                                                    int brandyId = items.brand_id;
-                                                    var brandList = ViewBag.BrandList as List<Brand>;
-                                                    string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
-                                                }
-                                                @BrandName
+                                                </td>
+                                                <td>$@items.pro_price</td>
+                                                <td>@items.pro_quan</td>
 
-                                            </td>
-                                            <td>$@items.pro_price</td>
-                                            <td>@items.pro_quan</td>
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@items.pro_id</td>
+                                                <td>@items.pro_name</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.cate_id;
+                                                        var categoryList = ViewBag.CategoryList as List<Category>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.brand_id;
+                                                        var brandList = ViewBag.BrandList as List<Brand>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                    }
+                                                    @BrandName
 
-                                            <td style="color:#5D87FF;">
-                                                <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
-                                                    View Details
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>$@items.pro_price</td>
+                                                <td>@items.pro_quan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="div2" style="display:none">
+                            <table id="example4" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var items in ViewBag.ProductListDisable)
+                                    {
 
+                                        @if (items.pro_quan == 0)
+                                        {
+                                            <tr style="background-color: #FFC0CB;">
+                                                <td>@items.pro_id</td>
+                                                <td>@items.pro_name</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.cate_id;
+                                                        var categoryList = ViewBag.CategoryList as List<Category>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.brand_id;
+                                                        var brandList = ViewBag.BrandList as List<Brand>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.pro_price</td>
+                                                <td>@items.pro_quan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@items.pro_id</td>
+                                                <td>@items.pro_name</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.cate_id;
+                                                        var categoryList = ViewBag.CategoryList as List<Category>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.brand_id;
+                                                        var brandList = ViewBag.BrandList as List<Brand>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.pro_price</td>
+                                                <td>@items.pro_quan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.pro_id })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                         <!--Beginning Of Categories Pop-up-->
                         <div id="contactForm3" class="col-3" style="height:650px;">
                             <div class="col-12" style="text-align: center; padding: 10px;">
@@ -154,7 +242,7 @@
                                                            id="contactCategoryEdit"></i>
 
                                                         <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this category and can not be undo');" href="" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        <a onclick="return confirm('You are about to delete this category and can not be undo');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                     }
                                                 </td>
                                         </tr>
@@ -247,7 +335,7 @@
 
 
                                                         <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this brand and can not be undo');" href=""><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        <a onclick="return confirm('You are about to delete this brand and can not be undo');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                     }
                                                 </td>
                                             </tr>
@@ -485,6 +573,22 @@
         objTo.appendChild(divtest)
     }
 </script>
+<script>
+    function toggleDivs() {
+        var div1 = document.getElementById("div1");
+        var div2 = document.getElementById("div2");
+        var toggleButton = document.getElementById("toggleButton");
 
+        if (div1.style.display === "block" || div1.style.display === "") {
+            div1.style.display = "none";
+            div2.style.display = "block";
+            toggleButton.innerHTML = 'Show Normal Product';
+        } else {
+            div1.style.display = "block";
+            div2.style.display = "none";
+            toggleButton.innerHTML = 'Show Disable Product';
+        }
+    }
+</script>
 <script src="~/assets/js/productpage.js"></script>
 <script src="~/assets/js/jsaddproduct.js"></script>
