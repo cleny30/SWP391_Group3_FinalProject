@@ -11,6 +11,14 @@
     {
         manager = JsonConvert.DeserializeObject<Manager>(Manager);
     }
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
+   
 }
 
 <div class="body-wrapper">
@@ -23,7 +31,7 @@
                     <label for="tab-1" class="tabby-tablabel">PRODUCTS</label>
                     <div class="tabby-content">
                         <div class="col-12" style="text-align: center;">
-                            <h1 class="Title">DANH SÁCH SẢN PHẨM TRONG KHO</h1>
+                            <h1 class="Title">PRODUCT IN STOCKS</h1>
                             @if(manager.isAdmin == true)
                             {
                                 <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
@@ -35,6 +43,12 @@
 
                             <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
                         </div>
+                       @if(Message != null && Message != ""){
+                            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                <strong>Success!</strong> @Message.
+                            </div>
+                        }
                         <button class="btn btn-primary" onclick="toggleDivs()" style="padding:7px; margin-bottom:7px " id="toggleButton">Show Disable Products </button>
                         <div id="div1">
                             <table id="example" class="table table-striped" style="width:100%">

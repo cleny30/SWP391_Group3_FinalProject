@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework.Profiler;
 using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Filter;
 using SWP391_Group3_FinalProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -353,7 +355,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 dao.EditBrandWithoutImage(brand);
             }
 
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Brand with ID " + brand.brand_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -362,6 +364,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.EditCategory(category);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Update Category with ID " + category.cate_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
 
         }
@@ -407,7 +410,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             
             dao.AddProductWithDetails(pro);
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Product with ID " + pro.pro_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -459,7 +462,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
 
 
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Brand with name " + brand.brand_name + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -468,6 +471,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.AddCategory(category);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Category with name " + category.cate_name + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -607,6 +611,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             dao.DeleteAttributeByID(pro.pro_id);
             dao.UpdateProductWithDetails(pro);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Update Product with ID " + pro.pro_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
 
         }
@@ -615,6 +620,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.DisableProduct(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Product with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -622,6 +628,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.EnableProduct(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Enable Product with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -630,6 +637,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.DisableBrand(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Brand with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -637,6 +645,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.DisableCategory(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Category with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
     }

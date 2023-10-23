@@ -258,13 +258,15 @@
                                 <!--Description -->
                             <div id="myModal" class="modal" >
                                 <div class=" modal-content invoice-box" style="left:6%">
-                                    <span class="close">&times;</span>
+                                    <span class="close" style="text-align:right">X</span>
                                     <div style="text-align: center">
-                                        <i class="fa-solid fa-triangle-exclamation fa-10x" style="color: red;"></i>
+                                        <i class="fa-solid fa-triangle-exclamation fa-10x" style="color: orange;"></i>
                                     </div>
-                                    <h1 style="text-align:center; color:red; font-weight:bold">You are about to disable this product!</h1>
+                                    
+                                    <h1 style="text-align:center; color:red; font-weight:bold">Customers will not see this product on the store front until you enable it again. Disable this product?</h1>
                                     <div style="text-align:center">
-                                        <a class="btn btn-danger" href="/Dashboard/DisableProduct/@Model.pro_id">Proceed</a>
+                                        <a class="btn btn-danger" href="/Dashboard/DisableProduct/@Model.pro_id">Disable</a>
+                                        <a class="btn btn-secondary closebutton" type="button">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -450,6 +452,7 @@
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
+    var span2 = document.getElementsByClassName("closebutton")[0];
 
     // When the user clicks the button, open the modal
     btn.onclick = function () {
@@ -458,6 +461,9 @@
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
+        modal.style.display = "none";
+    }
+    span2.onclick = function () {
         modal.style.display = "none";
     }
 
