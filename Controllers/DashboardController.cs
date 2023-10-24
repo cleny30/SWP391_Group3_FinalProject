@@ -96,6 +96,14 @@ namespace SWP391_Group3_FinalProject.Controllers
                 return Content("Success");
             }
         }
+
+
+        public IActionResult PersonalProfile()
+        {
+            return View();
+        }
+
+
         //Trang để coi đơn nhập hàng
 
         public IActionResult ImportReceipts()

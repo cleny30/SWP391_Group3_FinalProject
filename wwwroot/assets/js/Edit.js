@@ -174,7 +174,7 @@ function ShowStaff(element) {
             $('#Staff_Name').html(data.fullname);
             $('#Staff_PhoneNum').html(data.phone);
             $('#Staff_Email').html(data.email);
-            $('#Staff_SSN').html(data.SSN);
+            $('#Staff_SSN').html(data.ssn);
             $('#Staff_LivingAddress').html(data.address);
             $('#Staff_Username').html(data.username);
             $('#Staff_Password').html(data.password);
@@ -185,4 +185,16 @@ function ShowStaff(element) {
             console.error('Error:', textStatus, errorThrown);
         }
     });
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
