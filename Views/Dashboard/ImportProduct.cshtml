@@ -23,39 +23,60 @@
                             </h1>
                         </div>
                         <hr style="border: 3px solid black;">
-                        <table id="example" class="table table-striped" style="width:100%">
-                            
-                            <thead>
+                         <table id="example" class="display" style="width:100%">
+                            <thead style="">
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
                                     <th>Quantity</th>
                                     <th> </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="max-height: 200px; overflow-y: scroll;">
+
                                 @foreach (var items in ViewBag.LowQuantityProduct)
                                 {
                                     <tr>
+                                        <td>@items.pro_id</td>
+                                        <td>@items.pro_name</td>
+                                        <td>$@items.pro_price</td>
                                         <td>
-                                            @items.pro_id
+                                            @{
+                                                int brandyId = items.brand_id;
+                                                var brandList = ViewBag.BrandList as List<Brand>;
+                                                string BrandName = brandList?.FirstOrDefault(c => c.brand_id == brandyId)?.brand_name;
+                                            }
+                                            @BrandName
                                         </td>
                                         <td>
-                                            @items.pro_name
+                                            @{
+                                                int categoryId = items.cate_id;
+                                                var categoryList = ViewBag.CategoryList as List<Category>;
+                                                string categoryName = categoryList?.FirstOrDefault(c => c.cate_id == categoryId)?.cate_name;
+                                            }
+                                            @categoryName
                                         </td>
-                                        <td>
-                                            $@items.pro_price
-                                        </td>
-                                        <td style="color:red">
-                                            @items.pro_quan
-                                        </td>
+                                        <th >@items.pro_quan</th>
                                         <td>
                                             <button class="add-to-cart btn btn-primary"><i class="fa-solid fa-plus"></i></button>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </tfoot>
                         </table>
                         <hr style="border: 3px solid black;">
                     </div>
@@ -125,7 +146,7 @@
                         </table>
                         <hr style="border: 3px solid black;">
                     </div>
-                    <div class=" col-5 p-4 BoxStyle">
+                    <div class=" col-7 p-4 BoxStyle">
                         <div class="row">
                             <h1 class="ImportHeader col-md-12"
                                 style="border-style: none; font-size: x-large; padding-top: 20px; ">
@@ -145,21 +166,23 @@
                         <form id="cartForm" action="/Dashboard/GetImportProduct" method="post">
                             <hr style="border: 3px solid black;">
                             <input type="hidden" id="totalCartPriceNumber" name="totalCartPriceNumber">
-                            <table id="cart" class="table table-striped"
-                                   style="width:100%; background-color: white;">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>By Quantity</th>
-                                        <th>Quantity</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div style="width: 100%">
+                                <table id="cart" class="table table-striped"
+                                       style=" background-color: white;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>By Quantity</th>
+                                            <th>Quantity</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <hr style="border: 3px solid black;">
                             <div class="row">
@@ -391,45 +414,89 @@
 
     // Call the initial cart display
     displayCart();
+    function initializeDataTable1() {
+        new DataTable('#example', {
+            initComplete: function () {
+                this.api()
+                    .columns()
+                    .every(function (index) {
+                        let column = this;
 
-    function initializeDataTable() {
-    new DataTable('#example2', {
-        initComplete: function () {
-            this.api()
-                .columns()
-                .every(function (index) { // Added 'index' parameter
-                    let column = this;
+                        // Check if this is column 2 or 3
+                        if (index === 3 || index === 4) {
+                            // Create select element
+                            let select = document.createElement('select');
 
-                    // Check if this is the last column
-                    if (index !== (column.columns()[0].length - 1)) {
-                        // Create select element
-                        let select = document.createElement('select');
-                        select.add(new Option(''));
-                        column.footer().replaceChildren(select);
+                            // Add the "All" option
+                            select.add(new Option('All', ''));
 
-                        // Apply listener for user change in value
-                        select.addEventListener('change', function () {
-                            var val = DataTable.util.escapeRegex(select.value);
+                            // Replace the footer with the select element
+                            column.footer().replaceChildren(select);
 
-                            column
-                                .search(val ? '^' + val + '$' : '', true, false)
-                                .draw();
-                        });
+                            // Apply a listener for user changes in value
+                            select.addEventListener('change', function () {
+                                var val = DataTable.util.escapeRegex(select.value);
 
-                        // Add list of options
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                select.add(new Option(d));
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
                             });
-                    }
-                });
-        }
-    });
+
+                            // Add the list of options
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function (d, j) {
+                                    select.add(new Option(d));
+                                });
+                        }
+                    });
+            }
+        });
     }
-   
+    function initializeDataTable() {
+        new DataTable('#example2', {
+            initComplete: function () {
+                this.api()
+                    .columns()
+                    .every(function (index) {
+                        let column = this;
+
+                        // Check if this is column 2 or 3
+                        if (index === 3 || index === 4) {
+                            // Create select element
+                            let select = document.createElement('select');
+
+                            // Add the "All" option
+                            select.add(new Option('All', ''));
+
+                            // Replace the footer with the select element
+                            column.footer().replaceChildren(select);
+
+                            // Apply a listener for user changes in value
+                            select.addEventListener('change', function () {
+                                var val = DataTable.util.escapeRegex(select.value);
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                            // Add the list of options
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function (d, j) {
+                                    select.add(new Option(d));
+                                });
+                        }
+                    });
+            }
+        });
+    }
+    initializeDataTable1();
     initializeDataTable();
 </script>
 <script>
