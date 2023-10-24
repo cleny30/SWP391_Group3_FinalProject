@@ -91,11 +91,36 @@
                     {
                         @foreach (var item in ViewBag.ListOrder)
                         {
+                            var status = "";
+
+                            @switch (item.status)
+                            {
+                                case 1:
+                                    status = "Pending";
+                                    break;
+                                case 2:
+                                    status = "Accepted";
+                                    break;
+                                case 3:
+                                    status = "Delivering";
+                                    break;
+                                case 4:
+                                    status = "Completed";
+                                    break;
+                            }
+
                             <tr>
                                 <td class="align-middle">@item.orderId</td>
                                 <td class="align-middle">@item.startDay</td>
-                                <td class="align-middle">@item.endDay</td>
-                                <td class="align-middle">@item.status</td>
+                                @if (item.endDay != null)
+                                {
+                                    <td class="align-middle">@item.endDay</td>
+                                }
+                                else
+                                {
+                                    <td class="align-middle">Not Complete</td>
+                                }
+                                <td class="align-middle">@status</td>
                                 <td class="align-middle">$@item.totalPrice</td>
                                 <td class="align-middle">
                                     <button data-orderId="@item.orderId" onclick="openForm(this)" class="fa fa-eye"
@@ -105,11 +130,8 @@
                         }
                     }
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 </div>
     </div>
@@ -128,53 +150,48 @@
                 </div>
             </div>
             <div class="info">
-
                 <div class="row">
                     <div class="col-7">
                         <span id="heading">Date</span><br>
-                        <span id="details">10 October 2018</span>
+                        <span id="orderDateOD"></span>
                     </div>
                     <div class="col-5 pull-right">
                         <span id="heading">Full name</span><br>
-                        <span id="details">Nguyen Huu Duy</span>
+                        <span id="fullnameOD"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-7">
                         <span id="heading">Phone Number</span><br>
-                        <span id="details">0907124350</span>
+                        <span id="phonenumOD"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <span id="heading">Address</span><br>
-                        <span id="details">Ninh Kieu, Can Tho, 11 Tran Bach Dang</span>
+                        <span id="addressOD"></span>
                     </div>
                 </div>
-
 
             </div>
             <h2 class="title" style="font-size: 150%; text-align: center;">Order Summary</h2>
             <div class="pricing">
                 <div class="scroll" id="listOrderDetail">
-                    
                 </div>
             </div>
             <hr>
 
             <div class="total">
                 <div class="row">
-                    <h2 class="col-9"> Total Price</h2>
-                    <div class="col-3"><big>&pound;262.99</big></div>
+                    <h4 class="col-9">Shipping</h4>
+                    <div class="col-3" id="Shipping">10</div>
+                </div>
+                <div class="row">
+                    <h2 class="col-9">Total Price</h2>
+                    <div class="col-3" id="totalPriceRecipt"></div>
                 </div>
             </div>
-            <div class="progress-track">
-                <ul id="progressbar">
-                    <li class="step0 active " id="step1">Ordered</li>
-                    <li class="step0 active text-center" id="step2">Shipped</li>
-                    <li class="step0 active text-right" id="step3">On the way</li>
-                    <li class="step0  active text-right" id="step4">Delivered</li>
-                </ul>
+            <div class="progress-track" id="ODDancer">
             </div>
 
         </div>

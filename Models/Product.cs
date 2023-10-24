@@ -11,9 +11,6 @@
         public double pro_price { get; set; }
         public int discount { get; set; }
         public bool isAvailable { get; set; }
-
-
-
         public List<string> pro_img { get; set; } = new List<string>();
         public Dictionary<string, string> pro_attribute { get; set; } = new Dictionary<string, string>();
     }
