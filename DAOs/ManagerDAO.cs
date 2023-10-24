@@ -28,6 +28,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                 while (_reader.Read())
                 {
                     Manager manager = new Manager();
+                    manager.ID = _reader.GetInt32(0);
                     manager.username = _reader.GetString(1);
                     manager.email = _reader.GetString(2);
                     manager.password = _reader.GetString(3);
@@ -53,6 +54,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 if( _reader.Read())
                 {
+                    manager.ID = _reader.GetInt32(0);
                     manager.username = _reader.GetString(1);
                     manager.email = _reader.GetString(2);
                     manager.password = _reader.GetString(3);
@@ -78,6 +80,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 if (_reader.Read())
                 {
+                    manager.ID = _reader.GetInt32(0);
                     manager.username = _reader.GetString(1);
                     manager.email = _reader.GetString(2);
                     manager.password = _reader.GetString(3);
