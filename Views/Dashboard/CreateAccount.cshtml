@@ -19,10 +19,11 @@
             <h1 class="Header">CREATE ACCOUNTS</h1>
             <hr>
             <div class=" p-4 BoxStyle rounded-4">
-                <form method="POST"  enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount">
+                <form method="POST"  enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount" class="createAccount">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="Username" name="username" onblur="ManagerExist(username)">
+                        <input type="text" class="form-control" id="Username" name="username">
+                        <div id="usexist" style="color: red;"></div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="Password" name="password">
