@@ -22,30 +22,30 @@
                 <form method="POST"  enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
-                        <input type="email" class="form-control" id="Username" name="username">
+                        <input type="text" class="form-control" id="Username" name="username" onblur="ManagerExist(username)">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="Password" name="password">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Fullname</label>
-                            <input type="password" class="form-control" id="Fullname" name="fullname">
+                            <input type="text" class="form-control" id="Fullname" name="fullname">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Phone Number</label>
-                            <input type="password" class="form-control" id="PhoneNumber" name="phone">
+                            <input type="text" class="form-control" id="PhoneNumber" name="phone">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Email</label>
-                            <input type="password" class="form-control" id="Email" name="email">
+                            <input type="email" class="form-control" id="Email" name="email">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">SSN</label>
-                            <input type="password" class="form-control" id="SSN" name="SSN">
+                            <input type="text" class="form-control" id="SSN" name="SSN">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Living Address</label>
-                            <input type="password" class="form-control" id="LivingAddress" name="address">
+                            <input type="text" class="form-control" id="LivingAddress" name="address">
                     </div>
                         <style>
                             /* Apply custom styles to make the checkbox bigger */

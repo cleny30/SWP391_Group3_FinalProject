@@ -38,7 +38,9 @@ namespace SWP391_Group3_FinalProject.Controllers
         
         public IActionResult StaffList()
         {
-
+            ManagerDAO dao = new ManagerDAO();
+            List<Manager> list = dao.GetAllManagers();
+            ViewBag.managers = list;
             return View();
         }
 
@@ -50,21 +52,20 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateAccount( Manager manager)
+        public IActionResult CreateAccount(Manager manager)
         {
             //Check if the account created is admin
             bool isAdmin = Request.Form["isAdmin"] == "on";
 
             //---------------Code Here----------------
-            //trước tiên check là username có tồn tại chưa, nếu có đưa error về trang create account
-            //nếu không thì lưu account vào database và đưa qua trang stafflist
-
+            ManagerDAO dao = new ManagerDAO();
+            manager.isAdmin = isAdmin;
+            dao.AddManager(manager);
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
         }
-
         //Trang để coi đơn nhập hàng
-        
+
         public IActionResult ImportReceipts()
         {
             ImportRecieptDAO IRdao = new ImportRecieptDAO();

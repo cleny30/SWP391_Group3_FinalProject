@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "OrderRecieptPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    var managers = ViewBag.managers;
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" />
@@ -39,13 +40,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>097203022991</td>
-                                <td>Hung Vuong, Can Tho</td>
-                                <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
-                            </tr>
+                            @foreach(var item in managers)
+                            {
+                                <tr>
+                                    <td>@item.fullname</td>
+                                    <td>@item.phone</td>
+                                    <td>@item.SSN</td>
+                                    <td>@item.address</td>
+                                    <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
