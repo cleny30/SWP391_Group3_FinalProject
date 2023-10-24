@@ -7,3 +7,6 @@ $(document).ready(function () {
   $(document).ready(function () {
     $('#example3').DataTable();
   });
+$(document).ready(function () {
+    $('#example4').DataTable();
+});

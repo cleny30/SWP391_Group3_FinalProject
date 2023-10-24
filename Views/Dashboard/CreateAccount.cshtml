@@ -19,46 +19,48 @@
             <h1 class="Header">CREATE ACCOUNTS</h1>
             <hr>
             <div class=" p-4 BoxStyle rounded-4">
-                <form method="POST"  enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount">
+                <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount" class="createAccount">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
-                        <input type="email" class="form-control" id="Username" name="username">
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="Username" name="username">
+                        <div id="usexist" style="color: red;"></div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="Password" name="password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Fullname</label>
-                            <input type="password" class="form-control" id="Fullname" name="fullname">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Phone Number</label>
-                            <input type="password" class="form-control" id="PhoneNumber" name="phone">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Email</label>
-                            <input type="password" class="form-control" id="Email" name="email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">SSN</label>
-                            <input type="password" class="form-control" id="SSN" name="SSN">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Living Address</label>
-                            <input type="password" class="form-control" id="LivingAddress" name="address">
-                    </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Fullname</label>
+                            <input type="text" class="form-control" id="Fullname" name="fullname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="PhoneNumber" name="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="Email" name="email">
+                            <div id="emailexist" style="color: red;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">SSN</label>
+                            <input type="text" class="form-control" id="SSN" name="SSN">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Living Address</label>
+                            <input type="text" class="form-control" id="LivingAddress" name="address">
+                        </div>
                         <style>
                             /* Apply custom styles to make the checkbox bigger */
                             .form-check-input {
                                 transform: scale(1.5); /* Adjust the scale factor to make it bigger or smaller */
                             }
                         </style>
-                    <div class="mb-3 form-check">
+                        <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="IsAdmin" name="isAdmin">
                             <label class="form-check-label" for="exampleCheck1" style="font-size:larger; color:red;">Check the box to make this account have admin privilege</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                 </form>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
 
             </div>
         </div>

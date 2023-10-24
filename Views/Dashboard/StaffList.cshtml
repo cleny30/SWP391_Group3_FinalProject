@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "OrderRecieptPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    var managers = ViewBag.managers;
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" />
@@ -19,13 +20,100 @@
                 <input type="radio" id="tab-1" name="tabby-tabs" checked>
                 <label for="tab-1" class="tabby-tablabel">STAFF ACCOUNTS</label>
                 <div class="tabby-content">
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+
+                        <div class="invoice-box modal-content" style="max-width: 400px">
+                            <span class="close">&times;</span>
+                            <table cellpadding="0" cellspacing="0" style="color: black">
+                                <tr class="top">
+                                    <td colspan="3">
+                                        <table>
+                                            <tr>
+                                                <td class="title">
+                                                    <img src="~/source_img/advertising_img/GearShopBanner.png"
+                                                         style="width: 100%; max-width: 300px" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr class="information" style="color: black;">
+                                    <td colspan="3" style="padding-left: 0px;">
+                                        <table>
+                                            <tr>
+                                                <td style="padding: 0px;">
+                                                    <table>
+                                                        <tbody style="font-size: large">
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Fullname:</span>
+                                                                </td>
+                                                                <td id="Staff_Name">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Phone Number:</span>
+
+                                                                </td>
+                                                                <td id="Staff_PhoneNum">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Email:</span>
+                                                                </td>
+                                                                <td id="Staff_Email">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">SSN:</span>
+                                                                </td>
+                                                                <td id="Staff_SSN">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Living Address:</span>
+                                                                </td>
+                                                                <td id="Staff_LivingAddress">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Username:</span>
+                                                                </td>
+                                                                <td id="Staff_Username">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tablepadding">
+                                                                    <span style="color: #5D87FF; font-weight:bold">Password:</span>
+                                                                </td>
+                                                                <td id="Staff_Password">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                           
+                        </div>
+
+
+                    </div>
                     <h1 class="Title">List of Staff</h1>
                     <div class="col-12">
-                        <div class="row " style=" padding-bottom: 20px;">
-                            <div class="col-2">
-                                <p class="SmallTitle">From: <input type="text" id="minColumn4" name="min"></p>
-                            </div>
-                        </div>
                     </div>
                     <!--Danh sách sản phẩm sort theo số lượng bán-->
                     <table id="example" class="display nowrap" style="width:100%">
@@ -39,13 +127,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>097203022991</td>
-                                <td>Hung Vuong, Can Tho</td>
-                                <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
-                            </tr>
+                            @foreach(var item in managers)
+                            {
+                                <tr>
+                                    <td>@item.fullname</td>
+                                    <td>@item.phone</td>
+                                    <td>@item.SSN</td>
+                                    <td>@item.address</td>
+                                    <td>
+                                        <button class=" btn btn-primary" type="button" data-employeeid="@item.ID"  onclick="ShowStaff(this)">Show</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -56,4 +149,32 @@
         <!--  Row 1 -->
     </div>
 </div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {              
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 

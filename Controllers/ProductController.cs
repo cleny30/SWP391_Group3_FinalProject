@@ -234,7 +234,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 //remove duplicated item.
                 list.RemoveAt(randomIndex);
             }
-            List<Product> productByCateList = list.Where(pro => pro.brand_id == pro1.brand_id).ToList();
+            List<Product> productByCateList = list.Where(pro => pro.cate_id == pro1.cate_id).ToList();
             ViewBag.pro = pro1;
             ViewBag.productByCateList = productByCateList;
             ViewBag.brandList = brandList;

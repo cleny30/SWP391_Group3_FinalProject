@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     $('form.RegisterForm').submit(function (event) {
         $(window).on('unload', function () {// Reset giá trị các biến về trạng thái ban đầu
             noError = true;
@@ -12,25 +13,28 @@
         var repassword = getValueById('re_pwdtxt');
 
         var noError = true;
-
-
+        var errorEmail = true;
+        var errorUsername = true;
         //tài khoản
         if (!username) {
-            showError('ustxt', 'Please enter username');
+            showError('ustxt', 'Please enter your username!');
             noError = false;
         } else if (username.length > 20 || username.length < 6) {
-            showError('ustxt', 'Username must be from 6 - 20 characters');
+            showError('ustxt', 'Username must be from 6 to 20 characters!');
             noError = false;
+            errorUsername = false;
         } else {
             hideError('ustxt');
+            errorUsername = true;
         }
+
 
         //Họ và tên
         if (!fullname) {
-            showError('nametxt', 'Please enter your full name');
+            showError('nametxt', 'Please enter your full name!');
             noError = false;
         } else if (fullname.length > 100) {
-            showError('nametxt', 'Your full name is less than 100 characters');
+            showError('nametxt', 'You full name must be less than 100 characters!');
             noError = false;
         } else {
             hideError('nametxt');
@@ -38,10 +42,10 @@
 
         // Số điện thoại
         if (!phone) {
-            showError('phonetxt', 'Please enter your phone number.');
+            showError('phonetxt', 'Please enter your phone number!');
             noError = false;
         } else if (!isValidPhoneNumber(phone)) {
-            showError('phonetxt', 'Invalid phone number.');
+            showError('phonetxt', 'Invalid phone number!');
             noError = false;
         } else {
             hideError('phonetxt');
@@ -49,32 +53,38 @@
 
         //Email
         if (!email) {
-            showError('emailtxt', 'Please enter email address.');
+            showError('emailtxt', 'Please enter your email address!');
             noError = false;
         } else if (!isValidEmail(email)) {
-            showError('emailtxt', 'Email address is not valid.');
+            showError('emailtxt', 'Invalid Email address!');
             noError = false;
+            errorEmail = false;
         } else {
+            errorEmail = true;
             hideError('emailtxt');
         }
 
         //Password
         if (!password) {
-            showError('pwdtxt', 'Please enter a password.');
+            showError('pwdtxt', 'Please enter a password!');
             noError = false;
         } else if (password.length < 8) {
-            showError('pwdtxt', 'Password must be at least 8 characters.');
+            showError('pwdtxt', 'Password must be at least 8 characters!');
+            noError = false;
+        } else if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])(.{8,})/.test(password)) {
+            showError('pwdtxt', 'Password must have at least 1 uppercase letter, 1 special character, and be at least 8 characters long!');
             noError = false;
         } else {
             hideError('pwdtxt');
         }
 
+
         //Repassword
         if (!repassword) {
-            showError('re_pwdtxt', 'Please re-enter your password.');
+            showError('re_pwdtxt', 'Please re-enter your password!');
             noError = false;
         } else if (repassword !== password) {
-            showError('re_pwdtxt', 'Password incorrect.');
+            showError('re_pwdtxt', 'The re-entered password does not matches!');
             noError = false;
         } else {
             hideError('re_pwdtxt');
@@ -87,9 +97,11 @@
 });
 
 
-$('#emailtxt').on('blur', function () {
+
+function validateEmail() {
     var email = getValueById('emailtxt');
-    if (email !== null || email !== '') {
+    document.getElementById("ErrorEmailExist").innerHTML = "";
+    if (email !== null && email !== '') {
         $.ajax({
             url: '/Login/CheckEmail',
             type: "POST",
@@ -99,21 +111,26 @@ $('#emailtxt').on('blur', function () {
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data == 'true') {
-                    $('#btnResigterSubmit').css('pointer-events', 'none');
-                    showError('emailtxt', 'Email is already exist');
+                    document.getElementById("ErrorEmailExist").innerHTML = "Email Already Existed!";
+                    return false;
                 } else {
-                    $('#btnResigterSubmit').css('pointer-events', 'auto');
-                    hideError('emailtxt');
+                    document.getElementById("ErrorEmailExist").innerHTML = "";
+                    return true; // Prevent the form from submitting
                 }
             }
         });
     }
+    // If you reach here, the form submission will be allowed
+    return true;
+}
 
-});
 
-$('#ustxt').on('blur', function () {
+
+function validateForm() {
     var username = getValueById('ustxt');
-    if (username !== null || username !== '') {
+    document.getElementById("ErrorUsernameExist").innerHTML = "";
+    hideError('ustxt');
+    if (username !== null && username !== '') {
         $.ajax({
             url: '/Login/CheckUsername',
             type: "POST",
@@ -121,18 +138,31 @@ $('#ustxt').on('blur', function () {
                 username: username
             },
             success: function (data) {
-                // Update DOM elements with retrieved data
                 if (data == 'true') {
-                    $('#btnResigterSubmit').css('pointer-events', 'none');
-                    showError('ustxt', 'Username is already exist');
+                    document.getElementById("ErrorUsernameExist").innerHTML = "Username Already Existed!";
+                    return false; // Prevent the form from submitting
                 } else {
-                    $('#btnResigterSubmit').css('pointer-events', 'auto');
-                    hideError('ustxt');
+                    // Registration logic here if username is available
+                    
+                        document.getElementById("ErrorUsernameExist").innerHTML = "";
+                        return true; // Prevent the form from submitting
+                    
                 }
             }
         });
     }
-})
+    // If you reach here, the form submission will be allowed
+    return true;
+} 
+
+function Validate() {
+    var isFormValid = validateForm();
+    var isEmailValid = validateEmail();
+
+    // Combine the results of both validations using logical AND (&&)
+    return isFormValid && isEmailValid;
+}
+
 
 // Lấy giá tin input
 function getValueById(id) {
@@ -159,3 +189,4 @@ function isValidEmail(email) {
     const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[^\s@]+\.[^\s@]{2,}$/;
     return emailPattern.test(email);
 }
+

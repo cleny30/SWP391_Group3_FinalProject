@@ -64,6 +64,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 List<Addresses> list = dao.GetCustomerAddress(username);
                 if (list.Count() > 0)
                 {
+                    cus.addresses = new List<Addresses>();
                     cus.addresses.AddRange(list);
                 }
 
@@ -151,11 +152,11 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             Manager manager = dao.GetManagerByUsername(username);
 
-            if (cus.username != null || manager != null)
+            if (cus.username == null && manager == null)
             {
-                return Content("true");
+                return Content("false");
             }
-            return Content("false");
+            return Content("true");
         }
 
         [HttpPost]

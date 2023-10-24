@@ -30,12 +30,8 @@ namespace SWP391_Group3_FinalProject.Filter
                     {
                         context.Result = new RedirectToActionResult("Index", "Login", null);
                     }
-                    else if (action == 1) // If manager != null means that is admin/staff therefore redirect to dashboard
-                    {
-                        context.Result = new RedirectToActionResult("Index", "Dashboard", null);
-                    }
+                    
                 }
-
             }
             catch (Exception ex)
             {

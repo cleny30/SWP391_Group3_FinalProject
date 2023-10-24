@@ -190,17 +190,41 @@
                         <div>
                         </div>
                         <div class="ml-2">
-                            <div class="btn-group ml-2">
-                                <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                        data-toggle="dropdown">
-                                    Sorting by Price
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <span class="dropdown-item" onclick="Order(this)" data-order="highest">Highest</span>
-                                    <span class="dropdown-item" onclick="Order(this)" data-order="lowest">Lowest</span>
+                            @{
+                                var order = Context.Request.Query["order"].ToString();
+                                if (!string.IsNullOrEmpty(order))
+                                {
+                                    string result = char.ToUpper(order[0]) + order.Substring(1);
+                                    string bold = "font-weight-bold";
+                                    <div class="btn-group ml-2">
+                                        <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            Sorting: <span id="sort-order" class="font-weight-bold">@result</span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <span id="sort-standout " class="dropdown-item" onclick="Order(this)" data-order="standout">Standout</span>
+                                            <span id="sort-highest" class="dropdown-item @(order.Equals("highest")?bold:"")" onclick="Order(this)" data-order="highest">Highest</span>
+                                            <span id="sort-lowest" class="dropdown-item @(order.Equals("lowest")?bold:"")" onclick="Order(this)" data-order="lowest">Lowest</span>
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="btn-group ml-2">
+                                        <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            Sorting: <span id="sort-order" class="font-weight-bold">Standout</span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <span id="sort-standout " class="dropdown-item font-weight-bold" onclick="Order(this)" data-order="standout">Standout</span>
+                                            <span id="sort-highest" class="dropdown-item" onclick="Order(this)" data-order="highest">Highest</span>
+                                            <span id="sort-lowest" class="dropdown-item" onclick="Order(this)" data-order="lowest">Lowest</span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            
                         </div>
                     </div>
                 </div>

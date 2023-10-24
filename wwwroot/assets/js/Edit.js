@@ -146,3 +146,55 @@ function ShowRP(element) {
         }
     });
 }
+
+function ShowStaff(element) {
+    var StaffID = element.getAttribute("data-employeeid");
+
+    if (!StaffID) {
+        console.error('Receipt ID is invalid.');
+        return;
+    }
+
+    $.ajax({
+        url: '/Dashboard/GetStaffInfo',
+        type: "POST",
+        data: {
+            ID: StaffID
+        },
+        dataType: 'json',
+        success: function (data) {
+            $('#Staff_Name').html('');
+            $('#Staff_PhoneNum').html('');
+            $('#Staff_Email').html('');
+            $('#Staff_SSN').html('');
+            $('#Staff_LivingAddress').html('');
+            $('#Staff_Username').html('');
+            $('#Staff_Password').html('');
+
+            $('#Staff_Name').html(data.fullname);
+            $('#Staff_PhoneNum').html(data.phone);
+            $('#Staff_Email').html(data.email);
+            $('#Staff_SSN').html(data.ssn);
+            $('#Staff_LivingAddress').html(data.address);
+            $('#Staff_Username').html(data.username);
+            $('#Staff_Password').html(data.password);
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+        }
+    });
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}

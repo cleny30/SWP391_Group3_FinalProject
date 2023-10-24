@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework.Profiler;
 using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Filter;
 using SWP391_Group3_FinalProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
+    [ServiceFilter(typeof(LoginFilter))]
+    [ServiceFilter(typeof(ManagerFilter))]
     public class DashboardController : Controller
     {
         //Trang chủ của dashboard
@@ -20,7 +24,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             _environment = environment;
         }
 
-        [ServiceFilter(typeof(ManagerFilter))]
         public IActionResult Index()
         {
             ProductDAO dao = new ProductDAO();
@@ -32,14 +35,16 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult StaffList()
         {
-
+            ManagerDAO dao = new ManagerDAO();
+            List<Manager> list = dao.GetAllManagers().Where(manager => manager.isAdmin == false).ToList();
+            ViewBag.managers = list;
             return View();
         }
 
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult CreateAccount()
         {
             return View();
@@ -47,21 +52,60 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateAccount( Manager manager)
+        public IActionResult CreateAccount(Manager manager)
         {
             //Check if the account created is admin
             bool isAdmin = Request.Form["isAdmin"] == "on";
 
             //---------------Code Here----------------
-            //trước tiên check là username có tồn tại chưa, nếu có đưa error về trang create account
-            //nếu không thì lưu account vào database và đưa qua trang stafflist
-
+            ManagerDAO dao = new ManagerDAO();
+            manager.isAdmin = isAdmin;          
+            dao.AddManager(manager);
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
         }
 
+        //Kiem tra username co duoc su dung chua
+        [HttpPost]
+        public IActionResult CheckUsername(string username)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            Manager manager = dao.GetManagerByUsername(username);
+            if (manager != null)
+            {
+                return Content("Fail");
+            }
+            else
+            {
+                return Content("Success");
+            }
+        }
+
+        //Kiem tra email co duoc su dung chua
+        [HttpPost]
+        public IActionResult CheckEmail(string email)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            Manager manager = dao.GetManagerByEmail(email);
+            if (manager != null)
+            {
+                return Content("Fail");
+            }
+            else
+            {
+                return Content("Success");
+            }
+        }
+
+
+        public IActionResult PersonalProfile()
+        {
+            return View();
+        }
+
+
         //Trang để coi đơn nhập hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+
         public IActionResult ImportReceipts()
         {
             ImportRecieptDAO IRdao = new ImportRecieptDAO();
@@ -74,31 +118,22 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Logging out for Admin And Staff
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult Logout()
         {
             //Delete Session
-            string ManagerInfo, role;
-            ManagerInfo = _contx.HttpContext.Session.GetString("Session");
-            role = _contx.HttpContext.Session.GetString("action");
-
-            if (!string.IsNullOrEmpty(ManagerInfo) && !string.IsNullOrEmpty(role))
-            {
+            string ManagerInfo, role;          
                 _contx.HttpContext.Session.Remove("Session");
                 _contx.HttpContext.Session.Remove("action");
-            }
-
-            //Delete Cookie
-            if (Request.Cookies.ContainsKey("username"))
+            int cookievalue = 0;
+            if(_contx.HttpContext.Request.Cookies["role"] != null)
             {
-                // The "username" cookie is present. You can choose to delete it or perform other actions.
-                HttpContext.Response.Cookies.Delete("username");
+                cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
             }
-
-            if (Request.Cookies.ContainsKey("role"))
+            if (cookievalue != null)
             {
-                // The "role" cookie is present. You can choose to delete it or perform other actions.
-                HttpContext.Response.Cookies.Delete("role");
+                Response.Cookies.Delete("username");
+                Response.Cookies.Delete("role");
             }
             return RedirectToAction("Index", "Home");
         }
@@ -156,7 +191,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để cho admin thêm sản phẩm để bán
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult ImportProduct()
         {
 
@@ -224,7 +259,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để coi giỏ hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult ProductPage()
         {
             ProductDAO dao = new ProductDAO();
@@ -238,19 +273,20 @@ namespace SWP391_Group3_FinalProject.Controllers
             //ViewBag
             ViewBag.BrandList = BrandList.Where(brand => brand.isAvailable == true).ToList();
             ViewBag.CategoryList = CategoryList.Where(cate => cate.isAvailable == true).ToList();
-            ViewBag.ProductList = ProductList;
+            ViewBag.ProductList = ProductList.Where(pro => pro.isAvailable == true).ToList();
+            ViewBag.ProductListDisable = ProductList.Where(pro => pro.isAvailable == false).ToList();
             return View();
         }
 
         //Statistic page
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult Statistic()
         {
             return View();
         }
 
         //Coi đơn hàng của khách hàng
-        [ServiceFilter(typeof(ManagerFilter))]
+        
         public IActionResult OrderRecieptPage()
         {
             return View();
@@ -360,7 +396,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 dao.EditBrandWithoutImage(brand);
             }
 
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Brand with ID " + brand.brand_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -369,6 +405,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.EditCategory(category);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Update Category with ID " + category.cate_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
 
         }
@@ -414,7 +451,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             
             dao.AddProductWithDetails(pro);
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Product with ID " + pro.pro_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -466,7 +503,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
 
 
-
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Brand with name " + brand.brand_name + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -475,6 +512,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             dao.AddCategory(category);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Category with name " + category.cate_name + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
@@ -614,11 +652,70 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             dao.DeleteAttributeByID(pro.pro_id);
             dao.UpdateProductWithDetails(pro);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Update Product with ID " + pro.pro_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
 
         }
 
+        public IActionResult DisableProduct(string ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableProduct(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Product with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
 
+        public IActionResult EnableProduct(string ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.EnableProduct(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Enable Product with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+
+        public IActionResult DisableBrand(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableBrand(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Brand with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        public IActionResult DisableCategory(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.DisableCategory(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Category with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        [HttpPost]
+        public IActionResult GetStaffInfo(int ID)
+        {
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                //ImportRecieptDAO dao = new ImportRecieptDAO();
+                //Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
+                ManagerDAO dao = new ManagerDAO();
+                Manager manager = dao.GetAllManagers().FirstOrDefault(_manager => _manager.ID == ID);
+                
+                if (manager != null)
+                {
+                    Console.WriteLine(manager);
+                    return Ok(manager); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("Staff not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 
 }
