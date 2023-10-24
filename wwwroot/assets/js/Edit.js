@@ -163,14 +163,23 @@ function ShowStaff(element) {
         },
         dataType: 'json',
         success: function (data) {
-            $('#Staff_Name').val(data.fullname);
-            $('#Staff_PhoneNum').val(data.phone);
-            $('#Staff_Email').val(data.email);
-            $('#Staff_SSN').val(data.SSN);
-            $('#Staff_LivingAddress').val(data.address);
-            $('#Staff_Username').val(data.username);
-            $('#Staff_Password').val(data.password);
+            $('#Staff_Name').html('');
+            $('#Staff_PhoneNum').html('');
+            $('#Staff_Email').html('');
+            $('#Staff_SSN').html('');
+            $('#Staff_LivingAddress').html('');
+            $('#Staff_Username').html('');
+            $('#Staff_Password').html('');
 
+            $('#Staff_Name').html(data.fullname);
+            $('#Staff_PhoneNum').html(data.phone);
+            $('#Staff_Email').html(data.email);
+            $('#Staff_SSN').html(data.SSN);
+            $('#Staff_LivingAddress').html(data.address);
+            $('#Staff_Username').html(data.username);
+            $('#Staff_Password').html(data.password);
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
         },
         error: function (xhr, textStatus, errorThrown) {
             console.error('Error:', textStatus, errorThrown);
