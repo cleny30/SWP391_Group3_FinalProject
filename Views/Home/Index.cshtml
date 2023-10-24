@@ -141,7 +141,7 @@
 
     <div class="row px-xl-5 pb-3">
 
-        @for (int i = 0; i < ViewBag.brandList.Count;i++)
+        @for (int i = 0; i < ViewBag.brandList.Count; i++)
         {
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
 
@@ -181,8 +181,9 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-
+                                <button class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </button>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
@@ -201,7 +202,7 @@
                                 {
                                     <h5>$@item.pro_price</h5>
                                 }
-                              
+
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -269,7 +270,9 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                <button class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </button>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
@@ -328,7 +331,9 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                <button class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </button>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>
                         </div>

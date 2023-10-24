@@ -37,7 +37,8 @@ namespace SWP391_Group3_FinalProject.Filter
                         var username = context.HttpContext.Request.Cookies["username"];
                         AccountDAO accDAO = new AccountDAO();
                         context.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(accDAO.GetCustomerByUsername(username)));
-
+                        OrderDAO orderDAO = new OrderDAO();
+                        context.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(orderDAO.GetCartByUsername(username).Count()));
                     }
                 }
                 else if (action == 1) // If manager != null means that is admin/staff therefore redirect to dashboard

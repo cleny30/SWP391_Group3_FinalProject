@@ -60,25 +60,26 @@ namespace SWP391_Group3_FinalProject.Controllers
                         Expires = DateTime.Now.AddDays(3),
                     });
                 }
-
                 List<Addresses> list = dao.GetCustomerAddress(username);
                 if (list.Count() > 0)
                 {
                     cus.addresses = new List<Addresses>();
                     cus.addresses.AddRange(list);
                 }
-
+                OrderDAO Odao = new OrderDAO();
+                var count = Odao.GetCartByUsername(username).Count();
                 _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus)); //Store information customer to Session
                 _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("0")); //Store action filter about manager is 0
+                _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
                 return RedirectToAction("Index", "Home");
             }
             else if (manager != null)
             {
-                if(manager.isAdmin == true)
+                if (manager.isAdmin == true)
                 {
                     if (isRem != null)
                     {
-                            
+
                         HttpContext.Response.Cookies.Append("username", manager.username, new Microsoft.AspNetCore.Http.CookieOptions
                         {
                             Expires = DateTime.Now.AddDays(3),
@@ -91,7 +92,8 @@ namespace SWP391_Group3_FinalProject.Controllers
                     _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
                     _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
                     return RedirectToAction("Index", "Dashboard");
-                } else
+                }
+                else
                 {
                     if (isRem != null)
                     {
@@ -108,12 +110,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                     _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
                     return RedirectToAction("Index", "Dashboard");
                 }
-
-
             }
             _contx.HttpContext.Session.SetString("ErrorLogin", JsonConvert.SerializeObject("Username or password is incorrect"));
             return RedirectToAction("Index", "Login");
-
         }
 
         [HttpGet("/Logout")]

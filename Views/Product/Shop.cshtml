@@ -244,10 +244,9 @@
                                 <div class="product-img position-relative overflow-hidden">
                                     <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                                     <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href="">
+                                        <button class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
                                             <i class="fa fa-shopping-cart"></i>
-                                        </a>
-
+                                        </button>
                                         <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>

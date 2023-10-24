@@ -37,6 +37,12 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(LoginFilter))]
         public IActionResult MyAddress()
         {
+            AccountDAO dao = new AccountDAO();
+            var customer = _contx.HttpContext.Session.GetString("Session");
+
+            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+            ViewBag.ListAddress = cus.addresses;
             return View();
         }
 
@@ -58,7 +64,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 List<Order> list = DAO.GetOrderByUsername(uid.username);
                 ViewBag.ListOrder = list;
-            }     
+            }
             return View();
         }
 
@@ -82,7 +88,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             // Deserialize the JSON string into a list
             var cus = JsonConvert.DeserializeObject<Customer>(customer);
-            
+
             AccountDAO DAO = new AccountDAO();
             DAO.ChangePassword(cus.username, newPass);
             return RedirectToAction("ChangePassword", "Account");
@@ -98,7 +104,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             AccountDAO DAO = new AccountDAO();
             Customer cs = DAO.GetCustomer(cus.username, pw);
-            if(cs != null)
+            if (cs != null)
             {
                 return Content("Sucess");
             }
@@ -111,9 +117,72 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpPost]
         public IActionResult OrderDetail(string id)
         {
+            var customer = _contx.HttpContext.Session.GetString("Session");
+
+            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+
             OrderDAO DAO = new OrderDAO();
             List<OrderDetail> od = DAO.GetOrderDetail(id);
-            return Json(od);
+            var a = DAO.GetAddressByOrderID(id);
+            var orderThis = DAO.GetOrderByUsername(cus.username).FirstOrDefault(o => o.orderId == id);
+            var rs = new
+            {
+                orderDetails = od,
+                addresses = a,
+                orderDick = orderThis
+            };
+            return Json(rs);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateAddress(Addresses a)
+        {
+            AccountDAO dao = new AccountDAO();
+            dao.UpdateAddress(a);
+            var customer = _contx.HttpContext.Session.GetString("Session");
+
+            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+            Addresses tmp = cus.addresses.FirstOrDefault(z => z.ID == a.ID);
+            int index = cus.addresses.IndexOf(tmp);
+            cus.addresses[index] = a;
+            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+            return RedirectToAction(nameof(MyAddress));
+        }
+        [HttpPost]
+        public IActionResult AddAddress(Addresses a)
+        {
+            AccountDAO dao = new AccountDAO();
+            var customer = _contx.HttpContext.Session.GetString("Session");
+
+            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+            if (a.phonenum != null && a.address != null && a.fullname != null)
+            {
+                dao.AddAddress(a, cus.username);
+                cus.addresses.Add(a);
+            }
+            else
+            {
+                ViewBag.Message = "Invalid";
+            }
+
+            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+            return RedirectToAction(nameof(MyAddress));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteAddress(int id)
+        {
+            AccountDAO dao = new AccountDAO();
+            var customer = _contx.HttpContext.Session.GetString("Session");
+
+            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+            dao.DeleteAddress(id);
+            var address = cus.addresses.FirstOrDefault(a => a.ID == id);
+            cus.addresses.Remove(address);
+            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+            return Content("Success");
         }
 
         [HttpPost]

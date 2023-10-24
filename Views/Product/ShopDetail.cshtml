@@ -91,18 +91,17 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3">
-                        <i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart
+                    <button class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" onclick="AddToCart(this)">
+                        <i class="fa fa-shopping-cart"></i>
                     </button>
-                    @if (ViewBag.pro.pro_quan == 1)
-                    {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
-                    }
-                    else
-                    {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
-                    }
+                        @if (ViewBag.pro.pro_quan == 1)
+                        {
+                            <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
+                        }
+                        else
+                        {
+                            <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
+                        }
 
                 </div>
 
@@ -175,8 +174,6 @@
     </div>
 </div>
 <!-- Shop Detail End -->
-
-
 <!-- Products Start -->
 <div class="container-fluid py-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
@@ -186,33 +183,33 @@
 
 
 
-                @foreach (var item in  ViewBag.productByCateList)
+                @foreach (var item in ViewBag.productByCateList)
                 {
-                   
-                        <div class="product-item bg-light">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
-                                <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
 
-                                    <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small>(99)</small>
-                                </div>
+                    <div class="product-item bg-light">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+
+                                <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small>(99)</small>
+                            </div>
+                        </div>
+                    </div>
 
                 }
 

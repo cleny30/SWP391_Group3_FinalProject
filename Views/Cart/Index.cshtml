@@ -48,7 +48,7 @@
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-minus" onclick="updateCartQuantity('@item.pro_id', '@item.username', -1)">-</button>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center itemCart" value="@item.quantity">
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center itemCart" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.quantity">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus" onclick="updateCartQuantity('@item.pro_id', '@item.username', 1)">+</button>
                                     </div>

@@ -117,12 +117,13 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@username", username);
             using (_reader = _command.ExecuteReader())
             {
-                Addresses add = new Addresses();
                 while (_reader.Read())
                 {
+                    Addresses add = new Addresses();
                     add.address = _reader.GetString(1);
                     add.fullname = _reader.GetString(2);
                     add.phonenum = _reader.GetString(3);
+                    add.ID = _reader.GetInt32(4);
                     list.Add(add);
                 }
             }
@@ -147,12 +148,40 @@ namespace SWP391_Group3_FinalProject.DAOs
                     add.address = _reader.GetString(1);
                     add.fullname = _reader.GetString(2);
                     add.phonenum = _reader.GetString(3);
+                    add.ID = _reader.GetInt32(4);
                     list.Add(add);
                 }
             }
             return list;
         }
+        public void UpdateAddress(Addresses address)
+        {
+            _command.CommandText = "UPDATE Delivery_Address SET Address_Information=@ad, Fullname=@fn, Phone_Num=@pn where ID=@id";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ad", address.address);
+            _command.Parameters.AddWithValue("@fn", address.fullname);
+            _command.Parameters.AddWithValue("@pn", address.phonenum);
+            _command.Parameters.AddWithValue("@id", address.ID);
+            _command.ExecuteNonQuery();
+        }
 
+        public void AddAddress(Addresses address, string username)
+        {
+            _command.CommandText = "INSERT INTO Delivery_Address (username, Address_Information, fullname, Phone_Num)VALUES(@us, @ai, @fn, @pn)";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@us", username);
+            _command.Parameters.AddWithValue("@ai", address.address);
+            _command.Parameters.AddWithValue("@fn", address.fullname);
+            _command.Parameters.AddWithValue("@pn", address.phonenum);
+            _command.ExecuteNonQuery();
+        }
+        public void DeleteAddress(int id)
+        {
+            _command.CommandText = "Delete from Delivery_Address where ID=@id";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@id", id);
+            _command.ExecuteNonQuery();
+        }
         public void AddCustomer(Customer customer)
         {
             _command.CommandText = "INSERT INTO Customer(username, password, fullname, email, phone_num) values(@username, @password, @fullname, @email, @phone_num)  ";
@@ -210,7 +239,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
 
             return 0;
-
         }
+
     }
 }
