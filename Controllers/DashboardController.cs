@@ -39,7 +39,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult StaffList()
         {
             ManagerDAO dao = new ManagerDAO();
-            List<Manager> list = dao.GetAllManagers();
+            List<Manager> list = dao.GetAllManagers().Where(manager => manager.isAdmin == false).ToList();
             ViewBag.managers = list;
             return View();
         }
@@ -59,7 +59,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             //---------------Code Here----------------
             ManagerDAO dao = new ManagerDAO();
-            manager.isAdmin = isAdmin;
+            manager.isAdmin = isAdmin;          
             dao.AddManager(manager);
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
@@ -648,6 +648,33 @@ namespace SWP391_Group3_FinalProject.Controllers
             dao.DisableCategory(ID);
             _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Category with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        [HttpPost]
+        public IActionResult GetStaffInfo(int ID)
+        {
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                //ImportRecieptDAO dao = new ImportRecieptDAO();
+                //Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
+                ManagerDAO dao = new ManagerDAO();
+                Manager manager = dao.GetAllManagers().FirstOrDefault(_manager => _manager.ID == ID);
+                
+                if (manager != null)
+                {
+                    Console.WriteLine(manager);
+                    return Ok(manager); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("Staff not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
     }
 

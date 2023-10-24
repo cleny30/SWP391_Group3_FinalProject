@@ -146,3 +146,34 @@ function ShowRP(element) {
         }
     });
 }
+
+function ShowStaff(element) {
+    var StaffID = element.getAttribute("data-employeeid");
+
+    if (!StaffID) {
+        console.error('Receipt ID is invalid.');
+        return;
+    }
+
+    $.ajax({
+        url: '/Dashboard/GetStaffInfo',
+        type: "POST",
+        data: {
+            ID: StaffID
+        },
+        dataType: 'json',
+        success: function (data) {
+            $('#Staff_Name').val(data.fullname);
+            $('#Staff_PhoneNum').val(data.phone);
+            $('#Staff_Email').val(data.email);
+            $('#Staff_SSN').val(data.SSN);
+            $('#Staff_LivingAddress').val(data.address);
+            $('#Staff_Username').val(data.username);
+            $('#Staff_Password').val(data.password);
+
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+        }
+    });
+}
