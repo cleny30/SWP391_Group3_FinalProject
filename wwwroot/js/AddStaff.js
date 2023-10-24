@@ -1,4 +1,5 @@
 ﻿var usernameExist = true;
+var emailExist = true;
 $('#Username').on('blur', function () {
     var username = $('#Username').val();
     if (username !== '') {
@@ -23,9 +24,33 @@ $('#Username').on('blur', function () {
     }
 });
 
+$('#Email').on('blur', function () {
+    var email = $('#Email').val();
+    if (email !== '') {
+
+        $.ajax({
+            url: '/Dashboard/CheckEmail',
+            type: "POST",
+            data: {
+                email: email
+            },
+            success: function (data) {
+                // Update DOM elements with retrieved data
+                if (data === "Fail") {
+                    emailExist = true;
+                    $('#emailexist').text('Email has already been used!');
+                } else {
+                    emailExist = false;
+                    $('#emailexist').text('');
+                }
+            }
+        });
+    }
+});
+
 $(document).ready(function () {
     $('form.createAccount').submit(function (event) {
-        if (usernameExist == true) {
+        if (emailExist || usernameExist) {
             event.preventDefault();
         }
     });
