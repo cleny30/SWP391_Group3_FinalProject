@@ -28,6 +28,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                 while (_reader.Read())
                 {
                     Manager manager = new Manager();
+                    manager.ID = _reader.GetInt32(0);
                     manager.username = _reader.GetString(1);
                     manager.email = _reader.GetString(2);
                     manager.password = _reader.GetString(3);
@@ -40,6 +41,58 @@ namespace SWP391_Group3_FinalProject.DAOs
                 }
             }
             return list;
+        }
+
+        //Get manager using username
+        public Manager GetManagerByUsername(string username)
+        {
+            _command.CommandText = "Select * from Manager where username = @username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@username", username);
+            Manager manager = new Manager();
+            using (_reader = _command.ExecuteReader())
+            {
+                if( _reader.Read())
+                {
+                    manager.ID = _reader.GetInt32(0);
+                    manager.username = _reader.GetString(1);
+                    manager.email = _reader.GetString(2);
+                    manager.password = _reader.GetString(3);
+                    manager.fullname = _reader.GetString(4);
+                    manager.SSN = _reader.GetString(5);
+                    manager.address = _reader.GetString(6);
+                    manager.phone = _reader.GetString(7);
+                    manager.isAdmin = _reader.GetBoolean(8);
+                    return manager;
+                }
+            }
+                return null;
+        }
+
+        //Get manager using email
+        public Manager GetManagerByEmail(string email)
+        {
+            _command.CommandText = "Select * from Manager where email = @email";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@email", email);
+            Manager manager = new Manager();
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    manager.ID = _reader.GetInt32(0);
+                    manager.username = _reader.GetString(1);
+                    manager.email = _reader.GetString(2);
+                    manager.password = _reader.GetString(3);
+                    manager.fullname = _reader.GetString(4);
+                    manager.SSN = _reader.GetString(5);
+                    manager.address = _reader.GetString(6);
+                    manager.phone = _reader.GetString(7);
+                    manager.isAdmin = _reader.GetBoolean(8);
+                    return manager;
+                }
+            }
+            return null;
         }
         //Add manager
         public void AddManager(Manager manager)

@@ -64,6 +64,38 @@ namespace SWP391_Group3_FinalProject.Controllers
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
         }
+
+        //Kiem tra username co duoc su dung chua
+        [HttpPost]
+        public IActionResult CheckUsername(string username)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            Manager manager = dao.GetManagerByUsername(username);
+            if (manager != null)
+            {
+                return Content("Fail");
+            }
+            else
+            {
+                return Content("Success");
+            }
+        }
+
+        //Kiem tra email co duoc su dung chua
+        [HttpPost]
+        public IActionResult CheckEmail(string email)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            Manager manager = dao.GetManagerByEmail(email);
+            if (manager != null)
+            {
+                return Content("Fail");
+            }
+            else
+            {
+                return Content("Success");
+            }
+        }
         //Trang để coi đơn nhập hàng
 
         public IActionResult ImportReceipts()
