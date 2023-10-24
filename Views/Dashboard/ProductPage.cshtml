@@ -133,6 +133,17 @@
                                         }
                                     }
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div id="div2" style="display:none">
@@ -604,5 +615,48 @@
         }
     }
 </script>
+<script>
+    new DataTable('#example', {
+        initComplete: function () {
+            this.api()
+                .columns()
+                .every(function (index) {
+                    let column = this;
+
+                    // Check if this is column 2 or 3
+                    if (index === 2 || index === 3) {
+                        // Create select element
+                        let select = document.createElement('select');
+
+                        // Add the "All" option
+                        select.add(new Option('All', ''));
+
+                        // Replace the footer with the select element
+                        column.footer().replaceChildren(select);
+
+                        // Apply a listener for user changes in value
+                        select.addEventListener('change', function () {
+                            var val = DataTable.util.escapeRegex(select.value);
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                        // Add the list of options
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.add(new Option(d));
+                            });
+                    }
+                });
+        }
+    });
+
+
+    </script>
 <script src="~/assets/js/productpage.js"></script>
 <script src="~/assets/js/jsaddproduct.js"></script>
