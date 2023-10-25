@@ -45,12 +45,12 @@ function AddToCart(element) {
 function updateCartQuantity(productId, username, quantityChange) {
     var currentQuantity = parseInt($('#num-' + productId).val());
 
-    if (quantityChange !== null) {
+    if (quantityChange === null) {
         currentQuantity = 0;
         quantityChange = $('#num-' + productId).val();
     }
     
-    var newQuantity = currentQuantity + quantityChange;
+    var newQuantity = parseInt(currentQuantity + quantityChange);
     var url = window.location.href;
     if (newQuantity < 1) {
         alert("Quantity cannot be less than 1.");
