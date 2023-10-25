@@ -91,9 +91,9 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" onclick="AddToCart(this)">
+                    <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
-                    </button>
+                    </a>
                         @if (ViewBag.pro.pro_quan == 1)
                         {
                             <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>

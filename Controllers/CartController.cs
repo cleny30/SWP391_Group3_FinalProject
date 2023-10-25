@@ -53,41 +53,52 @@ namespace SWP391_Group3_FinalProject.Controllers
             return Content("Success");
         }
 
+
         [HttpPost]
         public IActionResult AddToCart(string pro_id, int quantity)
         {
             var get = _contx.HttpContext.Session.GetString("Session");
-            var cus = JsonConvert.DeserializeObject<Customer>(get);
-            OrderDAO dao = new OrderDAO();
-            ProductDAO Pdao = new ProductDAO();
-
-            var List = dao.GetCartByUsername(cus.username).ToList();
-            Cart Ca = List.FirstOrDefault(ca => ca.pro_id == pro_id);
-            if (Ca == null)
+            if (!string.IsNullOrEmpty(get))
             {
-                var pro = Pdao.GetProductById(pro_id);
-                Cart c = new Cart
+
+                Customer cus = JsonConvert.DeserializeObject<Customer>(get);
+                OrderDAO dao = new OrderDAO();
+                ProductDAO Pdao = new ProductDAO();
+
+                var List = dao.GetCartByUsername(cus.username).ToList();
+                Cart Ca = List.FirstOrDefault(ca => ca.pro_id == pro_id);
+                if (Ca == null)
                 {
-                    username = cus.username,
-                    pro_id = pro.pro_id,
-                    pro_name = pro.pro_name,
-                    price = pro.pro_price,
-                    quantity = quantity
-                };
-                dao.AddCart(c);
-                var count = List.Count(c => c.username == cus.username) + 1;
-                _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
-                return Content(count.ToString());
+                    var pro = Pdao.GetProductById(pro_id);
+                    Cart c = new Cart
+                    {
+                        username = cus.username,
+                        pro_id = pro.pro_id,
+                        pro_name = pro.pro_name,
+                        price = pro.pro_price,
+                        quantity = quantity
+                    };
+                    dao.AddCart(c);
+                    var count = List.Count(c => c.username == cus.username) + 1;
+                    _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
+                    return Content(count.ToString());
+                }
+                else
+                {
+                    List[List.IndexOf(Ca)].quantity = Ca.quantity + quantity;
+                    dao.CartQuantity(List[List.IndexOf(Ca)]);
+                    var count = List.Count(c => c.username == cus.username);
+                    _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
+                    return Content(count.ToString());
+                }
             }
             else
             {
-                List[List.IndexOf(Ca)].quantity = Ca.quantity + quantity;
-                dao.CartQuantity(List[List.IndexOf(Ca)]);
-                var count = List.Count(c => c.username == cus.username);
-                _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
-                return Content(count.ToString());
+                return Content("fail");
             }
+
         }
+
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
         public IActionResult Checkout()
@@ -140,9 +151,9 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpPost]
         public IActionResult UpdateQuantity(Cart c)
-        {           
-            OrderDAO Odao= new OrderDAO();
-            string noti=Odao.CartQuantity(c);
+        {
+            OrderDAO Odao = new OrderDAO();
+            string noti = Odao.CartQuantity(c);
 
             return Json(noti);
         }

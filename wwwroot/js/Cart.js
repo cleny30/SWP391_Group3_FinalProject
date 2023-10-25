@@ -32,7 +32,12 @@ function AddToCart(element) {
             quantity: quan
         },
         success: function (data) {
-            $('.cart-value').text(data);
+            if (data === "fail") {
+                window.location.href = "/Login"
+            } else {
+                $('.cart-value').text(data);
+
+            }
         }
     });
 }
@@ -56,9 +61,9 @@ function updateCartQuantity(productId, username, quantityChange) {
             quantity: newQuantity
         },
         success: function (data) {
-            if (data==='Success') {
+            if (data === 'Success') {
                 $('.itemCart').val(newQuantity);
-                window.location.href = url;
+                //window.location.href = url;
             } else {
                 alert("Failed to update the cart.");
             }
