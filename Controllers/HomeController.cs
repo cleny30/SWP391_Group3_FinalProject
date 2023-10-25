@@ -20,6 +20,9 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
+
+            list = list.Where(p => p.pro_quan > 0).ToList();
+
             List<Product> listMouse = list.Where(pro => pro.cate_id == 2).ToList();
             List<Product> listKeyboard = list.Where(pro => pro.cate_id == 1).ToList();
             List<Brand> brandList = dao.GetAllBrand();
@@ -50,11 +53,13 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
 
         }
+
         [HttpPost]
         public IActionResult SearchItem(string searchbox)
         {
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
+            list = list.Where(p => p.pro_quan > 0).ToList();
 
             List<Product> foundProducts = new List<Product>();
             if (searchbox != null)

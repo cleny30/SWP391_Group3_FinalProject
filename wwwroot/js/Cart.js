@@ -43,7 +43,13 @@ function AddToCart(element) {
 }
 
 function updateCartQuantity(productId, username, quantityChange) {
-    var currentQuantity = parseInt($('.itemCart').val());
+    var currentQuantity = parseInt($('#num-' + productId).val());
+
+    if (quantityChange !== null) {
+        currentQuantity = 0;
+        quantityChange = $('#num-' + productId).val();
+    }
+    
     var newQuantity = currentQuantity + quantityChange;
     var url = window.location.href;
     if (newQuantity < 1) {
@@ -61,8 +67,14 @@ function updateCartQuantity(productId, username, quantityChange) {
             quantity: newQuantity
         },
         success: function (data) {
-            if (data === 'Success') {
-                $('.itemCart').val(newQuantity);
+            if (data.noti === 'Success') {
+                $('#num-' + productId).val(newQuantity);
+
+                $('#item-price-' + productId).text('');
+                $('#item-price-' + productId).text('$' + data.total);
+
+                $('#bill-cart').text('');
+                $('#bill-cart').text('$' + data.bill);
                 //window.location.href = url;
             } else {
                 alert("Failed to update the cart.");

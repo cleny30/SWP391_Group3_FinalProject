@@ -153,9 +153,42 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult UpdateQuantity(Cart c)
         {
             OrderDAO Odao = new OrderDAO();
-            string noti = Odao.CartQuantity(c);
+            string alert = Odao.CartQuantity(c);
 
-            return Json(noti);
+            var list = Odao.GetCartByUsername(c.username);
+
+            ProductDAO dao = new ProductDAO();
+
+            double sum = 0;
+
+            double total_item = 0;
+
+            foreach( var item in list)
+            {
+               var product = dao.GetAllProduct().FirstOrDefault(p => p.pro_id == item.pro_id);
+
+                if (product.discount > 0)
+                {
+                    item.price = item.price - ((product.discount * item.price) / 100);
+                }
+
+                double tmp = item.price * item.quantity;
+                if(c.pro_id==item.pro_id)
+                {
+                    total_item = tmp;
+                }
+
+                sum += tmp;
+            }
+
+
+            var rs = new
+            {
+                noti = alert,
+                total = total_item,
+                bill = sum
+            };
+            return Json(rs);
         }
     }
 }
