@@ -5,6 +5,7 @@ using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 namespace SWP391_Group3_FinalProject.DAOs
 {
@@ -167,7 +168,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
 
-        public void AddAddress(Addresses address, string username)
+        public int? AddAddress(Addresses address, string username)
         {
             _command.CommandText = "INSERT INTO Delivery_Address (username, Address_Information, fullname, Phone_Num)VALUES(@us, @ai, @fn, @pn)";
             _command.Parameters.Clear();
@@ -176,6 +177,19 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@fn", address.fullname);
             _command.Parameters.AddWithValue("@pn", address.phonenum);
             _command.ExecuteNonQuery();
+
+            _command.CommandText = "SELECT TOP 1 ID FROM Delivery_Address where username = @us ORDER BY ID DESC";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@us", username);
+
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    return _reader.GetInt32(0);
+                }
+            }
+            return null;
         }
         public void DeleteAddress(int id)
         {

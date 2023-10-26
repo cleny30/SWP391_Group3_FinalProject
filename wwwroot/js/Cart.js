@@ -39,7 +39,7 @@ function AddToCart(element) {
                 $('#myModal-check').css('display', 'block');
                 setTimeout(function () {
                     $('#myModal-check').css('display', 'none');
-                }, 2000);
+                }, 1500);
             }
         }
     });

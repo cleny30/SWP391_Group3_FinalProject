@@ -16,6 +16,7 @@ builder.Services.AddSession(o =>
 builder.Services.AddScoped<CustomerFilter>();
 builder.Services.AddScoped<ManagerFilter>();
 builder.Services.AddScoped<LoginFilter>();
+builder.Services.AddScoped<CheckOutFilter>();
 
 var app = builder.Build();
 app.UseSession();

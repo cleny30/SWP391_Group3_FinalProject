@@ -104,7 +104,7 @@ function DeleteAddress(element) {
             id: id
         },
         success: function (data) {
-
+            window.location.reload();
         }
     });
 }

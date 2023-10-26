@@ -158,7 +158,11 @@ namespace SWP391_Group3_FinalProject.Controllers
             Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
             if (a.phonenum != null && a.address != null && a.fullname != null)
             {
-                dao.AddAddress(a, cus.username);
+                int? kq = dao.AddAddress(a, cus.username);
+                if(kq != null)
+                {
+                    a.ID = kq;
+                }
                 cus.addresses.Add(a);
             }
             else

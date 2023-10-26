@@ -90,7 +90,7 @@
     transform-origin: 0% 0%;
     border-radius: 5px 5px 0 5px;
     background-color: #ffff;
-    animation: tick-check-animation 4s infinite;
+    animation: tick-check-animation 2s infinite;
 }
 
 @keyframes tick-check-before-animation {
@@ -114,5 +114,5 @@
     transform-origin: 0% 100%;
     border-radius: inherit;
     background: inherit;
-    animation: tick-check-before-animation 4s infinite;
+    animation: tick-check-before-animation 2s infinite;
 }

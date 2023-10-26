@@ -101,6 +101,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CheckOutFilter))]
         public IActionResult Checkout()
         {
             OrderDAO Odao = new OrderDAO();

@@ -76,15 +76,18 @@
 
             <div class="bg-light p-30 mb-3 " style="height: 100%;">
                 <div class="row">
-                    <div class="col-md-12 form-group ">
-                        @foreach (var item in ViewBag.ListAddress)
-                        {
-                            <label>@item.fullname | @item.phonenum</label>
-                            <input type="button" value="Update" data-fullname="@item.fullname" data-ID="@item.ID" data-phonenum="@item.phonenum" data-address="@item.address" onclick="UpdateAddress(this)" id="shipto" data-target="#update-address" data-toggle="collapse">
-                            <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)">
-                            <input class="form-control" type="text" name="accAddress" value="@item.address">                           
-                        }
-                    </div>
+                    @if (ViewBag.ListAddress != null)
+                    {
+                        <div class="col-md-12 form-group ">
+                            @foreach (var item in ViewBag.ListAddress)
+                            {
+                                <label>@item.fullname | @item.phonenum</label>
+                                <input type="button" value="Update" data-fullname="@item.fullname" data-ID="@item.ID" data-phonenum="@item.phonenum" data-address="@item.address" onclick="UpdateAddress(this)" id="shipto" data-target="#update-address" data-toggle="collapse">
+                                <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)">
+                                <input class="form-control" type="text" name="accAddress" value="@item.address">
+                            }
+                        </div>
+                    }
                     <div class="hide">
                         <p>
                             Bạn vẫn chưa thêm địa chỉ nào.
@@ -147,7 +150,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>                
+                    </form>
                 </div>
             </div>
         </div>

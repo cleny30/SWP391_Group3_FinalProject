@@ -12,8 +12,8 @@
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-30">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
-                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
                 <span class="breadcrumb-item active">Shopping Cart</span>
             </nav>
         </div>
@@ -22,63 +22,72 @@
 <!-- Breadcrumb End -->
 <!-- Cart Start -->
 <div class="container-fluid">
-    <div class="row px-xl-5">
-        <div class="col-lg-8 table-responsive mb-5">
-            <table class="table table-light table-borderless table-hover text-center mb-0">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Products</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle">
-                    @{
-                        int index = 0;
-                    }
-                    @foreach (var item in ViewBag.ListCart)
-                    {
-                        <tr id="itemCart-@item.pro_id">
-                            <td class="align-middle"><img src="@list[index].pro_img[0]" alt="" style="width: 50px;">@item.pro_name</td>
-                            <td class="align-middle">$@item.price</td>
-                            <td class="align-middle">
-                                <div class="input-group  mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" onclick="updateCartQuantity('@item.pro_id', '@item.username', -1)">-</button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center " id="num-@item.pro_id" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.quantity" onblur="updateCartQuantity('@item.pro_id', '@item.username',null)">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus" onclick="updateCartQuantity('@item.pro_id', '@item.username', 1)">+</button>
-                                    </div>
-                                </div>
-                            </td>
-                            @{
-                                var tp = @item.quantity * @item.price;
-                                allPrice += tp;
-                            }
-                            <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        index++;
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-lg-4">
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
-            <div class="bg-light p-30 mb-5">
+    @if (ViewBag.ListCart.Count > 0)
+    {
 
-                <div class="pt-2">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5>Total</h5>
-                        <h5 id="bill-cart">$@allPrice</h5>
+
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        @{
+                            int index = 0;
+                        }
+                        @foreach (var item in ViewBag.ListCart)
+                        {
+                            <tr id="itemCart-@item.pro_id">
+                                <td class="align-middle"><img src="@list[index].pro_img[0]" alt="" style="width: 50px;">@item.pro_name</td>
+                                <td class="align-middle">$@item.price</td>
+                                <td class="align-middle">
+                                    <div class="input-group  mx-auto" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus" onclick="updateCartQuantity('@item.pro_id', '@item.username', -1)">-</button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center " id="num-@item.pro_id" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.quantity" onblur="updateCartQuantity('@item.pro_id', '@item.username',null)">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus" onclick="updateCartQuantity('@item.pro_id', '@item.username', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                @{
+                                    var tp = @item.quantity * @item.price;
+                                    allPrice += tp;
+                                }
+                                <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
+                                <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5 id="bill-cart">$@allPrice</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="window.location.href = '/Cart/Checkout'">Proceed To Checkout</button>
                     </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="window.location.href = '/Cart/Checkout'">Proceed To Checkout</button>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <h1>Mua do di em</h1>
+    }
 </div>
 <!-- Cart End -->
