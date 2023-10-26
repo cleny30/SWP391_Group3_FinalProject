@@ -6,7 +6,11 @@ using SWP391_Group3_FinalProject.Filter;
 using SWP391_Group3_FinalProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -543,9 +547,10 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages)
+        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages, string ImagesList)
         {
             ProductDAO dao = new ProductDAO();
+            List<string> imageList = ImagesList.Split(',').ToList();
             if (selectedImages != null)
             {
                 List<string> selectedImageList = JsonConvert.DeserializeObject<List<string>>(selectedImages);
@@ -590,19 +595,38 @@ namespace SWP391_Group3_FinalProject.Controllers
             for (int i = 0; i <= count - 1; i++)
             {
                 var Image = file[i];
+
+                var OriginalImage = imageList[i];
+
                 if (Image != null && Image.Length > 0)
                 {
                     try
                     {
                         var uniqueFileName = name[i] + Path.GetExtension(file[i].FileName);
+                        string fileExtension = Path.GetExtension(uniqueFileName);
                         var webRootPath = _environment.WebRootPath;
+                        var uploadPath2 = Path.Combine("\\" +"source_img", "product_image", folder, uniqueFileName);
                         var uploadPath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, uniqueFileName);
-
-                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                        string filePath = webRootPath + OriginalImage;
+                        try
                         {
-                            // Copy the uploaded file's content to the stream.
-                            Image.CopyTo(stream);
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                System.IO.File.Delete(filePath);
+                                dao.DeleteImageByPath(OriginalImage);
+                                pro.pro_img.Add(uploadPath2);
+                            }
                         }
+                        catch (Exception ex)
+                        {
+                            return Content("Error: " + ex.Message);
+                        }
+                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                            {
+                                // Copy the uploaded file's content to the stream.
+                                Image.CopyTo(stream);
+                            }    
+                            
                     }
                     catch (Exception ex)
                     {

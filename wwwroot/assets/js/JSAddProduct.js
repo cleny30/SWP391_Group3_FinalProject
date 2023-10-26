@@ -6,21 +6,21 @@
 
         // Kiểm tra pro_name không được để trống
         if (!pro_name) {
-            showError('pro_name', 'Hãy điền tên sản phẩm');
+            showError('pro_name', 'Please insert Product Name!');
             noError = false;
         } else if (pro_name.length > 100) { 
-            showError('pro_name', 'Tên sản phẩm không quá');
+            showError('pro_name', 'Product Name can not be more than 100 characters!');
             noError = false;
         } else {
             hideError('pro_name');                  
         }           
 
         if (!pro_price) {
-            showError('pro_price', 'Hãy điền giá sản phẩm');
+            showError('pro_price', 'Please insert Product Price');
             noError = false;    
         }
         if (pro_price.trim() === '' || isNaN(parseInt(pro_price))) {
-            showError('pro_price','Vui lòng nhập giá sản phẩm là một số nguyên.');
+            showError('pro_price','Product Price must be a number!');
             noError = false;
         } else {
             hideError('pro_price');
@@ -36,7 +36,7 @@
 
             // Kiểm tra nếu không có file được chọn
             if (!inputFile) {
-                errorParagraph.text('Vui lòng chọn file hình ảnh.');
+                errorParagraph.text('Please insert a picture!');
                 noError = false;
             } else {
                 var fileName = inputFile.name.toLowerCase();
@@ -44,7 +44,7 @@
 
                 // Kiểm tra đuôi file
                 if (!validExtensions.includes(fileExtension)) {
-                    errorParagraph.text('Đuôi file hình ảnh phải là .png, .jpg hoặc .jpeg.');
+                    errorParagraph.text('file have to be either .png, .jpg or .jpeg!');
                     noError = false;
                 } else {
                     errorParagraph.text('');  // Xóa thông báo lỗi nếu hợp lệ
@@ -58,10 +58,10 @@
 
             // Kiểm tra nếu không có file được chọn
             if (!feature) {
-                errorParagraph.text('Vui lòng nhập thông tin kỹ thuật.');
+                errorParagraph.text('Please insert description!');
                 noError = false;
-            } else if (feature.length > 100) {
-                errorParagraph.text('Quá số lượng.');
+            } else if (feature.length > 1000) {
+                errorParagraph.text('Description can not be over 1000 characters');
                 noError = false;
             } else {
                 errorParagraph.text('');  // Xóa thông báo lỗi nếu hợp lệ
@@ -73,10 +73,10 @@
 
             // Kiểm tra nếu không có file được chọn
             if (!description) {
-                errorParagraph.text('Vui lòng nhập mô tả kỹ thuật.');
+                errorParagraph.text('Please enter attribute description!');
                 noError = false;
             } else if (description.length > 100) {
-                errorParagraph.text('Quá số lượng.');
+                errorParagraph.text('Attrribute description can not be over 100 characters!');
                 noError = false;
             } else {
                 errorParagraph.text('');  // Xóa thông báo lỗi nếu hợp lệ
@@ -85,10 +85,10 @@
 
         var pro_des = getValueById('pro_des');
         if (!pro_des) {
-            showError('pro_des', 'Hãy điền mô tả sản phẩm');
+            showError('pro_des', 'Please enter attribute!');
             noError = false;
         } else if (pro_des.length > 5000) {
-            showError('pro_des', 'Mô tả sản phẩm không quá');
+            showError('pro_des', 'Attrribute can not be over 1000 characters!');
             noError = false;
         } else {
             hideError('pro_des');

@@ -432,6 +432,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
 
+   
 
         public void DisableProduct(string ID)
         {
