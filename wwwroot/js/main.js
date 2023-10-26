@@ -87,25 +87,27 @@
     // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
-        var oldValue = button.parent().parent().find('input').val();
+        var oldValue = parseInt(button.parent().parent().find('input').val());
         var pro_quan_available = document.querySelector('.number-product').getAttribute('data-product_quan');
         if (button.hasClass('btn-plus')) {
             if (oldValue < pro_quan_available) {
-                var newVal = parseFloat(oldValue) + 1;
+                var newVal = parseInt(parseInt(oldValue) + 1);
             } else {
-                var newVal = parseFloat(pro_quan_available);
+                var newVal = parseInt(pro_quan_available);
             }
         } else {
             if (oldValue > 1) {
-                var newVal = parseFloat(oldValue) - 1;
+                var newVal = parseInt(parseInt(oldValue) - 1);
             } else {
                 newVal = 1;
             }
         }
         button.parent().parent().find('input').val(newVal);
+
+        $('#shopDetail_quan').attr('data-quan_input', newVal);
     });
 
-    $('#quan_input').on('input', function () {
+    $('#quan_input').on('blur', function () {
         var pro_quan_available = document.querySelector('.number-product').getAttribute('data-product_quan');
         var quan = parseFloat($('#quan_input').val());
         if (quan > pro_quan_available) {

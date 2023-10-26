@@ -71,5 +71,13 @@ namespace SWP391_Group3_FinalProject.Controllers
             return Json(foundProducts);
 
         }
+        [HttpGet]
+        public IActionResult PageNotFound()
+        {
+
+            return View();
+
+        }
     }
+    
 }

@@ -163,9 +163,9 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             double total_item = 0;
 
-            foreach( var item in list)
+            foreach (var item in list)
             {
-               var product = dao.GetAllProduct().FirstOrDefault(p => p.pro_id == item.pro_id);
+                var product = dao.GetAllProduct().FirstOrDefault(p => p.pro_id == item.pro_id);
 
                 if (product.discount > 0)
                 {
@@ -173,7 +173,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 }
 
                 double tmp = item.price * item.quantity;
-                if(c.pro_id==item.pro_id)
+                if (c.pro_id == item.pro_id)
                 {
                     total_item = tmp;
                 }
@@ -189,6 +189,16 @@ namespace SWP391_Group3_FinalProject.Controllers
                 bill = sum
             };
             return Json(rs);
+        }
+
+        [HttpGet]
+        public IActionResult PostCheckOut()
+        {
+            var customerName = _contx.HttpContext.Session.GetString("Session");
+            var customer = JsonConvert.DeserializeObject<Customer>(customerName);
+            ViewBag.customer = customer.fullname;
+
+            return View();
         }
     }
 }

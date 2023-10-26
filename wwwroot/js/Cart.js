@@ -20,8 +20,8 @@
 
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
-    var quan = element.getAttribute('$quan_input');
-    if (!isNaN(quan)) {
+    var quan = element.getAttribute('data-quan_input');
+    if (isNaN(quan)) {
         quan = 1;
     }
     $.ajax({
@@ -36,7 +36,10 @@ function AddToCart(element) {
                 window.location.href = "/Login"
             } else {
                 $('.cart-value').text(data);
-
+                $('#myModal-check').css('display', 'block');
+                setTimeout(function () {
+                    $('#myModal-check').css('display', 'none');
+                }, 2000);
             }
         }
     });
@@ -86,3 +89,9 @@ function updateCartQuantity(productId, username, quantityChange) {
     });
 }
 
+window.onclick = function (event) {
+    var modal = $('#myModal-check');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

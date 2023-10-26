@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Order\" />
+    <Compile Remove="Views\Order\**" />
+    <Content Remove="Views\Order\**" />
+    <EmbeddedResource Remove="Views\Order\**" />
+    <None Remove="Views\Order\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\source_img\product_image\Chair\" />
     <Folder Include="wwwroot\source_img\pro_img\" />
   </ItemGroup>
