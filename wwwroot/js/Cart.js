@@ -36,7 +36,10 @@ function AddToCart(element) {
                 window.location.href = "/Login"
             } else {
                 $('.cart-value').text(data);
-
+                $('#myModal-check').css('display', 'block');
+                setTimeout(function () {
+                    $('#myModal-check').css('display', 'none');
+                }, 2000);
             }
         }
     });
@@ -86,3 +89,9 @@ function updateCartQuantity(productId, username, quantityChange) {
     });
 }
 
+window.onclick = function (event) {
+    var modal = $('#myModal-check');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
