@@ -21,7 +21,7 @@
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
     var quan = element.getAttribute('data-quan_input');
-    if (isNaN(quan)) {
+    if (quan===null) {
         quan = 1;
     }
     $.ajax({
