@@ -1,6 +1,8 @@
 ﻿using System.Data.SqlClient;
 using System.Net;
+using System.Security.Cryptography;
 using System.Security.Principal;
+using System.Text;
 using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
 
@@ -100,13 +102,30 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.CommandText = "INSERT INTO Manager(username, Email, password, Fullname, SSN, Living_Address, Phone_Num, isAdmin) values(@username, @email, @password, @fullname, @SSN, @address, @phone, @isAdmin)";
             _command.Parameters.AddWithValue("@username", manager.username);
             _command.Parameters.AddWithValue("@email", manager.email);
-            _command.Parameters.AddWithValue("@password", manager.password);
+            _command.Parameters.AddWithValue("@password", CalculateMD5Hash(manager.password));
             _command.Parameters.AddWithValue("@fullname", manager.fullname);
             _command.Parameters.AddWithValue("@SSN", manager.SSN);
             _command.Parameters.AddWithValue("@address", manager.address);
             _command.Parameters.AddWithValue("@phone", manager.phone);
             _command.Parameters.AddWithValue("@isAdmin", manager.isAdmin);
             _command.ExecuteNonQuery();
+        }
+        static string CalculateMD5Hash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Net;
 using System.Security.Principal;
 using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SWP391_Group3_FinalProject.DAOs
 {
@@ -23,7 +25,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                 _command.CommandText = "Select * from Manager where username= @username and password = @password";
                 _command.Parameters.Clear();
                 _command.Parameters.AddWithValue("@username", username);
-                _command.Parameters.AddWithValue("@password", password);
+                _command.Parameters.AddWithValue("@password", CalculateMD5Hash(password));
                 using (_reader = _command.ExecuteReader())
                 {
                     Manager manager = new Manager();
@@ -75,7 +77,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.CommandText = "Select * from Customer where username= @username and password= @password";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@username", username);
-            _command.Parameters.AddWithValue("@password", password);
+            _command.Parameters.AddWithValue("@password", CalculateMD5Hash(password));
             using (_reader = _command.ExecuteReader())
             {
                 Customer customer = new Customer();
@@ -186,7 +188,7 @@ namespace SWP391_Group3_FinalProject.DAOs
         {
             _command.CommandText = "INSERT INTO Customer(username, password, fullname, email, phone_num) values(@username, @password, @fullname, @email, @phone_num)  ";
             _command.Parameters.AddWithValue("@username", customer.username);
-            _command.Parameters.AddWithValue("@password", customer.password);
+            _command.Parameters.AddWithValue("@password", CalculateMD5Hash(customer.password));
             _command.Parameters.AddWithValue("@fullname", customer.fullname);
             _command.Parameters.AddWithValue("@email", customer.email);
             _command.Parameters.AddWithValue("@phone_num", customer.phone);
@@ -240,6 +242,22 @@ namespace SWP391_Group3_FinalProject.DAOs
 
             return 0;
         }
+        public string CalculateMD5Hash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
 
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+        }
     }
 }
