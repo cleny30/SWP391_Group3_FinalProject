@@ -211,7 +211,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             AccountDAO dao = new AccountDAO();
             _command.CommandText = "UPDATE Customer SET password=@pw where username=@username";
             _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@pw", pw);
+            _command.Parameters.AddWithValue("@pw", CalculateMD5Hash(pw));
             _command.Parameters.AddWithValue("@username", username);
             _command.ExecuteNonQuery();
         }
