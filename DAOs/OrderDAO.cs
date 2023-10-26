@@ -43,6 +43,48 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
+
+        public List<Order> GetAllOrder()
+        {
+            List<Order> list = new List<Order>();
+            _command.CommandText = "SELECT * from [Order]";
+            _command.Parameters.Clear();
+
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    Order order = new Order();
+                    order.orderId = _reader.GetString(0);
+                    if (_reader.IsDBNull(1))
+                    {
+                        order.staffId = "Not Available";
+                    }
+                    else
+                    {
+                        order.staffId = _reader.GetString(1);
+                    }
+                    order.username = _reader.GetString(2);
+                    order.startDay= _reader.GetDateTime(4);
+                    if (_reader.IsDBNull(5))
+                    {
+                        order.endDay = null;
+                    }
+                    else
+                    {
+                        order.endDay = _reader.GetDateTime(5);
+                    }
+                    order.description = _reader.GetString(6);
+                    order.status = _reader.GetInt32(7);
+
+                    decimal tp = _reader.GetDecimal(3);
+                    order.totalPrice = (double)tp;
+                    list.Add(order);
+                }
+            }
+            return list;
+        }
+
         public List<OrderDetail> GetOrderDetail(string id)
         {
             List<OrderDetail> list = new List<OrderDetail>();
