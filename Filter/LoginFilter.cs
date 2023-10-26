@@ -16,7 +16,7 @@ namespace SWP391_Group3_FinalProject.Filter
             try
             {
                 //Get action (1. manager, 0. customer)
-                var serializedAction = context.HttpContext.Session.GetString("action");
+                var serializedAction = context.HttpContext.Session.GetString("Session");
                 int? action = null;
                 if (!string.IsNullOrEmpty(serializedAction))
                 {
@@ -24,13 +24,14 @@ namespace SWP391_Group3_FinalProject.Filter
                     // Use the deserialized integer 'action' here
                 }
 
-                if (context.HttpContext.Request.Cookies["role"] == null)
+                if (context.HttpContext.Request.Cookies["username"] == null)
                 {
                     if (action == null)
                     {
                         context.Result = new RedirectToActionResult("Index", "Login", null);
                     }
-                    
+                    //context.Result = new RedirectToActionResult("Index", "Login", null);
+
                 }
             }
             catch (Exception ex)

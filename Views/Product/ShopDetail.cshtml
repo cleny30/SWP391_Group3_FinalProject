@@ -91,7 +91,7 @@
                             </button>
                         </div>
                     </div>
-                    <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" onclick="AddToCart(this)">
+                    <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
                         @if (ViewBag.pro.pro_quan == 1)
@@ -219,3 +219,19 @@
     </div>
 </div>
 <!-- Products End -->
+
+
+<link href="~/css/checked.css" rel="stylesheet" />
+
+<!--Pop up Add to cart successful-->
+<div id="myModal-check" class="modal-check">
+
+    <!-- Modal content -->
+    <div class="modal-content-check">
+        <div class="wrapper-check">
+            <div class="tick-check"></div>
+        </div>
+        <p>The product has been added to Cart</p>
+    </div>
+
+</div>

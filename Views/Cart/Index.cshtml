@@ -42,13 +42,13 @@
                     {
                         <tr id="itemCart-@item.pro_id">
                             <td class="align-middle"><img src="@list[index].pro_img[0]" alt="" style="width: 50px;">@item.pro_name</td>
-                            <td class="align-middle">@item.price</td>
+                            <td class="align-middle">$@item.price</td>
                             <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                <div class="input-group  mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-minus" onclick="updateCartQuantity('@item.pro_id', '@item.username', -1)">-</button>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center itemCart" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.quantity">
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center " id="num-@item.pro_id" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.quantity" onblur="updateCartQuantity('@item.pro_id', '@item.username',null)">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus" onclick="updateCartQuantity('@item.pro_id', '@item.username', 1)">+</button>
                                     </div>
@@ -58,7 +58,7 @@
                                 var tp = @item.quantity * @item.price;
                                 allPrice += tp;
                             }
-                            <td class="align-middle">@tp</td>
+                            <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
                             <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
                         </tr>
                         index++;
@@ -73,7 +73,7 @@
                 <div class="pt-2">
                     <div class="d-flex justify-content-between mt-2">
                         <h5>Total</h5>
-                        <h5>@allPrice</h5>
+                        <h5 id="bill-cart">$@allPrice</h5>
                     </div>
                     <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="window.location.href = '/Cart/Checkout'">Proceed To Checkout</button>
                 </div>

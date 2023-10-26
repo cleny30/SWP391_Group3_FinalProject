@@ -50,7 +50,7 @@ function PlaceOrder() {
             bill: bill
         },
         success: function (data) {
-            window.location.href = "/Cart/Checkout";
+            window.location.href = "/Cart/PostCheckOut";
         }
     });
 }

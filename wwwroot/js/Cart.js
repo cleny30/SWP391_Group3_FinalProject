@@ -20,8 +20,8 @@
 
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
-    var quan = element.getAttribute('$quan_input');
-    if (!isNaN(quan)) {
+    var quan = element.getAttribute('data-quan_input');
+    if (isNaN(quan)) {
         quan = 1;
     }
     $.ajax({
@@ -36,15 +36,24 @@ function AddToCart(element) {
                 window.location.href = "/Login"
             } else {
                 $('.cart-value').text(data);
-
+                $('#myModal-check').css('display', 'block');
+                setTimeout(function () {
+                    $('#myModal-check').css('display', 'none');
+                }, 2000);
             }
         }
     });
 }
 
 function updateCartQuantity(productId, username, quantityChange) {
-    var currentQuantity = parseInt($('.itemCart').val());
-    var newQuantity = currentQuantity + quantityChange;
+    var currentQuantity = parseInt($('#num-' + productId).val());
+
+    if (quantityChange === null) {
+        currentQuantity = 0;
+        quantityChange = $('#num-' + productId).val();
+    }
+    
+    var newQuantity = parseInt(currentQuantity + quantityChange);
     var url = window.location.href;
     if (newQuantity < 1) {
         alert("Quantity cannot be less than 1.");
@@ -61,8 +70,14 @@ function updateCartQuantity(productId, username, quantityChange) {
             quantity: newQuantity
         },
         success: function (data) {
-            if (data === 'Success') {
-                $('.itemCart').val(newQuantity);
+            if (data.noti === 'Success') {
+                $('#num-' + productId).val(newQuantity);
+
+                $('#item-price-' + productId).text('');
+                $('#item-price-' + productId).text('$' + data.total);
+
+                $('#bill-cart').text('');
+                $('#bill-cart').text('$' + data.bill);
                 //window.location.href = url;
             } else {
                 alert("Failed to update the cart.");
@@ -74,3 +89,9 @@ function updateCartQuantity(productId, username, quantityChange) {
     });
 }
 
+window.onclick = function (event) {
+    var modal = $('#myModal-check');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

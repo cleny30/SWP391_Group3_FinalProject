@@ -1,4 +1,6 @@
-﻿@{
+﻿@using SWP391_Group3_FinalProject.DAOs;
+@using SWP391_Group3_FinalProject.Models;
+@{
     ViewData["Title"] = "OrderRecieptPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
 }
@@ -177,51 +179,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>OR001</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>$500</td>
-                                <td>2011-04-25</td>
-                                <td> <a class="SmallTitle" href="OrderInformation.html">Show Order</a></td>
-                            </tr>
-                            <tr>
-                                <td>OR001</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>$500</td>
-                                <td>2012-04-25</td>
+                            @foreach(var item in ViewBag.OrderPending){
+                               
+                                    OrderDAO dao = new OrderDAO();
+                                    Addresses a = dao.GetAddressByOrderID(item.orderId);
+                                    
+                                
+
+                                <tr>
+                                <td>@item.orderId</td>
+                                <td>@a.fullname</td>
+                                <td>@a.phonenum</td>
+                                <td>$@item.totalPrice</td>
+                                        <td>@item.startDay</td>
                                 <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
                             </tr>
-
-
+                            }
 
                         </tbody>
                     </table>
                     <script>
-                        let minDateColumn4, maxDateColumn5;
+                        let minDateColumn4;
 
                         // Custom filtering function which will search data in column four between two values
-                        DataTable.ext.search.push(function (settings, data, dataIndex) {
-                            let min4 = minDateColumn4.val();
-                            let max5 = maxDateColumn5.val();
-                            let date4 = new Date(data[4]);
-                            let date5 = new Date(data[5]);
+                       DataTable.ext.search.push(function (settings, data, dataIndex) {
+                        let min4 = minDateColumn4.val();
+                         let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); 
+                        // Parse date in the expected format
 
-                            if (
-                                (min4 === null && max5 === null) ||
-                                (min4 === null && date5 <= max5) ||
-                                (min4 <= date4 && max5 === null) ||
-                                (min4 <= date4 && date5 <= max5)
-                            ) {
-                                return true;
-                            }
-                            return false;
+                        if (min4 === null || min4 <= date4) {
+                        return true;
+                         }
+                        return false;
                         });
 
                         // Create date inputs for column 4 and column 5
                         minDateColumn4 = new DateTime('#minColumn4', {
-                            format: 'MMMM Do YYYY'
+                        format: 'MM/DD/YYYY h:mm:ss A' // Format for "10/26/2023 12:00:00 AM"
                         });
 
                         // DataTables initialization
@@ -265,14 +259,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>OR001</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>$500</td>
-                                <td>2011-04-25</td>
-                                <td> <a class="SmallTitle">Show Order</a></td>
+                            @foreach(var item in ViewBag.OrderShipped){                               
+                                    OrderDAO dao = new OrderDAO();
+                                    Addresses a = dao.GetAddressByOrderID(item.orderId);                                                               
+                                <tr>
+                                <td>@item.orderId</td>
+                                <td>@a.fullname</td>
+                                <td>@a.phonenum</td>
+                                <td>$@item.totalPrice</td>
+                                        <td>@item.startDay</td>
+                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
                             </tr>
+                            }
 
 
 
@@ -281,39 +279,27 @@
                     <script>
                         let minDateColumn4two, maxDateColumn5two;
 
-                        // Custom filtering function which will search data in column four between two values
-                        DataTable.ext.search.push(function (settings, data, dataIndex) {
-                            let min4 = minDateColumn4two.val();
-                            let max5 = maxDateColumn5two.val();
-                            let date4 = new Date(data[4]);
-                            let date5 = new Date(data[5]);
+                        // Custom filtering function which will search data in column four based on a minimum date
+DataTable.ext.search.push(function (settings, data, dataIndex) {
+    let min4 = minDateColumn4two.val();
+    let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
 
-                            if (
-                                (min4 === null && max5 === null) ||
-                                (min4 === null && date5 <= max5) ||
-                                (min4 <= date4 && max5 === null) ||
-                                (min4 <= date4 && date5 <= max5)
-                            ) {
-                                return true;
-                            }
-                            return false;
-                        });
+    if (min4 === null || min4 <= date4) {
+        return true;
+    }
+    return false;
+});
 
-                        // Create date inputs for column 4 and column 5
-                        minDateColumn4two = new DateTime('#minDateColumn4two', {
-                            format: 'MMMM Do YYYY'
-                        });
-                        maxDateColumn5two = new DateTime('#maxDateColumn5two', {
-                            format: 'MMMM Do YYYY'
-                        });
+// Create date inputs for column 4 and column 5 with the specified format
+minDateColumn4two = new DateTime('#minDateColumn4two', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
 
-                        // DataTables initialization
-                        let table2 = new DataTable('#example2');
+// DataTables initialization
+let table2 = new DataTable('#example2');
 
-                        // Re-filter the table when date inputs change
-                        document.querySelectorAll('#minDateColumn4two, #maxDateColumn5two').forEach((el) => {
-                            el.addEventListener('change', () => table2.draw());
-                        });
+// Re-filter the table when the minimum date input changes
+document.querySelector('#minDateColumn4two').addEventListener('change', () => table2.draw());
                     </script>
                 </div>
             </div>
@@ -328,13 +314,15 @@
                         <div class="row " style=" padding-bottom: 20px;">
                             <div class="col-2">
                                 <p class="SmallTitle">
-                                    From: <input type="text" id="minDateColumn4three"
+                                    From: 
+                                    <input type="text" id="minDateColumn4three"
                                                  name="max">
                                 </p>
                             </div>
                             <div class="col-2">
                                 <p class="SmallTitle">
-                                    To: <input type="text" id="maxDateColumn5three"
+                                    To: 
+                                    <input type="text" id="maxDateColumn5three"
                                                name="min">
                                 </p>
                             </div>
@@ -354,53 +342,58 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>OR001</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>0907124350</td>
-                                <td>$400</td>
-                                <td>2011-04-25</td>
-                                <td>2012-04-25</td>
-                                <td> <a class="SmallTitle">Show Order</a></td>
+                            @foreach (var item in ViewBag.OrderCompleted)
+                            {
+                                OrderDAO dao = new OrderDAO();
+                                    Addresses a = dao.GetAddressByOrderID(item.orderId);                                                                 
+                                <tr>
+                                <td>@item.orderId</td>
+                                <td>@a.fullname</td>
+                                <td>@a.phonenum</td>
+                                <td>$@item.totalPrice</td>
+                                        <td>@item.startDay</td>
+                                        <td>@item.endDay</td>
+                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                     <script>
                         let minDateColumn4three, maxDateColumn5three;
 
-                        // Custom filtering function which will search data in column four between two values
-                        DataTable.ext.search.push(function (settings, data, dataIndex) {
-                            let min4 = minDateColumn4three.val();
-                            let max5 = maxDateColumn5three.val();
-                            let date4 = new Date(data[4]);
-                            let date5 = new Date(data[5]);
+// Custom filtering function which will search data in column four between two values
+DataTable.ext.search.push(function (settings, data, dataIndex) {
+    let min4 = minDateColumn4three.val();
+    let max5 = maxDateColumn5three.val();
+    let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
+    let date5 = moment(data[5], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
 
-                            if (
-                                (min4 === null && max5 === null) ||
-                                (min4 === null && date5 <= max5) ||
-                                (min4 <= date4 && max5 === null) ||
-                                (min4 <= date4 && date5 <= max5)
-                            ) {
-                                return true;
-                            }
-                            return false;
-                        });
+    if (
+        (min4 === null && max5 === null) ||
+        (min4 === null && date5 <= max5) ||
+        (min4 <= date4 && max5 === null) ||
+        (min4 <= date4 && date5 <= max5)
+    ) {
+        return true;
+    }
+    return false;
+});
 
-                        // Create date inputs for column 4 and column 5
-                        minDateColumn4three = new DateTime('#minDateColumn4three', {
-                            format: 'MMMM Do YYYY'
-                        });
-                        maxDateColumn5three = new DateTime('#maxDateColumn5three', {
-                            format: 'MMMM Do YYYY'
-                        });
+// Create date inputs for column 4 and column 5 with the specified format
+minDateColumn4three = new DateTime('#minDateColumn4three', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
+maxDateColumn5three = new DateTime('#maxDateColumn5three', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
 
-                        // DataTables initialization
-                        let table3 = new DataTable('#example3');
+// DataTables initialization
+let table3 = new DataTable('#example3');
 
-                        // Re-filter the table when date inputs change
-                        document.querySelectorAll('#minDateColumn4three, #maxDateColumn5three').forEach((el) => {
-                            el.addEventListener('change', () => table3.draw());
-                        });
+// Re-filter the table when date inputs change
+document.querySelectorAll('#minDateColumn4three, #maxDateColumn5three').forEach((el) => {
+    el.addEventListener('change', () => table3.draw());
+});
                     </script>
                 </div>
             </div>

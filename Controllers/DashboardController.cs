@@ -293,6 +293,13 @@ namespace SWP391_Group3_FinalProject.Controllers
         
         public IActionResult OrderRecieptPage()
         {
+            OrderDAO dao = new OrderDAO();
+            List<Order> list = dao.GetAllOrder();
+            ViewBag.OrderPending = list.Where(o => o.status == 1).ToList();
+
+            ViewBag.OrderAccepted = list.Where(o => o.status == 2).ToList();
+            ViewBag.OrderShipped = list.Where(o => o.status == 3).ToList();
+            ViewBag.OrderCompleted = list.Where(o => o.status == 4).ToList();
             return View();
         }
 

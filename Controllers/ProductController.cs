@@ -5,6 +5,7 @@ using SWP391_Group3_FinalProject.DAOs;
 using SWP391_Group3_FinalProject.Models;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using SWP391_Group3_FinalProject.Filter;
+using System.Collections.Generic;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
@@ -21,6 +22,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO dao = new ProductDAO();
 
             List<Product> list = dao.GetAllProduct();
+            list = list.Where(p => p.pro_quan > 0).ToList();
 
             var sortCombine = Enumerable.Empty<Product>();
             if (sortFilter.Length > 0 && !sortFilter.Equals(""))
@@ -246,6 +248,8 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> searchList = dao.GetAllProduct();
+            searchList = searchList.Where(p => p.pro_quan > 0).ToList();
+
             List<Product> foundProducts = new List<Product>();
             // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên
             var currentPage = Request.Query["page"].ToString() != "" ? Convert.ToInt32(Request.Query["page"]) : 1; ; // Default value
