@@ -20,8 +20,8 @@
 
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
-    var quan = element.getAttribute('$quan_input');
-    if (!isNaN(quan)) {
+    var quan = element.getAttribute('data-quan_input');
+    if (isNaN(quan)) {
         quan = 1;
     }
     $.ajax({
