@@ -82,9 +82,9 @@
                             @foreach (var item in ViewBag.ListAddress)
                             {
                                 <label>@item.fullname | @item.phonenum</label>
-                                <input type="button" value="Update" data-fullname="@item.fullname" data-ID="@item.ID" data-phonenum="@item.phonenum" data-address="@item.address" onclick="UpdateAddress(this)" id="shipto" data-target="#update-address" data-toggle="collapse">
+                                <input type="button" value="Update" data-fullname="@item.fullname" data-ID="@item.ID" data-phonenum="@item.phonenum" data-address="@item.address" onclick="UpdateAddress(this)" id="shipto" data-toggle="collapse"@*   data-target="#update-address" *@>
                                 <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)">
-                                <input class="form-control" type="text" name="accAddress" value="@item.address">
+                                <input class="form-control" type="text" name="accAddress" value="@item.address" readonly style="background-color: #fff;">
                             }
                         </div>
                     }
@@ -99,21 +99,26 @@
                             <label class="custom-control-label" for="addNewAddress" data-toggle="collapse" data-target="#addnew-address">Add new address.</label>
                         </div>
                     </div>
-                    <form method="post" action="/Account/UpdateAddress">
-                        <div class="collapse mb-5 " id="update-address">
+                    <form method="post" class="update_address_form" action="/Account/UpdateAddress">
+                        <div class="collapse mb-5 " id="update-address" data-addressID ="">
                             <div class="bg-light p-30">
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label>Fullname</label>
-                                        <input class="form-control" type="text" name="fullname" placeholder="John" id="fullname_update">
+                                        <input class="form-control" type="text" name="fullname" placeholder="Enter your full name" id="fullname_update">
+                                        <p style="color:red; text-align:left"></p>
+
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label>Mobile No</label>
-                                        <input class="form-control" type="text" name="phonenum" placeholder="+123 456 789" id="phonenum_update">
+                                        <input class="form-control" type="text" name="phonenum" placeholder="Enter your cell phone" id="phonenum_update">
+                                        <p style="color:red; text-align:left"></p>
+
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label>Address</label>
-                                        <input class="form-control" type="text" name="address" placeholder="123 Street" id="address_update">
+                                        <input class="form-control" type="text" name="address" placeholder="Enter your address" id="address_update">
+                                        <p style="color:red; text-align:left"></p>
                                         <input type="hidden" id="ID_update" name="ID" />
                                     </div>
                                     <div class="col-md-12 form-group" style="  text-align: center;">
@@ -123,7 +128,7 @@
                             </div>
                         </div>
                     </form>
-                    <form method="post" action="/Account/AddAddress">
+                    <form method="post" class="add_address_form" action="/Account/AddAddress">
                         <div class="collapse mb-5" id="addnew-address">
                             <h3 class="section-title text-uppercase mb-3">
                                 <span style="margin-left: 39%;">Add New Address</span>
@@ -132,16 +137,19 @@
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label>Full Name</label>
-                                        <input class="form-control" type="text" name="fullname">
+                                        <input class="form-control" type="text" name="fullname" id="fullname_address_add">
+                                        <p style="color:red; text-align:left"></p>
                                     </div>
 
                                     <div class="col-md-6 form-group">
                                         <label>Mobile No</label>
-                                        <input class="form-control" type="text" name="phonenum">
+                                        <input class="form-control" type="text" name="phonenum" id="phone_address_add">
+                                        <p style="color:red; text-align:left"></p>
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label>Address</label>
-                                        <input class="form-control" type="text" name="address">
+                                        <input class="form-control" type="text" name="address" id="address_address_add">
+                                        <p style="color:red; text-align:left"></p>
                                     </div>
                                     <div>@ViewBag.Message</div>
                                     <div class="col-md-12 form-group" style="  text-align: center;">
@@ -158,3 +166,4 @@
 </div>
     </div>
 <!-- Contact End -->
+<script src="~/js/addressvalidate.js"></script>

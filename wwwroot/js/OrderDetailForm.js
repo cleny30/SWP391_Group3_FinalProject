@@ -27,8 +27,7 @@
             var dancer = $('#ODDancer');
             dancer.empty();
             var htmlCode = "";
-            switch (data.orderDick.status)
-            {
+            switch (data.orderDick.status) {
                 case 1:
                     htmlCode = '<ul id="progressbar">' +
                         '<li class="step0 active" id="step1">Pending</li>' +
@@ -66,7 +65,7 @@
                     dancer.append(htmlCode);
                     break;
             }
-            
+
             $('#totalPriceRecipt').empty();
             $('#totalPriceRecipt').append("<big>&pound;" + totalPrice + "</big>");
 
@@ -84,15 +83,46 @@ function closeForm() {
 }
 
 function UpdateAddress(element) {
+
+    var ID = element.getAttribute('data-ID');
     var fullname = element.getAttribute('data-fullname');
     var phonenum = element.getAttribute('data-phonenum');
     var address = element.getAttribute('data-address');
-    var ID = element.getAttribute('data-ID');
+    var retrievedValue = $("#update-address").attr('data-addressID');
+    var hasShowClass = $("#update-address").hasClass("show");
+    $("#update-address").attr("data-addressID", ID);
+    if (ID !== retrievedValue || !hasShowClass) {
 
-    $('#fullname_update').val(fullname);
-    $('#phonenum_update').val(phonenum);
-    $('#address_update').val(address);
-    $('#ID_update').val(ID);
+        $('#fullname_update').val(fullname);
+        $('#phonenum_update').val(phonenum);
+        $('#address_update').val(address);
+        $('#ID_update').val(ID);
+        $("#update-address").removeClass("collapse").addClass("collapsing");
+        if ($("#update-address").hasClass("collapsing")) {
+            // Thêm style "height" vào phần tử
+            $("#update-address").css("height", "292px");
+        }
+        setTimeout(function () {
+            $("#update-address").removeClass("collapsing").addClass("collapse show");
+        }, 500);
+
+        if ($("#update-address").hasClass("show")) {
+            // Thêm style "height" vào phần tử
+            $("#update-address").css("height", "");
+        }
+    } else {
+        $("#update-address").removeClass("collapse show").addClass("collapsing");
+            if ($("#update-address").hasClass("collapsing")) {
+                // Thêm style "height" vào phần tử
+                $("#update-address").css("height", "");
+            }
+        setTimeout(function () {
+            $("#update-address").removeClass("collapsing").addClass("collapse");
+        }, 500);
+    }
+
+
+
 }
 
 function DeleteAddress(element) {
