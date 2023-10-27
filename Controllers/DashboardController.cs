@@ -38,8 +38,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
-        
-        
+
+
         public IActionResult StaffList()
         {
             ManagerDAO dao = new ManagerDAO();
@@ -48,7 +48,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
-        
+
         public IActionResult CreateAccount()
         {
             return View();
@@ -63,7 +63,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             //---------------Code Here----------------
             ManagerDAO dao = new ManagerDAO();
-            manager.isAdmin = isAdmin;          
+            manager.isAdmin = isAdmin;
             dao.AddManager(manager);
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
@@ -122,15 +122,15 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Logging out for Admin And Staff
-        
+
         public IActionResult Logout()
         {
             //Delete Session
-            string ManagerInfo, role;          
-                _contx.HttpContext.Session.Remove("Session");
-                _contx.HttpContext.Session.Remove("action");
+            string ManagerInfo, role;
+            _contx.HttpContext.Session.Remove("Session");
+            _contx.HttpContext.Session.Remove("action");
             int cookievalue = 0;
-            if(_contx.HttpContext.Request.Cookies["role"] != null)
+            if (_contx.HttpContext.Request.Cookies["role"] != null)
             {
                 cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
             }
@@ -149,7 +149,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 // Assuming you have a data access layer (ProductDAO) to retrieve brand information
                 ImportRecieptDAO dao = new ImportRecieptDAO();
-                Import_Reciept importReciept =  dao.GetImportReceiptByID(ID);
+                Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
 
                 if (importReciept != null)
                 {
@@ -195,7 +195,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để cho admin thêm sản phẩm để bán
-        
+
         public IActionResult ImportProduct()
         {
 
@@ -263,7 +263,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
         //Trang để coi giỏ hàng
-        
+
         public IActionResult ProductPage()
         {
             ProductDAO dao = new ProductDAO();
@@ -283,14 +283,36 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         //Statistic page
-        
+
         public IActionResult Statistic()
         {
+            //Get Revenue
+            OrderDAO dao = new OrderDAO();
+            var totalIncome = dao.GetTotalIncome();
+            var totalPayment = dao.GetTotalPayment();
+            var Revenue = totalIncome - totalPayment;
+            //End Get Revenue
+
+
+            //Get data for Pie Chart
+            ProductDAO proDao = new ProductDAO();
+            List<Tuple<string, int>> list = dao.GetTotalQuantityOnCateName();
+
+            //End Get data for Pie Chart
+
+
+            ViewBag.TotalIncome = totalIncome;
+            ViewBag.TotalPayment = totalPayment;
+            ViewBag.Revenue = Revenue;
+
+            ViewBag.listPie = list;
+
+
             return View();
         }
 
         //Coi đơn hàng của khách hàng
-        
+
         public IActionResult OrderRecieptPage()
         {
             OrderDAO dao = new OrderDAO();
@@ -440,7 +462,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 if (image != null && image.Length > 0)
                 {
-                    
+
                     string fileName = pro.pro_id + "_" + index + Path.GetExtension(image.FileName);
                     string PathIntoDatabase = Path.Combine("\\" + "source_img", "product_image", folder, fileName);
                     string filePath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, fileName);
@@ -460,7 +482,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 pro.pro_attribute[feature[i]] = description[i];
             }
-            
+
             dao.AddProductWithDetails(pro);
             _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Product with ID " + pro.pro_id + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
@@ -554,7 +576,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(List<int> Image_ID, Product pro,  List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages, string ImagesList)
+        public IActionResult EditProduct(List<int> Image_ID, Product pro, List<string> feature, List<string> description, List<IFormFile> imgFile, string selectedImages, string ImagesList)
         {
             ProductDAO dao = new ProductDAO();
             List<string> imageList = ImagesList.Split(',').ToList();
@@ -564,7 +586,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 foreach (var path in selectedImageList)
                 {
                     var webRootPath = _environment.WebRootPath;
-                    string filePath = webRootPath  + path;
+                    string filePath = webRootPath + path;
                     try
                     {
                         if (System.IO.File.Exists(filePath))
@@ -580,9 +602,9 @@ namespace SWP391_Group3_FinalProject.Controllers
 
                 }
             }
-           
 
-            
+
+
             Category cate = dao.GetCatByID(pro.cate_id);
             string folder = cate.cate_name.Trim();
             List<IFormFile> file = new List<IFormFile>();
@@ -590,15 +612,15 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             int count = dao.countProductImage(pro.pro_id);
-            for (int i =0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
                 var Images = Request.Form.Files[pro.pro_id + "_" + Image_ID[i]];
                 name.Add(pro.pro_id + "_" + Image_ID[i]);
                 file.Add(Images);
-                
+
             }
 
-            
+
             for (int i = 0; i <= count - 1; i++)
             {
                 var Image = file[i];
@@ -612,7 +634,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                         var uniqueFileName = name[i] + Path.GetExtension(file[i].FileName);
                         string fileExtension = Path.GetExtension(uniqueFileName);
                         var webRootPath = _environment.WebRootPath;
-                        var uploadPath2 = Path.Combine("\\" +"source_img", "product_image", folder, uniqueFileName);
+                        var uploadPath2 = Path.Combine("\\" + "source_img", "product_image", folder, uniqueFileName);
                         var uploadPath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, uniqueFileName);
                         string filePath = webRootPath + OriginalImage;
                         try
@@ -629,11 +651,11 @@ namespace SWP391_Group3_FinalProject.Controllers
                             return Content("Error: " + ex.Message);
                         }
                         using (var stream = new FileStream(uploadPath, FileMode.Create))
-                            {
-                                // Copy the uploaded file's content to the stream.
-                                Image.CopyTo(stream);
-                            }    
-                            
+                        {
+                            // Copy the uploaded file's content to the stream.
+                            Image.CopyTo(stream);
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -731,7 +753,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 //Import_Reciept importReciept = dao.GetImportReceiptByID(ID);
                 ManagerDAO dao = new ManagerDAO();
                 Manager manager = dao.GetAllManagers().FirstOrDefault(_manager => _manager.ID == ID);
-                
+
                 if (manager != null)
                 {
                     Console.WriteLine(manager);

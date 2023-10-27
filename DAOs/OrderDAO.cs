@@ -1,5 +1,7 @@
 ﻿using System.Data.SqlClient;
+using System.Globalization;
 using System.Net;
+using System.Security.Cryptography;
 using Microsoft.Owin.BuilderProperties;
 using SWP391_Group3_FinalProject.Models;
 using SWP391_Group3_FinalProject.NewFolder;
@@ -65,7 +67,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                         order.staffId = _reader.GetString(1);
                     }
                     order.username = _reader.GetString(2);
-                    order.startDay= _reader.GetDateTime(4);
+                    order.startDay = _reader.GetDateTime(4);
                     if (_reader.IsDBNull(5))
                     {
                         order.endDay = null;
@@ -287,6 +289,81 @@ namespace SWP391_Group3_FinalProject.DAOs
                 return newOrderId;
             }
             return str;
+        }
+
+        public double GetTotalIncome()
+        {
+            DateTime currentDate = DateTime.Now;
+
+            // Get the current month as an integer (1 for January, 2 for February, and so on)
+            int currentMonth = currentDate.Month;
+            int currentYear = currentDate.Year;
+
+            _command.CommandText = "SELECT  SUM(Total_Price) AS Total_Price FROM [Order] WHERE DATEPART(YEAR, End_date) = @year AND DATEPART(MONTH, End_date) = @month";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@year", currentYear);
+            _command.Parameters.AddWithValue("@month", currentMonth);
+            double totalIncome = 0;
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    totalIncome = (double)_reader.GetDecimal(0);
+                }
+            }
+            return totalIncome;
+        }
+
+        public double GetTotalPayment()
+        {
+            DateTime currentDate = DateTime.Now;
+
+            // Get the current month as an integer (1 for January, 2 for February, and so on)
+            int currentMonth = currentDate.Month;
+            int currentYear = currentDate.Year;
+            _command.CommandText = "SELECT SUM(Payment) AS TotalPayment FROM [Import_Receipt] " +
+                "WHERE DATEPART(YEAR, Date_Import) = @year AND DATEPART(MONTH, Date_Import) = @month";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@year", currentYear);
+            _command.Parameters.AddWithValue("@month", currentMonth);
+            double totalPayment = 0;
+            using (_reader = _command.ExecuteReader())
+            {
+                if (_reader.Read())
+                {
+                    totalPayment = (double)_reader.GetDecimal(0);
+                }
+            }
+            return totalPayment;
+        }
+
+        public List<Tuple<string, int>> GetTotalQuantityOnCateName()
+        {
+            List<Tuple<string, int>> list = new List<Tuple<string, int>>();
+            _command.CommandText = "SELECT" +
+    " c.Cat_Name AS CategoryName," +
+    " SUM(od.quantity) AS TotalQuantity" +
+    " FROM Category c" +
+    " LEFT JOIN [Product] p ON c.Cat_ID = p.Cat_ID" +
+    " LEFT JOIN [Order_Details] od ON p.pro_id = od.pro_id" +
+    " LEFT JOIN [Order] o ON od.Order_ID = o.Order_ID AND o.End_date IS NOT NULL" +
+    " GROUP BY c.Cat_Name";
+
+
+            _command.Parameters.Clear();
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    string name = _reader.GetString(0);
+
+                    int quantity = _reader.GetInt32(1);
+
+                    Tuple<string, int> tupple = new Tuple<string, int>(name, quantity);
+                    list.Add(tupple);
+                }
+            }
+            return list;
         }
     }
 }

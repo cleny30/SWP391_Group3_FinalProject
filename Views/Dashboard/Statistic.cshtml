@@ -114,25 +114,25 @@
                     <table class="col-3 centerTable">
                         <tr class="DoanhThu">
                             <td>
-                                <h2>Tổng thu nhập: </h2>
+                                <h2>Total InCome: </h2>
                             </td>
                             <td>
-                                <h2>1000$ </h2>
+                                <h2>$@ViewBag.TotalIncome </h2>
                             </td>
                         </tr>
                         <tr class="ChiTieu">
                             <td>
-                                <h2>Tổng chi tiêu: </h2>
+                                <h2>Total Payment: </h2>
                             </td>
                             <td>
-                                <h2>900$ </h2>
+                                <h2>$@ViewBag.TotalPayment </h2>
                         </tr>
                         <tr class="LoiNhuan">
                             <td>
-                                <h2>Lợi nhuận tháng: </h2>
+                                <h2>Revenue: </h2>
                             </td>
                             <td>
-                                <h2>100$ </h2>
+                                <h2>$@ViewBag.Revenue </h2>
                             </td>
                         </tr>
                     </table>
@@ -153,6 +153,19 @@
                             <!--Cleny edit trong đây-->
                         </div>
                         <div class="col-4" style="padding: 30px; display: flex; justify-content: center; align-items: center;">
+                            @{
+                                string categoryNames = "";
+                                string quan = "";
+                                foreach (var item in ViewBag.listPie)
+                                {
+                                    categoryNames += item.Item1 + ",";
+                                    quan += item.Item2 + ",";
+                                }
+                                // Remove the trailing comma
+                                categoryNames = categoryNames.TrimEnd(',');
+                                quan = quan.TrimEnd(',');
+                            }
+                            <input type="hidden" id="categoryName_sta" data-cateName="@categoryNames" data-quantity="@quan"/>
                             <div id="PieChart">
                                 <!-- Content inside the div -->
                             </div>
