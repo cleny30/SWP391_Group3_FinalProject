@@ -2,13 +2,25 @@
     //======================================
     //Show All
     //======================================
+    var recieveIncome = $("#chart_area_data").attr('data-Toalprice');
+
+    var recievePayment = $("#chart_area_data").attr('data-totalPayment');
+
+
+    var income = recieveIncome.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
+
+    var payment = recievePayment.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
     var chart_area = {
         series: [{
-            name: 'series1',
-            data: [31, 40, 28, 51, 42, 109, 100]
+            name: 'Income',
+            data: income
         }, {
-            name: 'series2',
-            data: [11, 32, 45, 32, 34, 52, 41]
+            name: 'Payment',
+            data: payment
         }],
         chart: {
             height: 350,
@@ -21,14 +33,9 @@
             curve: 'smooth'
         },
         xaxis: {
-            type: 'datetime',
-            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
-        },
+
     };
 
     var chart = new ApexCharts(document.querySelector("#chart_area"), chart_area);
@@ -38,13 +45,27 @@
 $("#btn_change2").on('click', function () {
     $("#chart").addClass("d-none");
     $("#chart_area").removeClass("d-none");
+
+    var recieveIncome = $("#chart_area_data").attr('data-Toalprice');
+
+    var recievePayment = $("#chart_area_data").attr('data-totalPayment');
+
+
+    var income = recieveIncome.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
+
+    var payment = recievePayment.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
+
     var chart_area = {
         series: [{
-            name: 'series1',
-            data: [31, 40, 28, 51, 42, 109, 100]
+            name: 'Income',
+            data: income
         }, {
-            name: 'series2',
-            data: [11, 32, 45, 32, 34, 52, 41]
+            name: 'Payment',
+            data: payment
         }],
         chart: {
             height: 350,
@@ -57,14 +78,9 @@ $("#btn_change2").on('click', function () {
             curve: 'smooth'
         },
         xaxis: {
-            type: 'datetime',
-            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
-        },
+
     };
 
     var chart = new ApexCharts(document.querySelector("#chart_area"), chart_area);
@@ -76,20 +92,39 @@ $("#btn_change").on('click', function () {
     $("#chart_area").addClass("d-none");
     $("#chart").removeClass("d-none");
 
+    var recieveIncome = $("#chart_area_data").attr('data-Toalprice');
 
+    var recievePayment = $("#chart_area_data").attr('data-totalPayment');
+
+    var recieveRevenue = $("#chart_area_data").attr('data-totalRevenue');
+
+    var income = recieveIncome.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
+
+    var payment = recievePayment.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
+
+    var revenue = recieveRevenue.split(',').map(function (item) {
+        return parseInt(item.trim(), 10);
+    });
     var options = {
-        series: [{
+
+        
+
+        series: [{  
             name: 'Income',
             type: 'column',
-            data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+            data: income
         }, {
             name: 'Cashflow',
             type: 'column',
-            data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+            data: payment
         }, {
             name: 'Revenue',
             type: 'line',
-            data: [20, 29, 37, 36, 44, 45, 50, 58]
+            data: revenue
         }],
         chart: {
             height: 350,
@@ -102,13 +137,9 @@ $("#btn_change").on('click', function () {
         stroke: {
             width: [1, 1, 4]
         },
-        title: {
-            text: 'XYZ - Stock Analysis (2009 - 2016)',
-            align: 'left',
-            offsetX: 110
-        },
+
         xaxis: {
-            categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9 ,10 , 11, 12],
         },
         yaxis: [
             {

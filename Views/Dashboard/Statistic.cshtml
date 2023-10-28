@@ -148,6 +148,32 @@
                             </div>
 
                             <div id="chart" class="d-none"></div>
+                            @{
+
+                                string price = "";
+                                string payment = "";
+                                string revenue = "";
+                                foreach (var item in ViewBag.listIncomeMonth)
+                                {
+                                    price += item.Item3 + ",";
+                                }
+
+                                foreach (var item in ViewBag.listPayemt)
+                                {
+                                    payment += item.Item3 + ",";
+                                }
+
+                                foreach (var item in ViewBag.listRevenue)
+                                {
+                                    revenue += item.Item3 + ",";
+                                }
+
+                                // Remove the trailing comma
+                                price = price.TrimEnd(',');
+                                payment = payment.TrimEnd(',');
+                                revenue = revenue.TrimEnd(',');
+                            }
+                            <input type="hidden" id="chart_area_data" data-Toalprice="@price" data-totalPayment="@payment" data-totalRevenue="@revenue" />
 
                             <div id="chart_area" class=""></div>
                             <!--Cleny edit trong đây-->

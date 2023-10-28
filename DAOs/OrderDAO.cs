@@ -299,10 +299,9 @@ namespace SWP391_Group3_FinalProject.DAOs
             int currentMonth = currentDate.Month;
             int currentYear = currentDate.Year;
 
-            _command.CommandText = "SELECT  SUM(Total_Price) AS Total_Price FROM [Order] WHERE DATEPART(YEAR, End_date) = @year AND DATEPART(MONTH, End_date) = @month";
+            _command.CommandText = "SELECT  SUM(Total_Price) AS Total_Price FROM [Order] WHERE End_date IS NOT NULL";
             _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@year", currentYear);
-            _command.Parameters.AddWithValue("@month", currentMonth);
+
             double totalIncome = 0;
             using (_reader = _command.ExecuteReader())
             {
@@ -321,11 +320,9 @@ namespace SWP391_Group3_FinalProject.DAOs
             // Get the current month as an integer (1 for January, 2 for February, and so on)
             int currentMonth = currentDate.Month;
             int currentYear = currentDate.Year;
-            _command.CommandText = "SELECT SUM(Payment) AS TotalPayment FROM [Import_Receipt] " +
-                "WHERE DATEPART(YEAR, Date_Import) = @year AND DATEPART(MONTH, Date_Import) = @month";
+            _command.CommandText = "SELECT SUM(Payment) AS TotalPayment FROM [Import_Receipt] ";
             _command.Parameters.Clear();
-            _command.Parameters.AddWithValue("@year", currentYear);
-            _command.Parameters.AddWithValue("@month", currentMonth);
+
             double totalPayment = 0;
             using (_reader = _command.ExecuteReader())
             {
@@ -365,5 +362,85 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
+
+        public List<Tuple<string, string, double>> GetIncomeForEachMonth()
+        {
+            List<Tuple<string, string, double>> list = new List<Tuple<string, string, double>>();
+
+            DateTime currentDate = DateTime.Now;
+
+            // Get the current month as an integer (1 for January, 2 for February, and so on)
+            int currentYear = currentDate.Year;
+
+            _command.CommandText = "SELECT " +
+    "YEAR(End_date) AS OrderYear, " +
+    "MONTH(End_date) AS OrderMonth, " +
+    "SUM(Total_Price) AS TotalPrice " +
+    "FROM [dbo].[Order] " +
+    "WHERE YEAR(End_date) = @year AND End_date IS NOT NULL " +
+    "GROUP BY YEAR(End_date), MONTH(End_date) " +
+    "ORDER BY YEAR(End_date), MONTH(End_date)";
+
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@year", currentYear);
+
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    string year = _reader.GetInt32(0).ToString();
+
+                    string month = _reader.GetInt32(1).ToString();
+                    double price = (double)_reader.GetDecimal(2);
+
+                    Tuple<string, string, double> tupple = new Tuple<string, string, double>(year, month, price);
+                    list.Add(tupple);
+                }
+            }
+
+            return list;
+        }
+
+
+        public List<Tuple<string, string, double>> GetPaymentForEachMonth()
+        {
+            List<Tuple<string, string, double>> list = new List<Tuple<string, string, double>>();
+
+            DateTime currentDate = DateTime.Now;
+
+            // Get the current month as an integer (1 for January, 2 for February, and so on)
+            int currentYear = currentDate.Year;
+
+            _command.CommandText = "SELECT " +
+    "YEAR(Date_Import) AS ImportYear, " +
+    "MONTH(Date_Import) AS ImportMonth, " +
+    "SUM(Payment) AS TotalPayment " +
+    "FROM [dbo].[Import_Receipt] " +
+    "WHERE YEAR(Date_Import) = @year " +
+    "GROUP BY YEAR(Date_Import), MONTH(Date_Import) " +
+    "ORDER BY ImportYear, ImportMonth;";
+
+
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@year", currentYear);
+
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    string year = _reader.GetInt32(0).ToString();
+
+                    string month = _reader.GetInt32(1).ToString();
+                    double price = (double)_reader.GetDecimal(2);
+
+                    Tuple<string, string, double> tupple = new Tuple<string, string, double>(year, month, price);
+                    list.Add(tupple);
+                }
+            }
+
+            return list;
+        }
     }
+
+
 }

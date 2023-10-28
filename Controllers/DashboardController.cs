@@ -295,17 +295,39 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             //Get data for Pie Chart
-            ProductDAO proDao = new ProductDAO();
             List<Tuple<string, int>> list = dao.GetTotalQuantityOnCateName();
 
             //End Get data for Pie Chart
 
+
+            //Get data for  Chart are
+            List<Tuple<string, string, double>> listIncomeMonth = dao.GetIncomeForEachMonth();
+
+            List<Tuple<string, string, double>> listPayemt = dao.GetPaymentForEachMonth();
+
+            var listRevenue = listIncomeMonth
+    .Join(listPayemt,
+        income => new { income.Item1, income.Item2 },
+        payment => new { payment.Item1, payment.Item2 },
+        (income, payment) => new Tuple<string, string, double>(
+            income.Item1,
+            income.Item2,
+            income.Item3 - payment.Item3
+        ))
+    .ToList();
+
+            //End Get data for Chart are
 
             ViewBag.TotalIncome = totalIncome;
             ViewBag.TotalPayment = totalPayment;
             ViewBag.Revenue = Revenue;
 
             ViewBag.listPie = list;
+
+
+            ViewBag.listIncomeMonth = listIncomeMonth;
+            ViewBag.listPayemt = listPayemt;
+            ViewBag.listRevenue = listRevenue;
 
 
             return View();
