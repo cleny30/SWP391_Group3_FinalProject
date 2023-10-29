@@ -37,6 +37,52 @@ namespace SWP391_Group3_FinalProject.Controllers
             var filteredProducts = list.Where(product => product.pro_quan == 0 || product.pro_quan == 1).ToList();
             ViewBag.LowQuantityProduct = filteredProducts;
 
+            OrderDAO ORDao = new OrderDAO();
+            ImportRecieptDAO IRDao = new ImportRecieptDAO();
+            DateTime currentDate = DateTime.Now;
+            int currentYear = currentDate.Year;
+            int currentMonth = currentDate.Month;
+            //Completed Order
+            var CompletedOrder = ORDao.GetAllOrder().Where(o => o.status == 4 && o.endDay != null && o.endDay.Value.Year == currentYear && o.endDay.Value.Month == currentMonth).ToList();
+            int CompletedOrderCount = CompletedOrder.Count();
+
+            
+
+            //Total Income this month
+            
+            var IncomeList = ORDao.GetAllOrder().Where(o => o.status == 4 && o.endDay != null && o.endDay.Value.Year == currentYear && o.endDay.Value.Month == currentMonth).Select(o => o.totalPrice).ToList();
+
+            double TotalIncome = IncomeList.Sum();
+
+            //Total Revenue this month
+            var RevenueList = IRDao.GetAllImportReceipt().Where(IR => IR.Date_Import.Year == currentYear && IR.Date_Import != null
+                                                                     && IR.Date_Import.Month == currentMonth).Select(IR => IR.Payment).ToList();
+
+            //Top 10 Products
+            List<OrderDetail> orderDetails = ORDao.GetAllOrderDetail();
+            var consolidatedProducts = orderDetails
+            .GroupBy(detail => detail.productID)
+              .Select(group => new
+           {
+              productID = group.Key,
+               productName = group.First().productName, // Take the product name from the first item in the group
+             quantity = group.Sum(detail => detail.quantity)
+               })
+           .OrderByDescending(product => product.quantity) // Sort by quantity in descending order
+           .Take(10) // Select the top 10 products
+            .ToList();
+
+            ViewBag.Top10Product = consolidatedProducts;
+            double TotalSpent = RevenueList.Sum();
+
+            double Revenue = TotalIncome - TotalSpent;
+
+            List<Tuple<string, double>> Top10Customers = ORDao.GetTop10Customer();
+
+            ViewBag.Top10Customer = Top10Customers;
+            ViewData["TotalIncome"] = TotalIncome;
+            ViewData["Revenue"] = Revenue;
+            ViewData["CompletedOrder"] = CompletedOrderCount;
             return View();
         }
 

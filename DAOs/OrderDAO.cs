@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
@@ -86,6 +87,48 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
+
+        public List<Tuple<string, double>> GetTop10Customer()
+        {
+            List<Tuple<string, double>> topCustomers = new List<Tuple<string, double>>();
+            _command.CommandText = "SELECT [Customer].Fullname, SUM([Order].Total_Price) AS TotalPriceSum\r\nFROM [Order]\r\nINNER JOIN [Customer] ON [Order].username = [Customer].username\r\nWHERE [Order].[Status] = 4\r\nGROUP BY [Customer].Fullname";
+            _command.Parameters.Clear();
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    string fullname = _reader.GetString(0);
+                    double totalspent = (double)_reader.GetDecimal(1);
+                    topCustomers.Add(Tuple.Create(fullname, totalspent));
+                }
+            }
+            return topCustomers;
+        }
+
+        public List<OrderDetail> GetAllOrderDetail()
+        {
+            List<OrderDetail> list = new List<OrderDetail>();
+            _command.CommandText = "SELECT * from [Order_Details]\r\ninner join [Order]\r\non Order_Details.Order_ID = [Order].Order_ID\r\nwhere [Order].[Status] = 4;";
+            _command.Parameters.Clear();
+
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    
+                    OrderDetail order = new OrderDetail();
+                    order.orderID = _reader.GetString(0);
+                    order.productID = _reader.GetString(1);
+                    order.productName = _reader.GetString(2);
+                    order.quantity = _reader.GetInt32(3);
+                    order.price = (double)_reader.GetDecimal(4);
+
+                    list.Add(order);
+                }
+            }
+            return list;
+        }
+
         public Order_Address GetAllOrderAddressBasedOnID(string ID)
         {
             Order_Address order_Address = new Order_Address();
@@ -108,6 +151,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return order_Address;
         }
+
         public List<OrderDetail> GetOrderDetail(string id)
         {
             List<OrderDetail> list = new List<OrderDetail>();
