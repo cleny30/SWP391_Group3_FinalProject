@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework.Profiler;
 using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace SWP391_Group3_FinalProject.Controllers
@@ -301,20 +303,20 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             //Get data for  Chart are
-            List<Tuple<string, string, double>> listIncomeMonth = dao.GetIncomeForEachMonth();
+            List<Tuple<string, double>> listIncomeMonth = dao.GetIncomeForEachMonth();
 
-            List<Tuple<string, string, double>> listPayemt = dao.GetPaymentForEachMonth();
+            List<Tuple<string, double>> listPayment = dao.GetPaymentForEachMonth();
 
             var listRevenue = listIncomeMonth
-    .Join(listPayemt,
-        income => new { income.Item1, income.Item2 },
-        payment => new { payment.Item1, payment.Item2 },
-        (income, payment) => new Tuple<string, string, double>(
+    .Join(listPayment,
+        income => income.Item1,
+        payment => payment.Item1,
+        (income, payment) => new Tuple<string, double>(
             income.Item1,
-            income.Item2,
-            income.Item3 - payment.Item3
+            income.Item2 - payment.Item2
         ))
     .ToList();
+
 
             //End Get data for Chart are
 
@@ -326,7 +328,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             ViewBag.listIncomeMonth = listIncomeMonth;
-            ViewBag.listPayemt = listPayemt;
+            ViewBag.listPayemt = listPayment;
             ViewBag.listRevenue = listRevenue;
 
 
@@ -630,7 +632,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             Category cate = dao.GetCatByID(pro.cate_id);
             string folder = cate.cate_name.Trim();
             List<IFormFile> file = new List<IFormFile>();
-            List<String> name = new List<String>();
+            List<string> name = new List<string>();
 
 
             int count = dao.countProductImage(pro.pro_id);

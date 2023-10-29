@@ -6,6 +6,8 @@
 
     var recievePayment = $("#chart_area_data").attr('data-totalPayment');
 
+    var recievecategories = $("#chart_area_data").attr('data-categoriescombide');
+
 
     var income = recieveIncome.split(',').map(function (item) {
         return parseInt(item.trim(), 10);
@@ -13,6 +15,9 @@
 
     var payment = recievePayment.split(',').map(function (item) {
         return parseInt(item.trim(), 10);
+    });
+    var category = recievecategories.split(',').map(function (name) {
+        return name.trim(); // Đặt single quotes cho mỗi phần tử
     });
     var chart_area = {
         series: [{
@@ -33,7 +38,7 @@
             curve: 'smooth'
         },
         xaxis: {
-            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            categories: category
         },
 
     };
@@ -50,6 +55,7 @@ $("#btn_change2").on('click', function () {
 
     var recievePayment = $("#chart_area_data").attr('data-totalPayment');
 
+    var recievecategories = $("#chart_area_data").attr('data-categoriescombide');
 
     var income = recieveIncome.split(',').map(function (item) {
         return parseInt(item.trim(), 10);
@@ -59,6 +65,9 @@ $("#btn_change2").on('click', function () {
         return parseInt(item.trim(), 10);
     });
 
+    var category = recievecategories.split(',').map(function (name) {
+        return name.trim(); // Đặt single quotes cho mỗi phần tử
+    });
     var chart_area = {
         series: [{
             name: 'Income',
@@ -78,7 +87,7 @@ $("#btn_change2").on('click', function () {
             curve: 'smooth'
         },
         xaxis: {
-            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            categories: category
         },
 
     };
