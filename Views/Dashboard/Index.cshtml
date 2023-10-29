@@ -18,7 +18,7 @@
                             <div class="row alig n-items-start">
                                 <div class="col-8">
                                     <h5 class="card-title mb-9 fw-semibold">Completed Orders </h5>
-                                    <h4 class="fw-semibold mb-3">54</h4>
+                                <h4 class="fw-semibold mb-3">@ViewData["CompletedOrder"]</h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="d-flex justify-content-end">
@@ -38,7 +38,7 @@
                             <div class="row alig n-items-start">
                                 <div class="col-8">
                                     <h5 class="card-title mb-9 fw-semibold"> Monthly Income </h5>
-                                    <h4 class="fw-semibold mb-3">500$</h4>
+                                <h4 class="fw-semibold mb-3">@ViewData["TotalIncome"]$</h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="d-flex justify-content-end">
@@ -57,7 +57,7 @@
                             <div class="row alig n-items-start">
                                 <div class="col-8">
                                     <h5 class="card-title mb-9 fw-semibold"> Monthly Revenue </h5>
-                                    <h4 class="fw-semibold mb-3">300$</h4>
+                                <h4 class="fw-semibold mb-3">@ViewData["Revenue"]$</h4>
                                 </div>
                                 <div class="col-4">
                                     <div class="d-flex justify-content-end">
@@ -134,41 +134,19 @@
                                         </tr>
                                     </thead>
                                     <tbody class="body">
+                                    @foreach (var pro in ViewBag.Top10Product)
+                                    {
                                         <tr>
                                             <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">1 <span class="fw-semibold mb-1">.HyperX Cloud Alpha</span></h6>
+                                                <h6 class="fw-semibold mb-0 item"> <span class="fw-semibold mb-1">@pro.productName</span></h6>
                                             </td>
                                             <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">95</h6>
+                                                <h6 class="fw-semibold mb-0 item text-lg-end">@pro.quantity</h6>
                                             </td>
                                         </tr>
+                                    }
+                                    
 
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">2 <span class="fw-semibold mb-1">.Razer Viper X3</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">90</h6>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">3 <span class="fw-semibold mb-1">.Logitech G903</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">20</h6>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">4 <span class="fw-semibold mb-1">.Logitech G733</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">10</h6>
-                                            </td>
-                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -194,42 +172,20 @@
                                         </tr>
                                     </thead>
                                     <tbody class="body">
+                                    @foreach (var cus in ViewBag.Top10Customer)
+                                    {
                                         <tr>
                                             <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">1 <span class="fw-semibold mb-1">.Nguyen Huu Duy</span></h6>
+                                                <h6 class="fw-semibold mb-0 item"> <span class="fw-semibold mb-1">@cus.Item1</span></h6>
                                             </td>
                                             <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">150$</h6>
+                                                <h6 class="fw-semibold mb-0 item text-lg-end">@cus.Item2$</h6>
                                             </td>
                                         </tr>
+                                    }
+                                    
 
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">2 <span class="fw-semibold mb-1">.Hua Tien Thanh</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">110$</h6>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">3 <span class="fw-semibold mb-1">.Cleny</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">100$</h6>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item">4 <span class="fw-semibold mb-1">.Le Duc An</span></h6>
-                                            </td>
-                                            <td class="border-bottom-1">
-                                                <h6 class="fw-semibold mb-0 item text-lg-end">90$</h6>
-                                            </td>
-                                        </tr>
-
+                                     
                                     </tbody>
                                 </table>
                             </div>
