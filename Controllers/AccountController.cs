@@ -159,7 +159,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             if (a.phonenum != null && a.address != null && a.fullname != null)
             {
                 int? kq = dao.AddAddress(a, cus.username);
-                if(kq != null)
+                if (kq != null)
                 {
                     a.ID = kq;
                 }
@@ -210,161 +210,171 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             string otp = random.Next(100000, 999999).ToString();
 
-            string htmlContent = @"<!DOCTYPE html>
-
+            string htmlContent = @"
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <title>OTP SENDING</title>
-
-
+    <link href='css/styledone.css' rel='stylesheet'>
     <style>
         body {
 
-font-family: Arial, sans-serif;
-text-align: center;
-padding: 20px;
-}
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
 
-.container {
-max-width: 900px;
-margin: 0 auto;
-background-color: rgba(255, 247, 247, 0.1);
-height: 650px;
-}
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: rgba(255, 247, 247, 0.1);
+            height: 650px;
+        }
 
-.circle {
-width: 150px;
-height: 150px;
-border-radius: 50%;
-background-color: #008000;
+        .circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #008000;
 
-margin: 20px auto;
-}
+            margin: 20px auto;
+        }
 
-.circle::before {
-content: '\2714';
-font-size: 110px;
-color: #fff;
-}
+        .circle::before {
+            content: '\2714';
+            font-size: 110px;
+            color: #fff;
+        }
 
-h1 {
-color: #008000;
-margin-top: 20px;
-}
+        h1 {
+            color: #008000;
+            margin-top: 20px;
+        }
 
-.divider {
-margin-top: 20px;
-border-top: 2px solid #333;
-}
+        .divider {
+            margin-top: 20px;
+            border-top: 2px solid #333;
+        }
 
-.thank-you {
-font-weight: bold;
-margin-top: 20px;
-}
+        .thank-you {
+            font-weight: bold;
+            margin-top: 20px;
+        }
 
-.button {
-display: inline-block;
-background-color: #008000;
-color: #fff;
-padding: 10px 20px;
-border-radius: 5px;
-text-decoration: none;
-margin-top: 20px;
-}
+        .button {
+            display: inline-block;
+            background-color: #008000;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
 
-.hotline {
-font-size: 24px;
-color: red;
-}
+        .hotline {
+            font-size: 24px;
+            color: red;
+        }
 
-p {
-font-size: 17px;
-color: #333;
-margin-left: 20px;
-}
+        p {
+            font-size: 17px;
+            color: #333;
+            margin-left: 20px;
+        }
 
-.container_1 {
-max-width: 620px;
-margin: 0 auto;
-background-color: rgba(255, 247, 247, 0.1);
-height: 600px;
-border: 2px solid gray;
+        .container_1 {
+            max-width: 620px;
+            margin: 0 auto;
+            background-color: rgba(255, 247, 247, 0.1);
+            height: 100%;
+            border: 2px solid gray;
 
-border-radius: 10px;
-}
-.container_1 p{
-text-align: left;
+            border-radius: 10px;
+        }
 
-}
+        .container_1 p {
+            text-align: left;
 
-.circle_1 {
+        }
 
-border-radius: 50%;
+        .circle_1 {
 
-margin: 20px auto;
-}
+            border-radius: 50%;
 
-
-img {
-width: 160px;
-}
-
-.divider_1 {
-
-margin-top: 20px;
-border-top: 2px solid gray;
-width: 570px;
-margin-left: 24px;
-
-}
+            margin: 20px auto;
+        }
 
 
+        img {
+            width: 25%;
+        }
 
-.hotline_1 {
-font-size: 50px;
-color: Black;
-}
+        .divider_1 {
 
-.footer {
-max-width: 600px;
-margin-left: 419px;
-text-align: center;
-}
-.footer p{
-color: grey; text-align: center; font-size: 15px;
-}
+            margin-top: 20px;
+            border-top: 2px solid gray;
+            width: 570px;
+            margin-left: 24px;
+        }
+
+        .hotline_1 {
+            font-size: 50px;
+            color: Black;
+        }
+
+        .footer {
+            max-width: 40%;
+            margin-left: 29%;
+            text-align: center;
+        }
+
+        .footer p {
+            color: grey;
+            text-align: center;
+            font-size: 15px;
+        }
     </style>
 </head>
 
-<body>
-    <div class=""container_1"">
-        <div class=""circle_1"">
-            <img src=""cid:imageId"" alt=""Circle Image"">
+<body style=""text-align: center;"">
+    <div class='container_1'>
+        <div class='circle_1'>
+             <img src=""cid:imageId"" alt=""Circle Image"">
         </div>
 
-        <p style=""color: black; font-size: 33px; text-align: center; margin-top: 10px;"">Verify your recovery email</p>
+        <p style='color: black; font-size: 33px; text-align: center; margin-top: 10px;'>Verify your recovery email</p>
 
-        <div class=""divider_1""></div>
 
-        <p class=""thank-you""></p>
-        <p>GEAR5VN has received a request to use <span style=""font-weight: bold;"">" + reciever + @"</span> as recovery email for GEAR5VN Account <span style=""font-weight: bold;"">Clenyngungoc</span>.</p>
+        <div class='divider_1'></div>
 
-        <p>Use this code to finish setting up this recovery email:</p><br>
+        <p class='thank-you'></p>
+        <p>GEARSHOP has received a request to use <span style='font-weight: bold;'>" + reciever + @"</span>to
+            recovery your GEARSHOP's account.
+        </p>
 
-        <span class=""hotline_1"">" + otp + @"</span><br><br>
+        <p> Use this code to finish setting up this recovery account:</p><br>
 
-        <p>This code will expire after 24 hours.</p>
-        <p>If you do not recognize <span style=""font-weight: bold;"">" + reciever + @"</span>, you can safely ignore this email.</p>
+        <span class='hotline_1'>" + otp + @"</span>
+        <br>
+        <p style='text-align: center; margin-bottom:0;'>If you do not recognize this request, you can safely
+            ignore this email.<br>
+        <p style='text-align: center; margin: 0;'><strong>Please do not provide this OTP code to
+                others</strong></p>
+        </p>
+
     </div>
-
-    <div class=""footer"">
-        <p>We are sending this email to let you know about important changes to Google Accounts and your service.</p>
-        <p>2023 Google LLC, 227 Thi Tran Phong Dien, Thanh Pho Can Tho, Viet Nam.</p>
+    <div class='footer'>
+        <p>We are sending this email to let you know
+            about important changes to Google Accounts and
+            your service.</p>
+        <p>2023 Google LLC, 227 Thi Tran Phong Dien, Thanh Pho
+            Can Tho, Viet Nam.</p>
     </div>
 </body>
 </html>";
+
 
 
             MailMessage message = new MailMessage();
@@ -385,18 +395,18 @@ color: grey; text-align: center; font-size: 15px;
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             // Create the relative path to the image
-            //string relativeImagePath = "source_img/advertising_img/logoGearshop.png";
+            string relativeImagePath = "img_src/ad_img/logoGearshop.png";
 
-            // Combine the base directory and the relative path to get the full path
-            //string fullPath = Path.Combine(baseDirectory, relativeImagePath);
+            //Combine the base directory and the relative path to get the full path
+            string fullPath = Path.Combine(baseDirectory, relativeImagePath);
 
-            // Create the LinkedResource using the full path
-            //LinkedResource imageResource = new LinkedResource(fullPath, MediaTypeNames.Image.Jpeg)
-            //{
-            //    ContentId = "imageId"
-            //};
-            // Load the image and attach it as linked resource
-            //alternateView.LinkedResources.Add(imageResource);
+            //Create the LinkedResource using the full path
+           LinkedResource imageResource = new LinkedResource(fullPath, MediaTypeNames.Image.Jpeg)
+           {
+               ContentId = "imageId"
+           };
+            //Load the image and attach it as linked resource
+            alternateView.LinkedResources.Add(imageResource);
             message.AlternateViews.Add(alternateView);
 
             // Send the email

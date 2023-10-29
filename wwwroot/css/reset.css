@@ -57,7 +57,7 @@ section {
 
     .btnbox input {
         position: relative;
-        width: 100%;
+        width: 45%;
         height: 35px;
         border: none;
         border-radius: 5px;
@@ -89,6 +89,8 @@ p {
     display: none;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.14);
     border-radius: 10px;
+    left: 20rem;
+    background: white;
 }
 
     .EntryOTP form {
@@ -97,6 +99,7 @@ p {
         align-items: center;
         flex-direction: column;
         padding: 3rem 4rem;
+       
     }
 
     .EntryOTP text {
@@ -142,6 +145,8 @@ p {
     display: none;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.14);
     border-radius: 10px;
+    background:#ffff;
+    left:20rem
 }
 
     .Resetpass form {
@@ -156,14 +161,12 @@ p {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 0.75rem;
 }
 
     .reset_input input {
         font-size: 18px;
         padding: 10px 15px;
         width: 20rem;
-        margin-bottom: 1.5rem;
     }
 
 .Resetpass ion-icon {
@@ -182,12 +185,18 @@ p {
 
 .Resetpass text {
     text-align: center;
-    margin-bottom: 4rem;
 }
 
 /* TO CHANGE THE FORM */
 .showform {
     display: flex;
+}
+
+.form-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
 }
 
 @media screen and (max-width: 456px) {
@@ -242,6 +251,8 @@ p {
         font-size: 30px;
     }
 }
+
+
 
 @media screen and (max-width: 456px) {
     .Resetpass form {
