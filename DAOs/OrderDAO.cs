@@ -328,7 +328,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 if (_reader.Read())
                 {
-                    totalIncome = (double)_reader.GetDecimal(0);
+                    totalIncome = _reader.IsDBNull(0) ? 0 : (double)_reader.GetDecimal(0);
                 }
             }
             return totalIncome;
@@ -349,7 +349,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 if (_reader.Read())
                 {
-                    totalPayment = (double)_reader.GetDecimal(0);
+                    totalPayment = _reader.IsDBNull(0) ? 0 : (double)_reader.GetDecimal(0);
                 }
             }
             return totalPayment;
@@ -384,23 +384,27 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
-        public List<Tuple<string, string, double>> GetIncomeForEachMonth()
+        public List<Tuple<string, double>> GetIncomeForEachMonth()
         {
-            List<Tuple<string, string, double>> list = new List<Tuple<string, string, double>>();
+            List<Tuple<string, double>> list = new List<Tuple<string, double>>();
+
+            // Thêm giá trị từ 1 đến 12 vào danh sách
+            for (int month = 1; month <= 12; month++)
+            {
+                list.Add(new Tuple<string, double>(month.ToString(), 0));
+            }
 
             DateTime currentDate = DateTime.Now;
-
-            // Get the current month as an integer (1 for January, 2 for February, and so on)
             int currentYear = currentDate.Year;
 
             _command.CommandText = "SELECT " +
-    "YEAR(End_date) AS OrderYear, " +
-    "MONTH(End_date) AS OrderMonth, " +
-    "SUM(Total_Price) AS TotalPrice " +
-    "FROM [dbo].[Order] " +
-    "WHERE YEAR(End_date) = @year AND End_date IS NOT NULL " +
-    "GROUP BY YEAR(End_date), MONTH(End_date) " +
-    "ORDER BY YEAR(End_date), MONTH(End_date)";
+                "YEAR(End_date) AS OrderYear, " +
+                "MONTH(End_date) AS OrderMonth, " +
+                "SUM(Total_Price) AS TotalPrice " +
+                "FROM [dbo].[Order] " +
+                "WHERE YEAR(End_date) = @year AND End_date IS NOT NULL " +
+                "GROUP BY YEAR(End_date), MONTH(End_date) " +
+                "ORDER BY YEAR(End_date), MONTH(End_date)";
 
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@year", currentYear);
@@ -409,13 +413,11 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 while (_reader.Read())
                 {
-                    string year = _reader.GetInt32(0).ToString();
+                    int month = _reader.GetInt32(1);
+                    double price = _reader.IsDBNull(2) ? 0 : (double)_reader.GetDecimal(2);
 
-                    string month = _reader.GetInt32(1).ToString();
-                    double price = (double)_reader.GetDecimal(2);
-
-                    Tuple<string, string, double> tupple = new Tuple<string, string, double>(year, month, price);
-                    list.Add(tupple);
+                    // Cập nhật giá trị cho tháng tương ứng
+                    list[month - 1] = new Tuple<string, double>(month.ToString(), price);
                 }
             }
 
@@ -423,9 +425,16 @@ namespace SWP391_Group3_FinalProject.DAOs
         }
 
 
-        public List<Tuple<string, string, double>> GetPaymentForEachMonth()
+
+        public List<Tuple<string, double>> GetPaymentForEachMonth()
         {
-            List<Tuple<string, string, double>> list = new List<Tuple<string, string, double>>();
+            List<Tuple<string, double>> list = new List<Tuple<string, double>>();
+
+            // Thêm giá trị từ 1 đến 12 vào danh sách
+            for (int month = 1; month <= 12; month++)
+            {
+                list.Add(new Tuple<string, double>(month.ToString(), 0));
+            }
 
             DateTime currentDate = DateTime.Now;
 
@@ -449,13 +458,11 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 while (_reader.Read())
                 {
-                    string year = _reader.GetInt32(0).ToString();
+                    int month = _reader.GetInt32(1);
+                    double price = _reader.IsDBNull(2) ? 0 : (double)_reader.GetDecimal(2);
 
-                    string month = _reader.GetInt32(1).ToString();
-                    double price = (double)_reader.GetDecimal(2);
-
-                    Tuple<string, string, double> tupple = new Tuple<string, string, double>(year, month, price);
-                    list.Add(tupple);
+                    // Cập nhật giá trị cho tháng tương ứng
+                    list[month - 1] = new Tuple<string, double>(month.ToString(), price);
                 }
             }
 

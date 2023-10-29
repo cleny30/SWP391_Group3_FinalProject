@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using SWP391_Group3_FinalProject.DAOs;
+using SWP391_Group3_FinalProject.Models;
 
 namespace SWP391_Group3_FinalProject.Filter
 {
@@ -22,6 +23,17 @@ namespace SWP391_Group3_FinalProject.Filter
                 {
                     context.Result = new RedirectToActionResult("Index", "Home", null);
                 }
+
+                string get = context.HttpContext.Session.GetString("Session");
+
+                Customer cus = JsonConvert.DeserializeObject<Customer>(get);
+
+                if (cus.addresses == null)
+                {
+                    context.Result = new RedirectToActionResult("MyAddress", "Account", null);
+
+                }
+
             }
             catch (Exception ex)
             {

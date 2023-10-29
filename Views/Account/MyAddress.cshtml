@@ -64,7 +64,7 @@
 
                     </div>
                     <div class="control-group" style="margin-bottom: 5px;">
-                        <a class="form-control_1" href="/Account/LogOut" style="text-decoration: none;">
+                        <a class="form-control_1" href="/LogOut" style="text-decoration: none;">
                             <i class="fa fa-sign-out-alt" style="color: black; margin-right: 10px;"></i>Log Out
                         </a>
                     </div>
@@ -88,11 +88,15 @@
                             }
                         </div>
                     }
+                    else
+                    {
                     <div class="hide">
-                        <p>
-                            Bạn vẫn chưa thêm địa chỉ nào.
+                        <p style="color:red">
+                            You dont have any address. Please enter new address here!
                         </p>
                     </div>
+                    }
+                    
                     <div class="col-md-12 ">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="addNewAddress">
