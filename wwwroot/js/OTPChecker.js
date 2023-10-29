@@ -18,6 +18,8 @@ $(document).ready(function () {
     $("#BtnSend").click(function () {
         $("#EntryOTP").addClass('showform');
         $("#Entryemail").removeClass('showform');
+        $('#btnreSend').css('pointer-events', 'none');
+        updateCountdown(20);
     });
 
 
@@ -154,3 +156,47 @@ $(document).ready(function () {
         console.log("repass" + $submit.prop("disabled"));
     });
 });
+
+
+
+function ResendOTP() {
+    var $email = $('#email');
+    var email = $email.val();
+    var $ServerOTP = $('#ServerOTP');
+    $("#btnreSend").append('<span id="countDown">(20)</span>');
+
+
+    $('#btnreSend').css('pointer-events', 'none');
+
+    console.log("bam dc");
+    var request = $.ajax({
+        type: 'POST',
+        data: {
+            email: email
+        },
+        url: '/Account/SendOTP'
+    });
+
+    request.done(function (result) {
+        if (result !== null) {
+            console.log("result lÃ : " + result);
+            $ServerOTP.val(result);
+            console.log("mÃ£ server lÃ : " + $ServerOTP.val());
+            updateCountdown(20);
+        }
+    });
+}
+
+function updateCountdown(count) {
+    $('#countDown').text('(' + count + ')');
+
+    if (count <= 0) {
+        // Remove the countdown and enable the "Resend OTP" button
+        $('#countDown').remove();
+        $('#btnreSend').css('pointer-events', 'auto');
+    } else {
+        setTimeout(function () {
+            updateCountdown(count - 1);
+        }, 1000);
+    }
+}
