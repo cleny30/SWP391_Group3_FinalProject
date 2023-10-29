@@ -33,12 +33,12 @@ namespace SWP391_Group3_FinalProject.DAOs
                     if (_reader.Read())
                     {
                         manager.username = _reader.GetString(1);
-                        manager.password = _reader.GetString(2);
-                        manager.fullname = _reader.GetString(3);
-                        manager.phone = _reader.GetString(4);
-                        manager.email = _reader.GetString(5);
-                        manager.SSN = _reader.GetString(6);
-                        manager.address = _reader.GetString(7);
+                        manager.password = _reader.GetString(3);
+                        manager.fullname = _reader.GetString(4);
+                        manager.phone = _reader.GetString(7);
+                        manager.email = _reader.GetString(2);
+                        manager.SSN = _reader.GetString(5);
+                        manager.address = _reader.GetString(6);
                         manager.isAdmin = _reader.GetBoolean(8);
                         return manager;
                     }

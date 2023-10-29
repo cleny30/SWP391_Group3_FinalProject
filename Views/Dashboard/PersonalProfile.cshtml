@@ -18,13 +18,9 @@
         <div class="container">
             <div class="p-4 BoxStyle rounded-4 col-7 " style="border-color: #5D87FF; border-style:solid; border-width:8px; margin-left:20%">
                 <h1 class="Header" style="text-align:center; color: #5D87FF">PERSONAL PROFILE</h1>
-                    <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/CreateAccount" id="CreateAccount" class="createAccount">                       
+                    <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/UpdateStaffAccount" id="CreateAccount" class="createAccount">                       
                             <label for="exampleInputEmail1" class="form-label">Username</label>
                             <input type="text" class="form-control" id="Username" name="username" value="@manager.username" readonly>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="Password" name="password" value="@manager.password">
-                            </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Fullname</label>
                                 <input type="text" class="form-control" id="Fullname" name="fullname" value="@manager.fullname">
