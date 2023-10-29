@@ -230,6 +230,16 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
 
+        public void ForgetPass(string email, string pw)
+        {
+            AccountDAO dao = new AccountDAO();
+            _command.CommandText = "UPDATE Customer SET password=@pw where email=@email";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@pw", CalculateMD5Hash(pw));
+            _command.Parameters.AddWithValue("@email", email);
+            _command.ExecuteNonQuery();
+        }
+
         public int CheckEmail(string email)
         {
             _command.CommandText = "Select * from Customer where email= @email";
