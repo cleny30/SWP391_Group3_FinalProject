@@ -246,12 +246,17 @@ namespace SWP391_Group3_FinalProject.Controllers
                 };
                 ProductImported.Add(recieptProduct);
             }
-
+            string Manager = _contx.HttpContext.Session.GetString("Session");
+            Manager manager = new Manager();
+            if (Manager != null)
+            {
+                manager = JsonConvert.DeserializeObject<Manager>(Manager);
+            }
             //Create an Import_Reciept
             Import_Reciept IR = new Import_Reciept
             {
                 Date_Import = DateTime.Now,
-                Person_In_Charge = "Nguyen Huu Duy",
+                Person_In_Charge = manager.fullname,
                 Payment = totalCartPriceNumber
             };
             ImportRecieptDAO dao = new ImportRecieptDAO();
@@ -347,6 +352,30 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
+        public IActionResult AcceptOrder()
+        {
+            //----------Code Here------------//
+            //Khi accept order thì nó sẽ lấy ID của staff đó gắn vào chỗ Staff_ID
+            //chuyển status = 2
+
+            return RedirectToAction("OrderReceiptPage", "Dashboard");
+        }
+        public IActionResult CancelOrder()
+        {
+            //chuyển status = 0
+            return RedirectToAction("OrderReceiptPage", "Dashboard");
+        }
+        public IActionResult ShippedOrder()
+        {
+            //Gắn End_Date là date lúc bấm nút
+            //status = 3
+            return RedirectToAction("OrderReceiptPage", "Dashboard");
+        }
+        public IActionResult CompletedOrder()
+        {
+            //chuyển status = 4
+            return RedirectToAction("OrderReceiptPage", "Dashboard");
+        }
 
         //Get Brand Info
         [HttpPost]
@@ -784,6 +813,41 @@ namespace SWP391_Group3_FinalProject.Controllers
                 else
                 {
                     return NotFound("Staff not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult GetOrderInfo (string ID)
+        {
+            try
+            {
+                OrderDAO dao = new OrderDAO();
+                AccountDAO AccDAO = new AccountDAO();
+                Order order = dao.GetAllOrder().FirstOrDefault(o => o.orderId.Equals(ID));
+                Order_Address address = dao.GetAllOrderAddressBasedOnID(order.orderId);
+                Customer cus = AccDAO.GetCustomerByUsername(order.username);
+                List<OrderDetail> list = dao.GetOrderDetail(order.orderId);
+
+                if (order != null)
+                {
+                    var result = new
+                    {
+                        Order = order,
+                        Address = address,
+                        Email = cus.email,
+                        OrderDetail = list
+                    };
+                    Console.WriteLine(order);
+                    return Ok(result); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("Order not found");
                 }
             }
             catch (Exception ex)

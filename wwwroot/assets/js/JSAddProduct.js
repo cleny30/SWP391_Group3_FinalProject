@@ -17,13 +17,16 @@
 
         if (!pro_price) {
             showError('pro_price', 'Please insert Product Price');
-            noError = false;    
-        }
-        if (pro_price.trim() === '' || isNaN(parseInt(pro_price))) {
-            showError('pro_price','Product Price must be a number!');
             noError = false;
         } else {
-            hideError('pro_price');
+            // Use a regular expression to check if pro_price contains only numbers
+            const numberRegex = /^\d+$/;
+            if (!numberRegex.test(pro_price)) {
+                showError('pro_price', 'Product Price must be a number!');
+                noError = false;
+            } else {
+                hideError('pro_price');
+            }
         }
 
 
@@ -53,30 +56,30 @@
         });
 
         $('.feature').each(function () {
-            var feature = $(this).val();
+            var feature = $(this).val().trim();
             var errorParagraph = $(this).next('p');
 
             // Kiểm tra nếu không có file được chọn
             if (!feature) {
-                errorParagraph.text('Please insert description!');
+                errorParagraph.text('Please insert attribute description!');
                 noError = false;
             } else if (feature.length > 1000) {
-                errorParagraph.text('Description can not be over 1000 characters');
+                errorParagraph.text('Attribute description can not be over 1000 characters');
                 noError = false;
             } else {
                 errorParagraph.text('');  // Xóa thông báo lỗi nếu hợp lệ
             }
         });
         $('.description').each(function () {
-            var description = $(this).val();
-            var errorParagraph = $(this).next('p');
+            var description = $(this).val().trim();
 
+            var errorParagraph = $(this).next('p');
             // Kiểm tra nếu không có file được chọn
             if (!description) {
-                errorParagraph.text('Please enter attribute description!');
+                errorParagraph.text('Please insert attribute!');
                 noError = false;
             } else if (description.length > 100) {
-                errorParagraph.text('Attrribute description can not be over 100 characters!');
+                errorParagraph.text('Attribute description can not be over 1000 characters');
                 noError = false;
             } else {
                 errorParagraph.text('');  // Xóa thông báo lỗi nếu hợp lệ
@@ -85,10 +88,10 @@
 
         var pro_des = getValueById('pro_des');
         if (!pro_des) {
-            showError('pro_des', 'Please enter attribute!');
+            showError('pro_des', 'Please insert description!');
             noError = false;
         } else if (pro_des.length > 5000) {
-            showError('pro_des', 'Attrribute can not be over 1000 characters!');
+            showError('pro_des', 'Description can not be over 1000 characters!');
             noError = false;
         } else {
             hideError('pro_des');

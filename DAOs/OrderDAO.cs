@@ -86,7 +86,28 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return list;
         }
+        public Order_Address GetAllOrderAddressBasedOnID(string ID)
+        {
+            Order_Address order_Address = new Order_Address();
+            _command.CommandText = "SELECT * from [Order_Address] where Order_ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", ID);
 
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    order_Address = new Order_Address
+                    {
+                        address = _reader.GetString(3),
+                        phonenum = _reader.GetString(2),
+                        fullname = _reader.GetString(1),
+                    };
+                    
+                }
+            }
+            return order_Address;
+        }
         public List<OrderDetail> GetOrderDetail(string id)
         {
             List<OrderDetail> list = new List<OrderDetail>();

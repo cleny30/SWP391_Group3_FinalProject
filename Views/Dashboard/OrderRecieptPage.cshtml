@@ -18,147 +18,129 @@
     $(document).ready(function () {
         $('#example3').DataTable();
     });
+    $(document).ready(function () {
+        $('#example4').DataTable();
+    });
 </script>
 <div class="body-wrapper">
     <div class="container">
         <h1 class="Header">ORDERS</h1>
         <div class="tabs">
+            <div id="myModal" class="modal" style="position: absolute;">
+
+                <!-- Modal content -->
+
+                <div class="invoice-box modal-content">
+                    <span class="close">&times;</span>
+                    <table cellpadding="0" cellspacing="0" style="color: black" id="OrderReceipt">
+                        <tr class="top">
+                            <td colspan="3">
+                                <table>
+                                    <tr>
+                                        <td class="title">
+                                            <img src="~/source_img/advertising_img/GearShopBanner.png"
+                                                 style="width: 100%; max-width: 300px" />
+                                        </td>
+                                        <td style="text-align: end;">
+                                            <span style="color: #5D87FF; font-weight:bold">Invoice #:</span> <span id="Order_ID"> 1</span><br />
+                                            <span style="color: #5D87FF; font-weight:bold">Created Date:</span> <span id="Created_Date"> </span><br />
+                                            <span style="color: #5D87FF; font-weight:bold">Shipping Date:</span> <span id="Shipped_Date"> </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="information" style="color: black;">
+                            <td colspan="3" style="padding-left: 0px;">
+                                <table>
+                                    <tr>
+                                        <td style="padding: 0px;">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Fullname:</span>
+
+                                                    </td>
+                                                    <td id="Name">
+                                                        Nguyen Huu Duy
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Phone Number:</span>
+
+                                                    </td>
+                                                    <td id="PhoneNumber">
+                                                        0907124350
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Email:</span>
+                                                    </td>
+                                                    <td id="Email">
+                                                        tin66hv@gmail.com
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">In Charge:</span>
+                                                    </td>
+                                                    <td id="Staff_Name">
+                                                        To be Decided
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="text-align: end;" id="Address">
+                                        </td>
+
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="heading">
+                            <td colspan="3" style="color: #5D87FF;">Reminder</td>
+
+                        </tr>
+
+                        <tr class="details">
+                            <td colspan="3" id="Description"></td>
+
+                        </tr>
+
+                        <tr class="heading" style="color: #5D87FF;">
+                            <td>Item</td>
+
+                            <td>Quantity</td>
+
+                            <td>Price</td>
+                        </tr>
+
+
+                        <tr class="total">
+                            <td></td>
+
+                            <td></td>
+                            <td style="font-weight:bold">Total: <span style="font-weight:bold" id="TotalPrice"> </span></td>
+                        </tr>
+                    </table>
+
+                    <div id="buttonsContainer" class="row"></div>
+
+                </div>
+
+
+            </div>
             <div class="tabby-tab">
                 <input type="radio" id="tab-1" name="tabby-tabs" checked>
                 <label for="tab-1" class="tabby-tablabel">PENDING ORDERS</label>
-                <div class="tabby-content">
+                <div class="tabby-content" style="z-index: 0;">
                     <h1 class="Title">List of Pending Orders</h1>
-                    <div id="myModal" class="modal">
-
-                        <!-- Modal content -->
-
-                        <div class="invoice-box modal-content">
-                            <span class="close">&times;</span>
-                            <table cellpadding="0" cellspacing="0" style="color: black">
-                                <tr class="top">
-                                    <td colspan="3">
-                                        <table>
-                                            <tr>
-                                                <td class="title">
-                                                    <img src="~/source_img/advertising_img/GearShopBanner.png"
-                                                         style="width: 100%; max-width: 300px" />
-                                                </td>
-                                                <td style="text-align: end;">
-                                                    <span style="color: #5D87FF; font-weight:bold">Invoice #:</span> 1<br />
-                                                    <span style="color: #5D87FF; font-weight:bold">Created Date:</span> January 1, 2023<br />
-                                                    <span style="color: #5D87FF; font-weight:bold">Shipping Date:</span> To be Decided
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <tr class="information" style="color: black;">
-                                    <td colspan="3" style="padding-left: 0px;">
-                                        <table>
-                                            <tr>
-                                                <td style="padding: 0px;">
-                                                    <table>
-                                                        <tr>
-                                                            <td>
-                                                                <span style="color: #5D87FF; font-weight:bold">Fullname:</span>
-
-                                                            </td>
-                                                            <td>
-                                                                Nguyen Huu Duy
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span style="color: #5D87FF; font-weight:bold">Phone Number:</span>
-
-                                                            </td>
-                                                            <td>
-                                                                0907124350
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span style="color: #5D87FF; font-weight:bold">Email:</span>
-                                                            </td>
-                                                            <td>
-                                                                tin66hv@gmail.com
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span style="color: #5D87FF; font-weight:bold">In Charge:</span>
-                                                            </td>
-                                                            <td>
-                                                                To be Decided
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td style="text-align: end;">
-                                                    11 Tran Bach Dang, Ninh Kieu, Can Tho
-                                                </td>
-
-
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <tr class="heading">
-                                    <td colspan="3" style="color: #5D87FF;">Reminder</td>
-
-                                </tr>
-
-                                <tr class="details">
-                                    <td colspan="3">Delivery at noon</td>
-
-                                </tr>
-
-                                <tr class="heading" style="color: #5D87FF;">
-                                    <td>Item</td>
-
-                                    <td>Quantity</td>
-
-                                    <td>Price</td>
-                                </tr>
-
-                                <tr class="item">
-                                    <td>Website design</td>
-
-                                    <td>3</td>
-
-                                    <td>$300.00</td>
-                                </tr>
-
-                                <tr class="item">
-                                    <td>Hosting (3 months)</td>
-
-                                    <td>6</td>
-
-                                    <td>$300.00</td>
-                                </tr>
-
-                                <tr class="item last">
-                                    <td>Domain name (1 year)</td>
-
-                                    <td>3</td>
-
-                                    <td>$300.00</td>
-                                </tr>
-
-                                <tr class="total">
-                                    <td></td>
-
-                                    <td></td>
-                                    <td>Total: $385.00</td>
-                                </tr>
-                            </table>
-                            <button class="btn btn-primary">Accept Order</button>
-                        </div>
-
-
-                    </div>
+                   
                     <div class="col-12">
                         <div class="row " style=" padding-bottom: 20px;">
                             <div class="col-2">
@@ -192,7 +174,7 @@
                                 <td>@a.phonenum</td>
                                 <td>$@item.totalPrice</td>
                                         <td>@item.startDay</td>
-                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
+                                    <td> <a class="SmallTitle"  data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
 
@@ -229,11 +211,88 @@
                     </script>
                 </div>
             </div>
+            <div class="tabby-tab">
+                <input type="radio" id="tab-4" name="tabby-tabs" checked>
+                <label for="tab-4" class="tabby-tablabel">ACCEPTED ORDERS</label>
+                <div class="tabby-content" style="z-index: 0;">
+                    <h1 class="Title">List of Accepteds Orders</h1>
 
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">From: <input type="text" id="minColumn4four" name="min"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example4" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderAccepted)
+                            {
+
+                                OrderDAO dao = new OrderDAO();
+                                Addresses a = dao.GetAddressByOrderID(item.orderId);
+
+
+
+                                <tr>
+                                    <td>@item.orderId</td>
+                                    <td>@a.fullname</td>
+                                    <td>@a.phonenum</td>
+                                    <td>$@item.totalPrice</td>
+                                    <td>@item.startDay</td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4four;
+
+                        // Custom filtering function which will search data in column four between two values
+                        DataTable.ext.search.push(function (settings, data, dataIndex) {
+                            let min4 = minDateColumn4four.val();
+                            let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A');
+                            // Parse date in the expected format
+
+                            if (min4 === null || min4 <= date4) {
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4four = new DateTime('#minColumn4four', {
+                            format: 'MM/DD/YYYY h:mm:ss A' // Format for "10/26/2023 12:00:00 AM"
+                        });
+
+                        // DataTables initialization
+                        let table4 = new DataTable('#example4');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minColumn4four, #maxColumn5').forEach((el) => {
+                            el.addEventListener('change', () => table4.draw());
+                        });
+
+                    </script>
+                </div>
+            </div>
             <div class="tabby-tab">
                 <input type="radio" id="tab-2" name="tabby-tabs">
                 <label for="tab-2" class="tabby-tablabel">SHIPPING ORDERS</label>
-                <div class="tabby-content">
+                <div class="tabby-content" style="z-index: 0;">
+                    >
                     <h1 class="Title">List of Shipping Orders</h1>
                     <!--Danh sách account sort theo số tiền sử dụng-->
                     <div class="col-12">
@@ -268,7 +327,7 @@
                                 <td>@a.phonenum</td>
                                 <td>$@item.totalPrice</td>
                                         <td>@item.startDay</td>
-                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
 
@@ -307,7 +366,7 @@ document.querySelector('#minDateColumn4two').addEventListener('change', () => ta
             <div class="tabby-tab">
                 <input type="radio" id="tab-3" name="tabby-tabs">
                 <label for="tab-3" class="tabby-tablabel">COMPLETED ORDERS</label>
-                <div class="tabby-content">
+                <div class="tabby-content" style="z-index: 0;">
                     <h1 class="Title" style="padding-bottom: 20px;">List of Completed Orders</h1>
                     <!--Thống kê doanh thu và có bảng-->
                     <div class="col-12">
@@ -353,7 +412,7 @@ document.querySelector('#minDateColumn4two').addEventListener('change', () => ta
                                 <td>$@item.totalPrice</td>
                                         <td>@item.startDay</td>
                                         <td>@item.endDay</td>
-                                <td> <a class="SmallTitle" id="myBtn">Show Order</a></td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
                         </tbody>
@@ -431,4 +490,5 @@ document.querySelectorAll('#minDateColumn4three, #maxDateColumn5three').forEach(
         }
     }
 </script>
+
 
