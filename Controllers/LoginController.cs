@@ -144,6 +144,14 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpPost]
+        public IActionResult ForgetPassword(string password, string emailSend)
+        {
+            AccountDAO DAO = new AccountDAO();
+            DAO.ForgetPass(emailSend, password);
+            return RedirectToAction("Index", "Login");
+        }
+
+        [HttpPost]
         public IActionResult CheckUsername(string username)
         {
             AccountDAO dao = new AccountDAO();
