@@ -163,7 +163,21 @@ namespace SWP391_Group3_FinalProject.Controllers
                 {
                     a.ID = kq.Value;
                 }
-                cus.addresses.Add(a);
+                if (cus.addresses == null)
+                {
+                    cus.addresses.Add(new Addresses
+                    {
+                        ID = a.ID,
+                        address = a.address,
+                        fullname = a.fullname,
+                        phonenum = a.phonenum,
+                    });
+                }
+                else
+                {
+                    cus.addresses.Add(a);
+                }
+
             }
             else
             {

@@ -28,7 +28,7 @@ namespace SWP391_Group3_FinalProject.Filter
 
                 Customer cus = JsonConvert.DeserializeObject<Customer>(get);
 
-                if (cus.addresses == null)
+                if (cus.addresses == null || cus.addresses.Count()==0)
                 {
                     context.Result = new RedirectToActionResult("MyAddress", "Account", null);
 

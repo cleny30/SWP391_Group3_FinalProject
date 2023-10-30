@@ -29,8 +29,8 @@ function Order(element) {
     var order = element.getAttribute("data-order");
     var url = window.location.href;
 
-    // Kiểm tra nếu order === 'standout', loại bỏ tham số 'order' trong URL
-    if (order === 'standout') {
+    // Kiểm tra nếu order === 'standard', loại bỏ tham số 'order' trong URL
+    if (order === 'standard') {
         url = url.replace(/([&?])order=[^&]+/, ''); // Loại bỏ tham số 'order'
         url = url.replace(/[?&]$/, ''); // Loại bỏ dấu '?' hoặc '&' cuối cùng nếu có
     } else {

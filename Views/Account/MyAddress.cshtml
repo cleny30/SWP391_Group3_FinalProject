@@ -76,7 +76,7 @@
 
             <div class="bg-light p-30 mb-3 " style="height: 100%;">
                 <div class="row">
-                    @if (ViewBag.ListAddress != null)
+                    @if (ViewBag.ListAddress != null && ViewBag.ListAddress.Count>0)
                     {
                         <div class="col-md-12 form-group ">
                             @foreach (var item in ViewBag.ListAddress)

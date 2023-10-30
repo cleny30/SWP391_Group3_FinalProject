@@ -121,12 +121,6 @@
                         <span class="badge border font-weight-normal">@ViewBag.totalProductOnsale</span>
                     </div>
 
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input shop" id="sort-best_selling" value="best_selling" @(selectedSort.Contains("best_selling") ? "checked" : "")>
-                        <label class="custom-control-label" for="sort-best_selling">Best Selling</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-
                 </form>
             </div>
             <!-- Popularity End -->
@@ -202,7 +196,7 @@
                                             Sorting: <span id="sort-order" class="font-weight-bold">@result</span>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <span id="sort-standout " class="dropdown-item" onclick="Order(this)" data-order="standout">Standout</span>
+                                            <span id="sort-standard " class="dropdown-item" onclick="Order(this)" data-order="standard">Standard</span>
                                             <span id="sort-highest" class="dropdown-item @(order.Equals("highest")?bold:"")" onclick="Order(this)" data-order="highest">Highest</span>
                                             <span id="sort-lowest" class="dropdown-item @(order.Equals("lowest")?bold:"")" onclick="Order(this)" data-order="lowest">Lowest</span>
 
@@ -214,10 +208,10 @@
                                     <div class="btn-group ml-2">
                                         <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                                 data-toggle="dropdown">
-                                            Sorting: <span id="sort-order" class="font-weight-bold">Standout</span>
+                                            Sorting: <span id="sort-order" class="font-weight-bold">Standard</span>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <span id="sort-standout " class="dropdown-item font-weight-bold" onclick="Order(this)" data-order="standout">Standout</span>
+                                            <span id="sort-standard " class="dropdown-item font-weight-bold" onclick="Order(this)" data-order="standard">Standard</span>
                                             <span id="sort-highest" class="dropdown-item" onclick="Order(this)" data-order="highest">Highest</span>
                                             <span id="sort-lowest" class="dropdown-item" onclick="Order(this)" data-order="lowest">Lowest</span>
                                         </div>
