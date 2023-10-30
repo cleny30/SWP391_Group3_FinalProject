@@ -39,6 +39,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     manager.address = _reader.GetString(6);
                     manager.phone = _reader.GetString(7);
                     manager.isAdmin = _reader.GetBoolean(8);
+                    manager.isAvailable = _reader.GetBoolean(9);
                     list.Add(manager);
                 }
             }
@@ -65,6 +66,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     manager.address = _reader.GetString(6);
                     manager.phone = _reader.GetString(7);
                     manager.isAdmin = _reader.GetBoolean(8);
+                    manager.isAvailable = _reader.GetBoolean(9);
                     return manager;
                 }
             }
@@ -91,6 +93,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     manager.address = _reader.GetString(6);
                     manager.phone = _reader.GetString(7);
                     manager.isAdmin = _reader.GetBoolean(8);
+                    manager.isAvailable = _reader.GetBoolean(9);
                     return manager;
                 }
             }
@@ -99,7 +102,7 @@ namespace SWP391_Group3_FinalProject.DAOs
         //Add manager
         public void AddManager(Manager manager)
         {
-            _command.CommandText = "INSERT INTO Manager(username, Email, password, Fullname, SSN, Living_Address, Phone_Num, isAdmin) values(@username, @email, @password, @fullname, @SSN, @address, @phone, @isAdmin)";
+            _command.CommandText = "INSERT INTO Manager(username, Email, password, Fullname, SSN, Living_Address, Phone_Num, isAdmin, isAvailable) values(@username, @email, @password, @fullname, @SSN, @address, @phone, @isAdmin, @isAvailable)";
             _command.Parameters.AddWithValue("@username", manager.username);
             _command.Parameters.AddWithValue("@email", manager.email);
             _command.Parameters.AddWithValue("@password", CalculateMD5Hash(manager.password));
@@ -108,6 +111,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@address", manager.address);
             _command.Parameters.AddWithValue("@phone", manager.phone);
             _command.Parameters.AddWithValue("@isAdmin", manager.isAdmin);
+            _command.Parameters.AddWithValue("@isAvailable", true);
             _command.ExecuteNonQuery();
         }
         static string CalculateMD5Hash(string input)

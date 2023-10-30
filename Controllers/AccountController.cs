@@ -161,7 +161,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 int? kq = dao.AddAddress(a, cus.username);
                 if (kq != null)
                 {
-                    a.ID = kq;
+                    a.ID = kq.Value;
                 }
                 cus.addresses.Add(a);
             }

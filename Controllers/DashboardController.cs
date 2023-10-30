@@ -400,29 +400,29 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
-        public IActionResult AcceptOrder()
+        public IActionResult AcceptOrder(string ID)
         {
             //----------Code Here------------//
             //Khi accept order thì nó sẽ lấy ID của staff đó gắn vào chỗ Staff_ID
             //chuyển status = 2
 
-            return RedirectToAction("OrderReceiptPage", "Dashboard");
+            return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
-        public IActionResult CancelOrder()
+        public IActionResult CancelOrder(string ID)
         {
             //chuyển status = 0
-            return RedirectToAction("OrderReceiptPage", "Dashboard");
+            return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
-        public IActionResult ShippedOrder()
+        public IActionResult ShippedOrder(string ID)
         {
             //Gắn End_Date là date lúc bấm nút
             //status = 3
-            return RedirectToAction("OrderReceiptPage", "Dashboard");
+            return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
-        public IActionResult CompletedOrder()
+        public IActionResult CompletedOrder(string ID)
         {
             //chuyển status = 4
-            return RedirectToAction("OrderReceiptPage", "Dashboard");
+            return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
 
         //Get Brand Info
