@@ -406,8 +406,9 @@ namespace SWP391_Group3_FinalProject.Controllers
             //Khi accept order thì nó sẽ lấy ID của staff đó gắn vào chỗ Staff_ID
             //chuyển status = 2
             OrderDAO dao = new OrderDAO();
-            dao.AcceptOrder(ID);
-
+            var serializedmanager = _contx.HttpContext.Session.GetString("Session");
+            var manager = JsonConvert.DeserializeObject<Manager>(serializedmanager);
+            dao.AcceptOrder(ID, manager.ID);
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CancelOrder(string ID)
@@ -884,11 +885,12 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 OrderDAO dao = new OrderDAO();
                 AccountDAO AccDAO = new AccountDAO();
+                ManagerDAO ManaDAO = new ManagerDAO();
                 Order order = dao.GetAllOrder().FirstOrDefault(o => o.orderId.Equals(ID));
                 Order_Address address = dao.GetAllOrderAddressBasedOnID(order.orderId);
                 Customer cus = AccDAO.GetCustomerByUsername(order.username);
                 List<OrderDetail> list = dao.GetOrderDetail(order.orderId);
-
+                Manager staff = ManaDAO.GetAllManagers().FirstOrDefault(m => m.ID == order.staffId);
                 if (order != null)
                 {
                     var result = new
@@ -896,7 +898,8 @@ namespace SWP391_Group3_FinalProject.Controllers
                         Order = order,
                         Address = address,
                         Email = cus.email,
-                        OrderDetail = list
+                        OrderDetail = list,
+                        Staff = staff,
                     };
                     Console.WriteLine(order);
                     return Ok(result); // Return a 200 OK response with JSON data

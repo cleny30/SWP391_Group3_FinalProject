@@ -273,7 +273,6 @@ function GetOrderReceipt(element) {
                 $('#Shipped_Date').html(formattedDate2);
             }
 
-
             $('#Name').html(data.address.fullname);
             $('#PhoneNumber').html(data.address.phonenum);
             $('#Email').html(data.email);
@@ -281,7 +280,7 @@ function GetOrderReceipt(element) {
             if (data.order.staffId === null) {
                 $('#Staff_Name').html('To be Decided');
             } else {
-                $('#Staff_Name').html(data.order.staffId);
+                $('#Staff_Name').html(data.staff.fullname);
             }
 
             $('#Description').html(data.order.description);

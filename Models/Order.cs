@@ -3,7 +3,7 @@
     public class Order
     {
         public string orderId {  get; set; }
-        public string? staffId { get; set; }
+        public int? staffId { get; set; }
         public string username { get; set; }
         public double totalPrice { get; set; }
         public DateTime startDay { get; set; }

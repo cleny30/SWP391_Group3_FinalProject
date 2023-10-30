@@ -61,11 +61,11 @@ namespace SWP391_Group3_FinalProject.DAOs
                     order.orderId = _reader.GetString(0);
                     if (_reader.IsDBNull(1))
                     {
-                        order.staffId = "Not Available";
+                        order.staffId = null;
                     }
                     else
                     {
-                        order.staffId = _reader.GetString(1);
+                        order.staffId = _reader.GetInt32(1);
                     }
                     order.username = _reader.GetString(2);
                     order.startDay = _reader.GetDateTime(4);
@@ -529,17 +529,18 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
         //Change order status to Accept
-        public void AcceptOrder(string orderid)
+        public void AcceptOrder(string orderid, int staffid)
         {
-            _command.CommandText = "UPDATE \"Order\" SET Status = 2 WHERE Order_ID = @Order_ID";
+            _command.CommandText = "Update \"Order\" Set Status = 2, Staff_ID = @Staff_ID where Order_ID = @Order_ID";
             _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Staff_ID", staffid);
             _command.Parameters.AddWithValue("@Order_ID", orderid);
             _command.ExecuteNonQuery();
         }
         //Change order status to Ship
         public void ShippedOrder(string orderid)
         {
-            _command.CommandText = "UPDATE \"Order\" SET Status = 3 WHERE Order_ID = @Order_ID";
+            _command.CommandText = "Update \"Order\" Set Status = 3, End_date = GETDATE() where Order_ID = @Order_ID";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@Order_ID", orderid);
             _command.ExecuteNonQuery();
