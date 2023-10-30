@@ -73,7 +73,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
                 return RedirectToAction("Index", "Home");
             }
-            else if (manager != null)
+            else if (manager != null && manager.isAvailable==true)
             {
                 if (manager.isAdmin == true)
                 {
