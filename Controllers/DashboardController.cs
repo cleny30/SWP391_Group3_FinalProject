@@ -405,23 +405,31 @@ namespace SWP391_Group3_FinalProject.Controllers
             //----------Code Here------------//
             //Khi accept order thì nó sẽ lấy ID của staff đó gắn vào chỗ Staff_ID
             //chuyển status = 2
+            OrderDAO dao = new OrderDAO();
+            dao.AcceptOrder(ID);
 
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CancelOrder(string ID)
         {
             //chuyển status = 0
+            OrderDAO dao = new OrderDAO();
+            dao.CancelOrder(ID);
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult ShippedOrder(string ID)
         {
             //Gắn End_Date là date lúc bấm nút
             //status = 3
+            OrderDAO dao = new OrderDAO();
+            dao.ShippedOrder(ID);
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CompletedOrder(string ID)
         {
             //chuyển status = 4
+            OrderDAO dao = new OrderDAO();
+            dao.CompletedOrder(ID);
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
 

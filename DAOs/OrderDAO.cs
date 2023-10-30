@@ -523,6 +523,38 @@ namespace SWP391_Group3_FinalProject.DAOs
 
             return list;
         }
+        //Change order status to Cancel
+        public void CancelOrder(string orderid)
+        {
+            _command.CommandText = "UPDATE \"Order\" SET Status = 0 WHERE Order_ID = @Order_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Order_ID", orderid);
+            _command.ExecuteNonQuery();
+        }
+        //Change order status to Accept
+        public void AcceptOrder(string orderid)
+        {
+            _command.CommandText = "UPDATE \"Order\" SET Status = 2 WHERE Order_ID = @Order_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Order_ID", orderid);
+            _command.ExecuteNonQuery();
+        }
+        //Change order status to Ship
+        public void ShippedOrder(string orderid)
+        {
+            _command.CommandText = "UPDATE \"Order\" SET Status = 3 WHERE Order_ID = @Order_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Order_ID", orderid);
+            _command.ExecuteNonQuery();
+        }
+        //Change order status to Complete
+        public void CompletedOrder(string orderid)
+        {
+            _command.CommandText = "UPDATE \"Order\" SET Status = 4 WHERE Order_ID = @Order_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Order_ID", orderid);
+            _command.ExecuteNonQuery();
+        }
     }
 
 
