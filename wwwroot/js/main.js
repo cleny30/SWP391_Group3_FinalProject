@@ -110,12 +110,16 @@
     $('#quan_input').on('blur', function () {
         var pro_quan_available = document.querySelector('.number-product').getAttribute('data-product_quan');
         var quan = parseFloat($('#quan_input').val());
+        $('#shopDetail_quan').attr('data-quan_input', $('#quan_input').val());
+
         if (quan > pro_quan_available) {
             $('#quan_input').val(pro_quan_available);
+            $('#shopDetail_quan').attr('data-quan_input', pro_quan_available);
         }
 
         if (isNaN(quan)) {
             $('#quan_input').val(1);
+            $('#shopDetail_quan').attr('data-quan_input', 1);
         }
     });
 
