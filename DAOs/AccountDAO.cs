@@ -40,6 +40,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                         manager.SSN = _reader.GetString(5);
                         manager.address = _reader.GetString(6);
                         manager.isAdmin = _reader.GetBoolean(8);
+                        manager.isAvailable = _reader.GetBoolean(9);
                         return manager;
                     }
                 }
@@ -66,6 +67,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                         manager.SSN = _reader.GetString(5);
                         manager.address = _reader.GetString(6);
                         manager.isAdmin = _reader.GetBoolean(8);
+                        manager.isAvailable = _reader.GetBoolean(9);
                         return manager;
                     }
                 }
