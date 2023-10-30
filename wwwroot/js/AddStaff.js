@@ -112,7 +112,7 @@ $(document).ready(function () {
             showError('Fullname', 'Please enter your full name!');
             noError = false;
         } else if (fullname.length > 100) {
-            showError('Fullname', 'You full name must be less than 100 characters!');
+            showError('Fullname', 'You full name must be less than or equal to 100 characters!');
             noError = false;
         } else {
             hideError('Fullname');
@@ -123,7 +123,7 @@ $(document).ready(function () {
             showError('PhoneNumber', 'Please enter your phone number!');
             noError = false;
         } else if (!isValidPhoneNumber(phone)) {
-            showError('PhoneNumber', 'Invalid phone number!');
+            showError('PhoneNumber', 'Phone number format must be 0XXXXXXXXX');
             noError = false;
         } else {
             hideError('PhoneNumber');
@@ -170,7 +170,7 @@ $(document).ready(function () {
             showError('LivingAddress', 'Please enter your address!');
             noError = false;
         } else if (address.length > 100) {
-            showError('LivingAddress', 'address must be less than 100 characters!');
+            showError('LivingAddress', 'address must be less than or equal to 100 characters!');
             noError = false;
         } else {
             hideError('LivingAddress');
