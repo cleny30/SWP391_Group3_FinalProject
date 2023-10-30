@@ -70,7 +70,7 @@ function isValidPhoneNumber(phoneNum) {
 }
 // Kiểm tra tính hợp lệ của SSN
 function isValidSSN(SSN) {
-    const SSNPattern = /\d{12}$/;
+    const SSNPattern = /^\d{12}$/;
     return SSNPattern.test(SSN);
 }
 
@@ -169,15 +169,15 @@ $(document).ready(function () {
         if (!address) {
             showError('LivingAddress', 'Please enter your address!');
             noError = false;
-        } else if (address.length > 200) {
-            showError('LivingAddress', 'address must be less than 200 characters!');
+        } else if (address.length > 100) {
+            showError('LivingAddress', 'address must be less than 100 characters!');
             noError = false;
         } else {
             hideError('LivingAddress');
         }
 
         //If there is error, block form submit
-        if (!noError) {
+        if (!noError || usernameExist || emailExist) {
             event.preventDefault();
         }
     });
