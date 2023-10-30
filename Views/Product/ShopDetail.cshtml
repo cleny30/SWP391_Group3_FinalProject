@@ -60,6 +60,7 @@
                     var priceDiscount = ViewBag.pro.pro_price - (ViewBag.pro.pro_price * ViewBag.pro.discount) / 100;
 
                     <h3 class="text-muted ml-2"><del style="color: #155724; margin-left: -9px">$@ViewBag.pro.pro_price</del></h3>
+                    priceDiscount = Math.Round(priceDiscount, 2);
                     <h2 class="font-weight-semi-bold mb-4">$@priceDiscount</h2>
                 }
                 else
@@ -94,14 +95,14 @@
                     <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
-                        @if (ViewBag.pro.pro_quan == 1)
-                        {
-                            <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
-                        }
-                        else
-                        {
-                            <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
-                        }
+                    @if (ViewBag.pro.pro_quan == 1)
+                    {
+                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
+                    }
+                    else
+                    {
+                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
+                    }
 
                 </div>
 

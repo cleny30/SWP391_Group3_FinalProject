@@ -22,7 +22,10 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO dao = new ProductDAO();
 
             List<Product> list = dao.GetAllProduct();
+
             list = list.Where(p => p.pro_quan > 0).ToList();
+
+
 
             var sortCombine = Enumerable.Empty<Product>();
             if (sortFilter.Length > 0 && !sortFilter.Equals(""))

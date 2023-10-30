@@ -180,58 +180,6 @@ namespace SWP391_Group3_FinalProject.DAOs
             return list;
         }
 
-        public List<Product> SortProductByBestSelling()
-        {
-            List<Product> list = new List<Product>();
-            _command.CommandText = "SELECT p.* FROM Product p JOIN (SELECT pro_id, COUNT(*) AS total_purchases FROM Order_Details GROUP BY pro_id ORDER BY total_purchases DESC) [top_product] ON p.pro_id = [top_product].pro_id;";
-            _command.Parameters.Clear();
-            using (_reader = _command.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Product pro = new Product();
-                    pro.pro_id = _reader.GetString(0);
-                    pro.brand_id = _reader.GetInt32(1);
-                    pro.cate_id = _reader.GetInt32(2);
-                    pro.pro_name = _reader.GetString(3);
-                    pro.pro_quan = _reader.GetInt32(4);
-                    pro.pro_des = _reader.GetString(5);
-                    pro.pro_price = double.Parse(_reader.GetValue(6).ToString());
-                    pro.discount = _reader.GetInt32(7);
-                    pro.isAvailable = _reader.GetBoolean(8);
-                    list.Add(pro);
-                }
-            }
-            foreach (var item in list)
-            {
-                _command.CommandText = "SELECT * FROM Product_Image WHERE pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_img.Add(_reader.GetString(1));
-                    }
-                }
-            }
-
-            foreach (var item in list)
-            {
-                _command.CommandText = "Select * from Product_Attribute where pro_id = '" + item.pro_id + "'";
-                //_command.Parameters.AddWithValue("@pro_id", item.pro_id);
-                _command.Parameters.Clear();
-                using (_reader = _command.ExecuteReader())
-                {
-                    while (_reader.Read())
-                    {
-                        item.pro_attribute[_reader.GetString(1)] = _reader.GetString(2);
-                    }
-                }
-            }
-            return list;
-
-        }
 
         public List<Product> SortProductByPrice(int key)
         {
@@ -406,7 +354,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@ID", ID);
             _command.ExecuteNonQuery();
         }
-    
+
 
         public int countProductImage(string ID)
         {
@@ -432,7 +380,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.ExecuteNonQuery();
         }
 
-   
+
 
         public void DisableProduct(string ID)
         {

@@ -32,10 +32,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                 {
                     ProductList.Add(product);
                 }
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
+                c.price = Math.Round(c.price, 2);
             }
 
             ViewBag.ProductList = ProductList;
@@ -115,10 +114,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 var product = Pdao.GetAllProduct().FirstOrDefault(p => p.pro_id == c.pro_id);
 
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
+                c.price = Math.Round(c.price, 2);
             }
             ViewBag.ListCart = CartList;
             ViewBag.Addresses = Adao.GetCustomerAddress(cus.username);
@@ -139,10 +136,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 var product = Pdao.GetAllProduct().FirstOrDefault(p => p.pro_id == c.pro_id);
 
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
+                c.price = Math.Round(c.price, 2);
             }
             Odao.Checkout(CartList, des, bill, a);
             int Count = Odao.GetCartByUsername(cus.username).Count();
@@ -154,40 +149,46 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult UpdateQuantity(Cart c)
         {
             OrderDAO Odao = new OrderDAO();
+            ProductDAO dao = new ProductDAO();
+
             string alert = Odao.CartQuantity(c);
 
-            var list = Odao.GetCartByUsername(c.username);
+            var listCart = Odao.GetCartByUsername(c.username);
+            var thisCart = listCart.SingleOrDefault(ca => ca.pro_id == c.pro_id);
+            if (alert == "Out of Stock!")
+            {
+                c.quantity = thisCart.quantity;
+            }
 
-            ProductDAO dao = new ProductDAO();
+            var quantity = c.quantity;
 
             double sum = 0;
 
-            double total_item = 0;
+            double total_price_of_this_item = 0;
 
-            foreach (var item in list)
+            foreach (var item in listCart)
             {
                 var product = dao.GetAllProduct().FirstOrDefault(p => p.pro_id == item.pro_id);
 
-                if (product.discount > 0)
-                {
-                    item.price = item.price - ((product.discount * item.price) / 100);
-                }
+                item.price = product.pro_price - ((product.discount * product.pro_price) / 100);
 
                 double tmp = item.price * item.quantity;
                 if (c.pro_id == item.pro_id)
                 {
-                    total_item = tmp;
+                    total_price_of_this_item = tmp;
                 }
 
                 sum += tmp;
             }
-
+            sum = Math.Round(sum, 2);
+            total_price_of_this_item = Math.Round(total_price_of_this_item, 2);
 
             var rs = new
             {
                 noti = alert,
-                total = total_item,
-                bill = sum
+                total = total_price_of_this_item,
+                bill = sum,
+                quanN= quantity
             };
             return Json(rs);
         }

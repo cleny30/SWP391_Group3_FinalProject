@@ -2,6 +2,6 @@
 {
     public class Customer : Account
     {
-        public List<Addresses> addresses { get; set; }
+        public List<Addresses> addresses { get; set; } = new List<Addresses>();
     }
 }

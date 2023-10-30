@@ -61,6 +61,7 @@
                                 @{
                                     var tp = @item.quantity * @item.price;
                                     allPrice += tp;
+                                    tp = Math.Round(tp, 2);
                                 }
                                 <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
                                 <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
@@ -77,6 +78,9 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
+                            @{
+                                allPrice = Math.Round(allPrice, 2);
+                            }
                             <h5 id="bill-cart">$@allPrice</h5>
                         </div>
                         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="window.location.href = '/Cart/Checkout'">Proceed To Checkout</button>
@@ -87,7 +91,14 @@
     }
     else
     {
-        <h1>Mua do di em</h1>
+
+        <div class="col-12 text-center">
+            <img src="~/source_img/advertising_img/zyro-image1.png" width="25%" height="25%">
+            <p style="font-size: 25px; color: black">
+                Your Cart has empty<br>
+                Click <a href="/Product/Shop">here</a> to shopping now
+            </p>
+        </div>
     }
 </div>
 <!-- Cart End -->

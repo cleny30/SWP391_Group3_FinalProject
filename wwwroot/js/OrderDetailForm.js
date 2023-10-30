@@ -16,12 +16,11 @@
                     '<span id="name">' + item.productName + " x " + item.quantity + '</span>' +
                     '</div>' +
                     '<div class="col-3">' +
-                    '<span id="price">&pound;' + item.price + '</span>' +
+                    '<span id="price">$' + item.price + '</span>' +
                     '</div>' +
                     '</div>';
                 listOrderD.append(htmlCode);
                 totalPrice += item.price;
-                totalPrice += 10;
             });
 
             var dancer = $('#ODDancer');
@@ -66,8 +65,9 @@
                     break;
             }
 
+            totalPrice += 10;
             $('#totalPriceRecipt').empty();
-            $('#totalPriceRecipt').append("<big>&pound;" + totalPrice + "</big>");
+            $('#totalPriceRecipt').append("<big>$" + totalPrice + "</big>");
 
             $('#orderDateOD').text(data.orderDick.startDay);
             $('#fullnameOD').text(data.addresses.fullname);

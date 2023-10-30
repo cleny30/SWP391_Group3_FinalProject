@@ -76,14 +76,14 @@
 
             <div class="bg-light p-30 mb-3 " style="height: 100%;">
                 <div class="row">
-                    @if (ViewBag.ListAddress != null)
+                    @if (ViewBag.ListAddress != null && ViewBag.ListAddress.Count>0)
                     {
                         <div class="col-md-12 form-group ">
                             @foreach (var item in ViewBag.ListAddress)
                             {
                                 <label>@item.fullname | @item.phonenum</label>
                                 <input type="button" value="Update" data-fullname="@item.fullname" data-ID="@item.ID" data-phonenum="@item.phonenum" data-address="@item.address" onclick="UpdateAddress(this)" id="shipto" data-toggle="collapse"@*   data-target="#update-address" *@>
-                                <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)">
+                                <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)" id="shipto" data-toggle="collapse">
                                 <input class="form-control" type="text" name="accAddress" value="@item.address" readonly style="background-color: #fff;">
                             }
                         </div>

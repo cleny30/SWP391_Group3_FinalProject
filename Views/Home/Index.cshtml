@@ -195,6 +195,7 @@
                                 @if (item.discount > 0)
                                 {
                                     var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
                                     <h5>$@priceDiscount</h5>
                                     <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
                                 }
@@ -283,6 +284,7 @@
                                 @if (item.discount > 0)
                                 {
                                     var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
                                     <h5>$@priceDiscount</h5>
                                     <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
                                 }
@@ -344,6 +346,7 @@
                                 @if (item.discount > 0)
                                 {
                                     var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
                                     <h5>$@priceDiscount</h5>
                                     <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
                                 }
