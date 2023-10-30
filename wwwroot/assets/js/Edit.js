@@ -169,7 +169,6 @@ function ShowStaff(element) {
             $('#Staff_SSN').html('');
             $('#Staff_LivingAddress').html('');
             $('#Staff_Username').html('');
-            $('#Staff_Password').html('');
 
             $('#Staff_Name').html(data.fullname);
             $('#Staff_PhoneNum').html(data.phone);
@@ -177,7 +176,6 @@ function ShowStaff(element) {
             $('#Staff_SSN').html(data.ssn);
             $('#Staff_LivingAddress').html(data.address);
             $('#Staff_Username').html(data.username);
-            $('#Staff_Password').html(data.password);
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
         },
