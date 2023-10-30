@@ -32,10 +32,8 @@ namespace SWP391_Group3_FinalProject.Controllers
                 {
                     ProductList.Add(product);
                 }
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
             }
 
             ViewBag.ProductList = ProductList;
@@ -115,10 +113,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 var product = Pdao.GetAllProduct().FirstOrDefault(p => p.pro_id == c.pro_id);
 
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
             }
             ViewBag.ListCart = CartList;
             ViewBag.Addresses = Adao.GetCustomerAddress(cus.username);
@@ -139,10 +134,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 var product = Pdao.GetAllProduct().FirstOrDefault(p => p.pro_id == c.pro_id);
 
-                if (product.discount > 0)
-                {
-                    c.price = c.price - ((product.discount * c.price) / 100);
-                }
+                c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
             }
             Odao.Checkout(CartList, des, bill, a);
             int Count = Odao.GetCartByUsername(cus.username).Count();
@@ -168,10 +160,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 var product = dao.GetAllProduct().FirstOrDefault(p => p.pro_id == item.pro_id);
 
-                if (product.discount > 0)
-                {
-                    item.price = item.price - ((product.discount * item.price) / 100);
-                }
+                item.price = product.pro_price - ((product.discount * product.pro_price) / 100);
 
                 double tmp = item.price * item.quantity;
                 if (c.pro_id == item.pro_id)

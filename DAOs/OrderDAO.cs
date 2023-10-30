@@ -115,7 +115,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             {
                 while (_reader.Read())
                 {
-                    
+
                     OrderDetail order = new OrderDetail();
                     order.orderID = _reader.GetString(0);
                     order.productID = _reader.GetString(1);
@@ -146,7 +146,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                         phonenum = _reader.GetString(2),
                         fullname = _reader.GetString(1),
                     };
-                    
+
                 }
             }
             return order_Address;
@@ -220,18 +220,19 @@ namespace SWP391_Group3_FinalProject.DAOs
             ProductDAO Pdao = new ProductDAO();
             List<Product> listpro = Pdao.GetAllProduct();
 
-            var quantityInStock = listpro.FirstOrDefault(p => p.pro_id == c.pro_id).pro_quan;
-            if (quantityInStock <= 0 || quantityInStock < c.quantity)
+            var pro = listpro.FirstOrDefault(p => p.pro_id == c.pro_id);
+            if (pro.pro_quan <= 0 || pro.pro_quan < c.quantity)
             {
                 return;
             }
+
             _command.CommandText = "INSERT INTO Cart(username, pro_id, pro_name, quantity, price) VALUES (@us, @pi, @pn, @q, @p)";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@us", c.username);
             _command.Parameters.AddWithValue("@pi", c.pro_id);
             _command.Parameters.AddWithValue("@pn", c.pro_name);
             _command.Parameters.AddWithValue("@q", c.quantity);
-            _command.Parameters.AddWithValue("@p", c.price);
+            _command.Parameters.AddWithValue("@p", (decimal)c.price);
             _command.ExecuteNonQuery();
         }
         public string CartQuantity(Cart c)
@@ -293,17 +294,13 @@ namespace SWP391_Group3_FinalProject.DAOs
                     _command.Parameters.AddWithValue("@pi", c.pro_id);
                     _command.ExecuteNonQuery();
 
-                    if (product.discount > 0)
-                    {
-                        c.price = c.price - ((product.discount * c.price) / 100);
-                    }
                     _command.CommandText = "INSERT INTO Order_Details(Order_ID, pro_id, pro_name, quantity, price) VALUES (@oID, @pi, @pn, @q, @p)";
                     _command.Parameters.Clear();
                     _command.Parameters.AddWithValue("@oID", OID);
                     _command.Parameters.AddWithValue("@pi", c.pro_id);
                     _command.Parameters.AddWithValue("@pn", c.pro_name);
                     _command.Parameters.AddWithValue("@q", c.quantity);
-                    _command.Parameters.AddWithValue("@p", c.price * c.quantity);
+                    _command.Parameters.AddWithValue("@p", (decimal)(c.price * c.quantity));
                     _command.ExecuteNonQuery();
                 }
                 _command.CommandText = "INSERT INTO Order_Address values (@oID, @fn, @pn, @ai)";
