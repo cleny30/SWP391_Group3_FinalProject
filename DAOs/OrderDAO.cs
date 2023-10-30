@@ -419,7 +419,18 @@ namespace SWP391_Group3_FinalProject.DAOs
                 {
                     string name = _reader.GetString(0);
 
-                    int quantity = _reader.GetInt32(1);
+                    int quantity = 0;
+                    if (!_reader.IsDBNull(1))
+                    {
+                        quantity = _reader.GetInt32(1);
+                    } else
+                    {
+                        quantity = 0;
+                    }
+
+                    
+
+
 
                     Tuple<string, int> tupple = new Tuple<string, int>(name, quantity);
                     list.Add(tupple);

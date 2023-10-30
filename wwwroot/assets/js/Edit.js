@@ -337,14 +337,14 @@ function GetOrderReceipt(element) {
                 var acceptLink = document.createElement("a");
                 acceptLink.className = "btn btn-primary";
                 acceptLink.textContent = "Accept Order";
-                acceptLink.href = "/Dashboard/AcceptOrder";
+                acceptLink.href = "/Dashboard/AcceptOrder/" + data.order.orderId;
                 acceptLink.style.marginBottom = "10px"; // Add padding to the link
 
 
                 var cancelLink = document.createElement("a");
                 cancelLink.className = "btn btn-danger";
                 cancelLink.textContent = "Cancel Order";
-                cancelLink.href = "/Dashboard/CancelOrder";
+                cancelLink.href = "/Dashboard/CancelOrder/" + data.order.orderId;
 
                 buttonsContainer.appendChild(acceptLink);
                 buttonsContainer.appendChild(cancelLink);
@@ -353,14 +353,14 @@ function GetOrderReceipt(element) {
                 var completeLink = document.createElement("a");
                 completeLink.className = "btn btn-primary";
                 completeLink.textContent = "Complete Order";
-                completeLink.href = "/Dashboard/CompletedOrder";
+                completeLink.href = "/Dashboard/CompletedOrder/" + data.order.orderId;
 
                 buttonsContainer.appendChild(completeLink);
             } else if (order_status === 2) {
                 var AcceptedLink = document.createElement("a");
                 AcceptedLink.className = "btn btn-primary";
                 AcceptedLink.textContent = "Shipped Order";
-                AcceptedLink.href = "/Dashboard/ShippedOrder";
+                AcceptedLink.href = "/Dashboard/ShippedOrder/" + data.order.orderId;
                 buttonsContainer.appendChild(AcceptedLink);
             }
 
