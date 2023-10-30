@@ -70,8 +70,8 @@ function updateCartQuantity(productId, username, quantityChange) {
             quantity: newQuantity
         },
         success: function (data) {
-            if (data.noti === 'Success') {
-                $('#num-' + productId).val(newQuantity);
+            if (data.noti === 'Success' || data.noti === 'Out of Stock!') {
+                $('#num-' + productId).val(data.quanN);
 
                 $('#item-price-' + productId).text('');
                 $('#item-price-' + productId).text('$' + data.total);
