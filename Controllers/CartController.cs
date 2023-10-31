@@ -24,9 +24,13 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO PDAO = new ProductDAO();
             var listC = dao.GetCartByUsername(cus.username);
             List<Product> ProductList = new List<Product>();
-
+            List<Tuple<string,int, int>> imgStatus = new List<Tuple<string,int, int>>();
             foreach (var c in listC)
             {
+                string img = "";
+                int status = 0;// 0:normal | 1: out of stock | 2: Disable
+                int stock = 0;
+
                 var product = PDAO.GetAllProduct().FirstOrDefault(p => p.pro_id == c.pro_id);
                 if (product != null)
                 {
@@ -35,9 +39,26 @@ namespace SWP391_Group3_FinalProject.Controllers
 
                 c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
                 c.price = Math.Round(c.price, 2);
+
+                img = product.pro_img[0];
+
+
+                //Check out of stock
+                if (product.pro_quan <= 0 || product.pro_quan < c.quantity)
+                {
+                    status = 1;
+                }
+
+                if (product.isAvailable == false)
+                {
+                    status = 2;
+                }
+
+                Tuple<string,int, int> tuple = new Tuple<string,int, int>(img, product.pro_quan, status);
+                imgStatus.Add(tuple);
             }
 
-            ViewBag.ProductList = ProductList;
+            ViewBag.imgStatus = imgStatus;
             ViewBag.ListCart = listC;
             return View();
         }

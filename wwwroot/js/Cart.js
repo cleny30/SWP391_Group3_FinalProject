@@ -95,3 +95,58 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
+
+function SubmitCheckOut() {
+    // Lấy tất cả các phần tử có lớp "status-Stock"
+    var stockElements = $(".status-Stock");
+    var hasZeroValue = false;
+    var msg = $('#msg-alert-msg');
+    // Lặp qua tất cả các phần tử
+    stockElements.each(function () {
+        // Lấy giá trị của phần tử hiện tại và chuyển đổi nó thành số nguyên
+        var value = parseInt($(this).val());
+
+        // Kiểm tra nếu giá trị bằng 0
+        if (value === 1) {
+            // Đánh dấu có giá trị bằng 0
+            hasZeroValue = true;
+            msg.text('');
+            msg.text('Warning: Your cart contains out of stock products');
+            // Hiển thị thông báo
+            return false;
+        } else if (value === 2) {
+            // Đánh dấu có giá trị bằng 0
+            hasZeroValue = true;
+            msg.text('');
+            msg.text('Warning: Your cart contains unavailable products');
+            // Hiển thị thông báo
+            return false;
+        }
+    });
+
+    // Kiểm tra nếu không có giá trị nào bằng 0
+    if (!hasZeroValue) {
+        // Chuyển hướng trang
+        window.location.href = 'Cart/Checkout';
+    } else {
+        alertMessage();
+    }
+}
+
+function alertMessage() {
+    $('#alert-message-checkout').removeClass("hide");
+    $('#alert-message-checkout').addClass("show");
+    $('#alert-message-checkout').addClass("showAlert");
+
+    setTimeout(function () {
+        $('#alert-message-checkout').removeClass("show");
+        $('#alert-message-checkout').removeClass("showAlert");
+        $('#alert-message-checkout').addClass("hide");
+    }, 2000)
+}
+
+$('#close-btn-alert').click(function () {
+    $('#alert-message-checkout').removeClass("show");
+    $('#alert-message-checkout').removeClass("showAlert");
+    $('#alert-message-checkout').addClass("hide");
+})
