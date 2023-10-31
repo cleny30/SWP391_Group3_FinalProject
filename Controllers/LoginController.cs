@@ -132,6 +132,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             }
             _contx.HttpContext.Session.Remove("Session");
+            _contx.HttpContext.Session.Remove("Count");
             return RedirectToAction("Index", "Home");
         }
 

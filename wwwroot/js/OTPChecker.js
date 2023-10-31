@@ -46,7 +46,7 @@ $(document).ready(function () {
             $emailErrorMessage.text("Vui lòng nhập địa chỉ email.");
             noError = false;
         } else if (!emailPattern.test(email)) {
-            $emailErrorMessage.text("Địa chỉ email không hợp lệ.");
+            $emailErrorMessage.text("Email address is invalid.");
             noError = false;
         } else {
             $emailErrorMessage.text("");
@@ -66,7 +66,7 @@ $(document).ready(function () {
             request.done(function (result) {
                 if (result === "false") {
                     console.log("result là: " + result);
-                    $emailErrorMessage.text("email không tồn tại");
+                    $emailErrorMessage.text("Email does not exist");
                     $BtnSend.prop("disabled", true);
                 } else {
                     $BtnSend.prop("disabled", false);
