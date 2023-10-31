@@ -530,6 +530,37 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@Order_ID", orderid);
             _command.ExecuteNonQuery();
         }
+        //Return product to store after cancelling the order
+        public void ReturnProduct(string orderid)
+        {
+            List<OrderDetail> returnProductList = new List<OrderDetail>();
+            _command.CommandText = "Select * from Order_Details where Order_ID = @Order_ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Order_ID", orderid);
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    OrderDetail returnProduct = new OrderDetail();
+                    returnProduct.orderID = _reader.GetString(0);
+                    returnProduct.productID = _reader.GetString(1);
+                    returnProduct.productName = _reader.GetString(2);
+                    returnProduct.quantity = _reader.GetInt32(3);
+                    decimal tp = _reader.GetDecimal(4);
+                    returnProduct.price = (double)tp;
+                    returnProductList.Add(returnProduct);
+                }
+            }
+            foreach(OrderDetail product in returnProductList)
+            {
+                _command.CommandText = "Update Product Set pro_quan = pro_quan + @return_quan where pro_id = @pro_id";
+                _command.Parameters.Clear();
+                _command.Parameters.AddWithValue("@return_quan", product.quantity);
+                _command.Parameters.AddWithValue("@pro_id", product.productID);
+                _command.ExecuteNonQuery();
+            }
+
+        }
         //Change order status to Accept
         public void AcceptOrder(string orderid, int staffid)
         {

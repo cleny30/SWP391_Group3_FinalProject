@@ -443,6 +443,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             //chuyển status = 0
             OrderDAO dao = new OrderDAO();
             dao.CancelOrder(ID);
+            dao.ReturnProduct(ID);
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult ShippedOrder(string ID)
