@@ -436,6 +436,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             var serializedmanager = _contx.HttpContext.Session.GetString("Session");
             var manager = JsonConvert.DeserializeObject<Manager>(serializedmanager);
             dao.AcceptOrder(ID, manager.ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " accepted by " + manager.fullname + "!"));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CancelOrder(string ID)
@@ -444,6 +445,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             OrderDAO dao = new OrderDAO();
             dao.CancelOrder(ID);
             dao.ReturnProduct(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been cancelled"));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult ShippedOrder(string ID)
@@ -452,6 +454,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             //status = 3
             OrderDAO dao = new OrderDAO();
             dao.ShippedOrder(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " shipped on " + DateTime.Now.ToString("dd/MM/yyyy") ));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CompletedOrder(string ID)
@@ -459,6 +462,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             //chuyển status = 4
             OrderDAO dao = new OrderDAO();
             dao.CompletedOrder(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been delivered!"));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
 

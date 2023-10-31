@@ -1,8 +1,17 @@
 ﻿@using SWP391_Group3_FinalProject.DAOs;
 @using SWP391_Group3_FinalProject.Models;
+@using Newtonsoft.Json;
+
 @{
     ViewData["Title"] = "OrderRecieptPage";
     Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" />
@@ -25,6 +34,13 @@
 <div class="body-wrapper">
     <div class="container">
         <h1 class="Header">ORDERS</h1>
+        @if (Message != null && Message != "")
+        {
+            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> @Message.
+            </div>
+        }
         <div class="tabs">
             <div id="myModal" class="modal" style="position: absolute;">
 
@@ -216,7 +232,7 @@
                 <label for="tab-4" class="tabby-tablabel">ACCEPTED ORDERS</label>
                 <div class="tabby-content" style="z-index: 0;">
                     <h1 class="Title">List of Accepteds Orders</h1>
-
+                    
                     <div class="col-12">
                         <div class="row " style=" padding-bottom: 20px;">
                             <div class="col-2">
