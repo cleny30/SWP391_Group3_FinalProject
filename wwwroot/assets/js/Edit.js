@@ -176,6 +176,10 @@ function ShowStaff(element) {
             $('#Staff_SSN').html(data.ssn);
             $('#Staff_LivingAddress').html(data.address);
             $('#Staff_Username').html(data.username);
+
+            var deleteLink = document.getElementById("deleteLink")
+            deleteLink.href = "/Dashboard/DisableStaff/" + data.id
+            
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
         },

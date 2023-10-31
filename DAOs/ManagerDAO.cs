@@ -99,10 +99,20 @@ namespace SWP391_Group3_FinalProject.DAOs
             }
             return null;
         }
+
+        //Disable staff
+        public void DisableStaff(int staffid)
+        {
+            _command.CommandText = "Update Manager Set isAvailable = 'false' where ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", staffid);
+            _command.ExecuteNonQuery();
+        }
         //Add manager
         public void AddManager(Manager manager)
         {
             _command.CommandText = "INSERT INTO Manager(username, Email, password, Fullname, SSN, Living_Address, Phone_Num, isAdmin, isAvailable) values(@username, @email, @password, @fullname, @SSN, @address, @phone, @isAdmin, @isAvailable)";
+            _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@username", manager.username);
             _command.Parameters.AddWithValue("@email", manager.email);
             _command.Parameters.AddWithValue("@password", CalculateMD5Hash(manager.password));

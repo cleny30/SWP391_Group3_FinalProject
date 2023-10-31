@@ -96,7 +96,12 @@ namespace SWP391_Group3_FinalProject.Controllers
             return View();
         }
 
-
+        public IActionResult DisableStaff(int id)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            dao.DisableStaff(id);
+            return RedirectToAction("StaffList", "Dashboard");
+        }
         public IActionResult CreateAccount()
         {
             return View();
