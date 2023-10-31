@@ -12,6 +12,7 @@
         manager = JsonConvert.DeserializeObject<Manager>(Manager);
     }
 }
+<script src="~/assets/js/JSEditProduct.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 <div class="body-wrapper">
     <div class="container">
@@ -24,7 +25,7 @@
 
                         </div>
                    
-                        <form method="POST" action="/Dashboard/EditProduct" enctype="multipart/form-data">
+                        <form method="POST" action="/Dashboard/EditProduct" id="EditForm" onsubmit="return EditProductValidate()" enctype="multipart/form-data">
                             <div class="row">                            
                                 @if (manager.isAdmin == true)
                                 {
@@ -46,9 +47,9 @@
                                         <label class="form-label" for="pro_name">Product Name</label>
                                         <input type="text" class="form-control" name="pro_name"
                                                id="pro_name" value="@Model.pro_name" readonly>
-
+                                    <p style="color:red"></p>
                                         <input type="hidden" class="form-control" name="pro_id"
-                                               id="pro_name" value="@Model.pro_id" readonly>
+                                               id="pro_id" value="@Model.pro_id" readonly>
                                         <!--Get Value from Database-->
                                     </div>
                                 </div>
@@ -59,7 +60,7 @@
                                         <label class="form-label" for="pro_price">Price</label>
                                         <input type="number" class="form-control" name="pro_price"
                                                id="pro_price" value="@Model.pro_price" readonly>
-                                        <!--Get Value from Database-->
+                                    <p style="color:red"></p>
                                     </div>
                                 </div>
                                 <!--Price -->
@@ -69,7 +70,7 @@
                                         <label class="form-label" for="pro_price">Discount Percent</label>
                                         <input type="number" class="form-control" name="discount"
                                                id="pro_discount" value="@Model.discount" readonly>
-                                        <!--Get Value from Database-->
+                                    <p style="color:red"></p>
                                     </div>
                                 </div>
                                 <!--Price -->
@@ -84,7 +85,7 @@
                                                 <option value="@category.cate_id" @(Model.cate_id == category.cate_id ? "selected" : "")>@category.cate_name</option>
                                             }
                                         </select>
-
+                                        
                                     </div>
                                 </div>
                                 <!--Categories -->
@@ -160,14 +161,15 @@
                                                     <div class="hidden" style="display: none;">
                                                         <button class="delete-image btn btn-danger " data-src="@pictures">Delete</button>
                                                         <!--Input File-->
-                                                        <input class="form-control" type="file" name="@filenameWithoutExtension" id="fileInput">
-
+                                                    <input class="form-control imgFileExisted" type="file" name="@filenameWithoutExtension" id="fileInput">
+                                                    <p style="color:red"></p>
                                                         <input class="form-control" type="hidden" name="Image_ID" id="fileInput" value="@count">
                                                         <!--Input File-->
                                                         <label style="color: red;">
                                                             Input a new file to change
                                                             the image
                                                         </label>
+                                                    
                                                     </div>
                                                 </div>
                                                 counter++;
@@ -225,15 +227,19 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="attname">Attribute</label>
-                                                            <input class="form-control" type="text" name="feature" value="@pair.Key" id="attname" readonly>
+                                                            <input class="form-control feature" type="text" name="feature" value="@pair.Key" id="attname" readonly>
+                                                        <p style="color:red"></p>
                                                         </div>
                                                     </div>
+                                                
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="attDes">Description</label>
-                                                            <input class="form-control" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
+                                                            <input class="form-control description" type="text" name="description" value=" @pair.Value" id="attDes" readonly>
+                                                        <p style="color:red"></p>
                                                         </div>
                                                     </div>
+                                               
                                                     <div class="col-md-3" style="margin-top:21px">
                                                         <button class="btn btn-danger delete-button" style="display:none;" onclick="deleteRow(this)">X</button>
                                                     </div>
@@ -260,9 +266,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" for="#">Description</label>
-                                        <textarea name="pro_des" class="form-control" id="message"
+                                        <textarea name="pro_des" class="form-control" id="pro_des"
                                                   cols="30" rows="10" placeholder="Description"
                                                   readonly> @Model.pro_des</textarea>
+                                    <p style="color:red"></p>
                                     </div> <!--Get Value trên Database-->
                                 </div>
                                 <!--Description -->
@@ -318,20 +325,22 @@
        <div class="col-md-3">
        <div class="form-group">
      <label for="attname">Attribute</label>
-       <input class="form-control" type="text" name="feature" value="" id="attname" readonly>
+       <input class="form-control feature" type="text" name="feature" value="" id="attname" readonly>
+           <p style="color:red"></p>
       </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
      <label for="attDes">Description</label>
-      <input class="form-control" type="text" name="description" value="" id="attDes" readonly>
+      <input class="form-control description" type="text" name="description" value="" id="attDes" readonly>
+          <p style="color:red"></p>
      </div>
     </div>
     <div class="col-md-3" style="margin-top:21px">
     <button class="btn btn-danger delete-button"  onclick="deleteRow(this)">X</button>
     </div>
     </div>
-    `;;
+    `;
 
         objTo.appendChild(divtest)
     }
@@ -342,9 +351,11 @@
         var objTo = document.getElementById('room_fileds_image');
         var divtest = document.createElement("div");
         var fileInput = document.createElement("input");
+        var redParagraph = document.createElement("p"); // Create the <p> element
         var deleteButton = document.createElement("button");
+       
 
-        fileInput.className = "form-control";
+        fileInput.className = "form-control imgFile";
         fileInput.type = "file";
         fileInput.name = "imgFile";
 
@@ -356,9 +367,14 @@
             objTo.removeChild(divtest);
         };
 
+        redParagraph.style.color = "red"; // Set the text color to red
+        // You can set the text content of the <p> element here if needed
+
         divtest.innerHTML = '<label>Image </label>';
         divtest.appendChild(fileInput);
+        divtest.appendChild(redParagraph);
         divtest.appendChild(deleteButton);
+
 
         objTo.appendChild(divtest);
     }
@@ -368,7 +384,7 @@
     document.getElementById('removeReadonlyButton').addEventListener('click', function () {
         document.getElementById('pro_name').removeAttribute('readonly');
         document.getElementById('pro_price').removeAttribute('readonly');
-        document.getElementById('message').removeAttribute('readonly');
+        document.getElementById('pro_des').removeAttribute('readonly');
         var attnameElements = document.getElementsByName('feature');
         var attDesElements = document.getElementsByName('description');
 

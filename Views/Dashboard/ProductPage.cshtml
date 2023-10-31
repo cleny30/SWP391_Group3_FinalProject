@@ -277,15 +277,19 @@
                             </div>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
-                                <form method="POST" action="/Dashboard/AddCategory" id="" class="" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/AddCategory" id="" class=""  onsubmit="return CheckCategoryAdd()" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-612">
                                             <div class="form-group">
+                                                <label class="form-group">Category Name </label>
                                                 <input type="text" class="form-control" name="cate_name" id="Cat_Name"
                                                        placeholder="Insert Category Name">
+                                                <div class="error" id="ErrorCategoryName"></div>
+                                                <label class="form-group">Category Keyword </label>
                                                 <input type="text" class="form-control" name="keyword" id="keyword"
                                                        placeholder="Insert Product Keyword">
+                                                <div class="error" id="ErrorCategoryKeyword"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -371,13 +375,14 @@
 
                             <!--Add Brand-->
                             <div id="contactFormAddBrand" class="col-8" >
-                                <form method="POST" action="/Dashboard/AddBrand" id="" class="" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/AddBrand" id="" class=""  onsubmit="return CheckBrandAdd()" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="Brand_Name" id="Brand_Name"
                                                        placeholder="Insert Brand Name">
+                                                <div class="error" id="ErrorBrandName"></div>
                                             </div>
                                         </div>
 
@@ -386,7 +391,7 @@
                                                 <h3 style="color: #5D87FF;">Brand Logo</h3>
                                                 <input type="file" class="form-control" name="Brand_Logo" id="Brand_Logo"
                                                        placeholder="Insert Brand Logo">
-
+                                                <div class="error" id="ErrorBrandLogo"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -443,6 +448,7 @@
                             </div>
                             <!--Edit Brand-->
                         </div>
+
 
                         <!--End Of Brand Pop-up-->
                         <!--Add Product-->

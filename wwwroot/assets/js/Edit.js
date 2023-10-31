@@ -390,3 +390,78 @@ function GetOrderReceipt(element) {
         }
     }
 }
+
+
+function CheckCategoryAdd() {
+    document.getElementById("ErrorCategoryName").innerHTML = "";
+    document.getElementById("ErrorCategoryKeyword").innerHTML = "";
+    var Name = document.getElementById("Cat_Name").value.trim();;
+    var Keyword = document.getElementById("keyword").value.trim();;
+    var Check = true;
+
+    if (Name != "" && Name.length < 50) {
+       
+    } else {
+        Check = false;
+        document.getElementById("ErrorCategoryName").innerHTML = "Invalid Category Name!";
+    }
+
+    if (Keyword != null && Keyword.length == 2) {
+        $.ajax({
+            url: '/Dashboard/KeywordExisted',
+            type: "POST",
+            data: {
+                keyword: Keyword
+            },
+            dataType: 'json',
+            success: function (data) {
+                Check = false;
+                document.getElementById("ErrorCategoryKeyword").innerHTML = "Keyword already existed!";
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+            }
+        });
+    } else {
+        Check = false;
+        document.getElementById("ErrorCategoryKeyword").innerHTML = "Keyword must be 2 characters long!";
+    }
+    return Check;
+}
+
+function CheckBrandAdd() {
+    document.getElementById("ErrorBrandName").innerHTML = "";
+    var errorElement = document.getElementById("ErrorBrandLogo").innerHTML = "";
+    var Name = document.getElementById("Brand_Name").value.trim();
+    var inputFile = document.getElementById("Brand_Logo");
+    var Check = true;
+
+    if (Name != "" && Name.length < 50) {
+
+    } else {
+        Check = false;
+        document.getElementById("ErrorBrandName").innerHTML = "Invalid Brand Name!";
+    }
+    if (inputFile.files.length === 0) {
+        errorElement.innerHTML = "Please insert an image!";
+         Check =  false; // Prevent form submission
+    } else {
+        var validExtensions = ["png", "jpg", "jpeg"];
+        var fileName = inputFile.files[0].name;
+        var fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
+
+        if (!validExtensions.includes(fileExtension)) {
+            errorElement.innerHTML = "File must have an extension of .png, .jpg, or .jpeg!";
+            event.preventDefault(); // Prevent the default form submission
+        }
+
+        // Additional validation logic can go here
+
+        // If all validation passes, the form will be submitted as the default behavior
+    }
+    return Check;
+}
+
+
+

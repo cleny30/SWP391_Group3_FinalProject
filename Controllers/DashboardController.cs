@@ -439,6 +439,31 @@ namespace SWP391_Group3_FinalProject.Controllers
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
 
+
+        [HttpPost]
+        public IActionResult KeywordExisted(string keyword)
+        {
+            try
+            {
+                // Assuming you have a data access layer (ProductDAO) to retrieve brand information
+                ProductDAO dao = new ProductDAO();
+                List<Category> list = dao.GetAllCategory();
+                Category cat = list.FirstOrDefault(c => c.keyword.Equals(keyword));
+                if (cat != null)
+                {
+                    Console.WriteLine(cat);
+                    return Ok(cat); // Return a 200 OK response with JSON data
+                }
+                else
+                {
+                    return NotFound("Brand not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
         //Get Brand Info
         [HttpPost]
         public IActionResult GetBrandInfo(int brand_id)
