@@ -121,7 +121,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             //----------------------------------------
             return RedirectToAction("StaffList", "Dashboard");
         }
-
         //Kiem tra username co duoc su dung chua
         [HttpPost]
         public IActionResult CheckUsername(string username)
@@ -153,13 +152,36 @@ namespace SWP391_Group3_FinalProject.Controllers
                 return Content("Success");
             }
         }
+        [HttpPost]
+        public IActionResult CheckEmailUpdate(string email)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            Manager manager = dao.GetManagerByEmail(email);
+            var serializedManager = _contx.HttpContext.Session.GetString("Session");
+            var currentManager = JsonConvert.DeserializeObject<Manager>(serializedManager);
+            if (manager != null && !manager.email.Equals(currentManager.email))
+            {
+                return Content("Fail");
+            }
+            else
+            {
+                return Content("Success");
+            }
+        }
 
 
         public IActionResult PersonalProfile()
         {
             return View();
         }
-
+        [HttpPost]
+        //Update staff information
+        public IActionResult PersonalProfile(Manager staff)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            dao.UpdateStaffAccount(staff);
+            return RedirectToAction("PersonalProfile", "Dashboard");
+        }
 
         //Trang để coi đơn nhập hàng
 

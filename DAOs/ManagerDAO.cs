@@ -108,6 +108,19 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@ID", staffid);
             _command.ExecuteNonQuery();
         }
+        //Update staff information
+        public void UpdateStaffAccount(Manager staff)
+        {
+            _command.CommandText = "Update Manager Set Fullname = @Fullname, Phone_Num = @Phone_Num, Email = @Email, SSN = @SSN, Living_Address = @Living_Address where username = @username";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@Fullname", staff.fullname);
+            _command.Parameters.AddWithValue("@Phone_Num", staff.phone);
+            _command.Parameters.AddWithValue("@Email", staff.email);
+            _command.Parameters.AddWithValue("@SSN", staff.SSN);
+            _command.Parameters.AddWithValue("@Living_Address", staff.address);
+            _command.Parameters.AddWithValue("@username", staff.username);
+            _command.ExecuteNonQuery();
+        }
         //Add manager
         public void AddManager(Manager manager)
         {
