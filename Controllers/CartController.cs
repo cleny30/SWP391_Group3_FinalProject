@@ -139,10 +139,10 @@ namespace SWP391_Group3_FinalProject.Controllers
                 c.price = product.pro_price - ((product.discount * product.pro_price) / 100);
                 c.price = Math.Round(c.price, 2);
             }
-            Odao.Checkout(CartList, des, bill, a);
+            int kq = Odao.Checkout(CartList, des, bill, a);
             int Count = Odao.GetCartByUsername(cus.username).Count();
             _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(Count));
-            return Content("Success");
+            return kq == 1 ? Content("Success") : Content("Fail");
         }
 
         [HttpPost]

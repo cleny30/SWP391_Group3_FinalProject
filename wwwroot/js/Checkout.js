@@ -50,7 +50,11 @@ function PlaceOrder() {
             bill: bill
         },
         success: function (data) {
-            window.location.href = "/Cart/PostCheckOut";
+            if (data === "Success") {
+                window.location.href = "/Cart/PostCheckOut";
+            } else {
+                alert("Product out of stock")
+            }
         }
     });
 }

@@ -261,7 +261,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             _command.Parameters.AddWithValue("@pi", pro_id);
             _command.ExecuteNonQuery();
         }
-        public void Checkout(List<Cart> cart, string des, double total, Addresses add)
+        public int Checkout(List<Cart> cart, string des, double total, Addresses add)
         {
             if (cart.Count > 0)
             {
@@ -272,7 +272,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     var quantityInStock = listpro.FirstOrDefault(p => p.pro_id == item.pro_id).pro_quan;
                     if (quantityInStock <= 0 || quantityInStock < item.quantity)
                     {
-                        return;
+                        return 0;
                     }
                 }
                 string OID = GetNewOrderID();
@@ -315,7 +315,9 @@ namespace SWP391_Group3_FinalProject.DAOs
                 _command.Parameters.Clear();
                 _command.Parameters.AddWithValue("@us", cart[0].username);
                 _command.ExecuteNonQuery();
+                return 1;
             }
+            return 0;
         }
         public string GetNewOrderID()
         {
