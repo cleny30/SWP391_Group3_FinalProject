@@ -2,6 +2,16 @@
     ViewData["Title"] = "Checkout";
     Layout = "~/Views/Shared/_Layout_Main.cshtml";
 }
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+<link href="~/css/cartalertstyle.css" rel="stylesheet" />
+<div class="alert hide" id="alert-message-checkout">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg" id="msg-alert-msg">Warning: Your cart contains out of stock products</span>
+    <div class="close-btn" id="close-btn-alert">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">

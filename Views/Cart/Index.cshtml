@@ -2,11 +2,19 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout_Main.cshtml";
-    List<SWP391_Group3_FinalProject.Models.Product> list = ViewBag.ProductList as List<SWP391_Group3_FinalProject.Models.Product>;
+    List<Tuple<string, int, int>> list = ViewBag.imgStatus as List<Tuple<string, int, int>>;
     double allPrice = 0;
     var username = JsonConvert.DeserializeObject<SWP391_Group3_FinalProject.Models.Customer>(Context.Session.GetString("Session")).username;
 }
-
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+<link href="~/css/cartalertstyle.css" rel="stylesheet" />
+<div class="alert hide" id="alert-message-checkout">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg" id="msg-alert-msg"></span>
+    <div class="close-btn" id="close-btn-alert">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -35,6 +43,7 @@
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
+                            <th>Stock</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -45,7 +54,7 @@
                         @foreach (var item in ViewBag.ListCart)
                         {
                             <tr id="itemCart-@item.pro_id">
-                                <td class="align-middle"><img src="@list[index].pro_img[0]" alt="" style="width: 50px;">@item.pro_name</td>
+                                <td class="align-middle"><img src="@list[index].Item1" alt="" style="width: 50px;">@item.pro_name</td>
                                 <td class="align-middle">$@item.price</td>
                                 <td class="align-middle">
                                     <div class="input-group  mx-auto" style="width: 100px;">
@@ -64,7 +73,21 @@
                                     tp = Math.Round(tp, 2);
                                 }
                                 <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
+                                <td class="align-middle">
+                                    @if (@list[index].Item3 == 2)
+                                    {
+                                        <span style="color:red">Unavailable</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@list[index].Item2</span>
+                                    }
+
+                                    <input type="hidden" value="@list[index].Item3" class="status-Stock">
+
+                                </td>
                                 <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
+
                             </tr>
                             index++;
                         }
@@ -83,7 +106,7 @@
                             }
                             <h5 id="bill-cart">$@allPrice</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="window.location.href = '/Cart/Checkout'">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="SubmitCheckOut()">Proceed To Checkout</button>
                     </div>
                 </div>
             </div>

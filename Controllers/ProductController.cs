@@ -23,7 +23,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             List<Product> list = dao.GetAllProduct();
 
-            list = list.Where(p => p.pro_quan > 0).ToList();
+            list = list.Where(p => p.pro_quan > 0 && p.isAvailable==true).ToList();
 
 
 
@@ -239,7 +239,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 //remove duplicated item.
                 list.RemoveAt(randomIndex);
             }
-            List<Product> productByCateList = list.Where(pro => pro.cate_id == pro1.cate_id).ToList();
+            List<Product> productByCateList = list.Where(pro => pro.cate_id == pro1.cate_id && pro.pro_quan > 0 && pro.isAvailable == true).ToList();
             ViewBag.pro = pro1;
             ViewBag.productByCateList = productByCateList;
             ViewBag.brandList = brandList;
@@ -251,7 +251,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> searchList = dao.GetAllProduct();
-            searchList = searchList.Where(p => p.pro_quan > 0).ToList();
+            searchList = searchList.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
 
             List<Product> foundProducts = new List<Product>();
             // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên

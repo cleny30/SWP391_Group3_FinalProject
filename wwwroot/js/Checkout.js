@@ -53,8 +53,24 @@ function PlaceOrder() {
             if (data === "Success") {
                 window.location.href = "/Cart/PostCheckOut";
             } else {
-                alert("Product out of stock")
+                alertMessage();
             }
         }
     });
 }
+
+function alertMessage() {
+    $('#alert-message-checkout').removeClass("hide");
+    $('#alert-message-checkout').addClass("show");
+    $('#alert-message-checkout').addClass("showAlert");
+
+    setTimeout(function () {
+        $('#alert-message-checkout').addClass("hide");
+        $('#alert-message-checkout').removeClass("show");
+    }, 2000)
+}
+
+$('#close-btn-alert').click(function () {
+    $('#alert-message-checkout').addClass("hide");
+    $('#alert-message-checkout').removeClass("show");
+})

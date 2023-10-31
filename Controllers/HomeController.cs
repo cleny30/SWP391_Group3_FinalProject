@@ -23,8 +23,8 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             list = list.Where(p => p.pro_quan > 0).ToList();
 
-            List<Product> listMouse = list.Where(pro => pro.cate_id == 2).ToList();
-            List<Product> listKeyboard = list.Where(pro => pro.cate_id == 1).ToList();
+            List<Product> listMouse = list.Where(pro => pro.cate_id == 2 && pro.pro_quan > 0 && pro.isAvailable == true).ToList();
+            List<Product> listKeyboard = list.Where(pro => pro.cate_id == 1 && pro.pro_quan > 0 && pro.isAvailable == true).ToList();
             List<Brand> brandList = dao.GetAllBrand();
             List<Category> cateList = dao.GetAllCategory();
 
@@ -59,7 +59,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
-            list = list.Where(p => p.pro_quan > 0).ToList();
+            list = list.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
 
             List<Product> foundProducts = new List<Product>();
             if (searchbox != null)
