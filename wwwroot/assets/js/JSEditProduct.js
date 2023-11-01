@@ -36,11 +36,11 @@
         } else {
             // Use a regular expression to check if pro_price contains only numbers
             if (!numberRegex.test(pro_price)) {
-                showError('pro_discount', 'Product Price must be a number!');
+                showError('pro_discount', 'Discount must be a number!');
                 noError = false;
             } else {
                 if (pro_discount < 0 || pro_discount > 100) {
-                    showError('pro_discount', 'Product Price must be between 0 and 100');
+                    showError('pro_discount', 'Discount must be between 0 and 100');
                     noError = false;
                 } else {
                     hideError('pro_discount');
