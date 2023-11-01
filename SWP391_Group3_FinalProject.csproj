@@ -8,20 +8,29 @@
 
   <ItemGroup>
     <Compile Remove="Views\Order\**" />
+    <Compile Remove="wwwroot\source_img\pro_img\**" />
     <Content Remove="Views\Order\**" />
+    <Content Remove="wwwroot\source_img\pro_img\**" />
     <EmbeddedResource Remove="Views\Order\**" />
+    <EmbeddedResource Remove="wwwroot\source_img\pro_img\**" />
     <None Remove="Views\Order\**" />
+    <None Remove="wwwroot\source_img\pro_img\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\source_img\product_image\Chair\" />
-    <Folder Include="wwwroot\source_img\pro_img\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\source_img\advertising_img\logoGearshop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
