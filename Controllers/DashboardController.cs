@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices.JavaScript;
 using static NuGet.Packaging.PackagingConstants;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -136,7 +137,9 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ManagerDAO dao = new ManagerDAO();
             Manager manager = dao.GetManagerByUsername(username);
-            if (manager != null)
+            AccountDAO accdao = new AccountDAO();
+            IEnumerable<Customer> cuslist = accdao.GetAllCustomers().Where(c => string.Equals(c.username, username, StringComparison.OrdinalIgnoreCase));
+            if (manager != null || cuslist.Count() > 0)
             {
                 return Content("Fail");
             }
@@ -152,7 +155,10 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ManagerDAO dao = new ManagerDAO();
             Manager manager = dao.GetManagerByEmail(email);
-            if (manager != null)
+            AccountDAO accdao = new AccountDAO();
+            IEnumerable<Customer> cuslist = new List<Customer>();
+            cuslist = accdao.GetAllCustomers().Where(c => string.Equals(c.email, email, StringComparison.OrdinalIgnoreCase));
+            if (manager != null || cuslist.Count() > 0)
             {
                 return Content("Fail");
             }
