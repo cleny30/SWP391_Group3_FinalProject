@@ -23,8 +23,8 @@
         if (!password) {
             showError('typePasswordX-2', 'Please enter password');
             noError = false;
-        } else if (password.length < 0) {
-            showError('typePasswordX-2', 'Password must be at least ... characters');
+        } else if (password.length < 8) {
+            showError('typePasswordX-2', 'Password must be at least 8 characters');
             noError = false;
         } else {
             hideError('typePasswordX-2');

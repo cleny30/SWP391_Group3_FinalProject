@@ -72,7 +72,7 @@ $(document).ready(function () {
             showError('pwdtxt', 'Password must be at least 8 characters!');
             noError = false;
         } else if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])(.{8,})/.test(password)) {
-            showError('pwdtxt', 'Password must have at least 1 uppercase letter, 1 special character, and be at least 8 characters long!');
+            showError('pwdtxt', 'Password must have uppercase, special character!');
             noError = false;
         } else {
             hideError('pwdtxt');
@@ -81,10 +81,10 @@ $(document).ready(function () {
 
         //Repassword
         if (!repassword) {
-            showError('re_pwdtxt', 'Please re-enter your password!');
+            showError('re_pwdtxt', 'Please confirm your password!');
             noError = false;
         } else if (repassword !== password) {
-            showError('re_pwdtxt', 'The re-entered password does not matches!');
+            showError('re_pwdtxt', 'The confirm password does not matches!');
             noError = false;
         } else {
             hideError('re_pwdtxt');
@@ -111,7 +111,7 @@ function validateEmail() {
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data == 'true') {
-                    document.getElementById("ErrorEmailExist").innerHTML = "Email Already Existed!";
+                    document.getElementById("ErrorEmailExist").innerHTML = "Email already existed!";
                     return false;
                 } else {
                     document.getElementById("ErrorEmailExist").innerHTML = "";
@@ -139,7 +139,7 @@ function validateForm() {
             },
             success: function (data) {
                 if (data == 'true') {
-                    document.getElementById("ErrorUsernameExist").innerHTML = "Username Already Existed!";
+                    document.getElementById("ErrorUsernameExist").innerHTML = "Username already existed!";
                     return false; // Prevent the form from submitting
                 } else {
                     // Registration logic here if username is available                   

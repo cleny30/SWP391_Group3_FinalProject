@@ -43,7 +43,7 @@ $(document).ready(function () {
         const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[^\s@]+\.[^\s@]{2,}$/;
 
         if (email === '') {
-            $emailErrorMessage.text("Vui lòng nhập địa chỉ email.");
+            $emailErrorMessage.text("Please enter your email.");
             noError = false;
         } else if (!emailPattern.test(email)) {
             $emailErrorMessage.text("Email address is invalid.");
@@ -122,6 +122,9 @@ $(document).ready(function () {
         if (OTP === ServerOtp) {
             $("#Resetpass").addClass("showform");
             $("#EntryOTP").removeClass("showform");
+            $('err-otp-msg').text('');
+        } else {
+            $('#err-otp-msg').text('OTP is incorrect!');
         }
     });
     
@@ -130,9 +133,12 @@ $(document).ready(function () {
         var password = $password.val();
         $submit.prop("disabled", true);
         if (password === "") {
-            $password.next('p').text("Vui lòng nhập mật khẩu.");
+            $password.next('p').text("Please enter password");
         } else if (password.length < 8) { //đổi chỗ này
-            $password.next('p').text("Mật khẩu phải ít nhất 8 kí tự.");
+            $password.next('p').text("Password must be at least 8 characters!");
+        } else if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])(.{8,})/.test(password)) {
+            $password.next('p').text("Password must have uppercase, special character!");
+            noError = false;
         } else {
             $password.next('p').text("");
             $submit.prop("disabled", false);
@@ -146,9 +152,9 @@ $(document).ready(function () {
         var rePassword = $rePassword.val();
         var password = $password.val();
         if (rePassword === "") {
-            $rePassword.next('p').text("Vui lòng nhập lại mật khẩu.");
+            $rePassword.next('p').text("Please confirm your password");
         } else if (rePassword !== password) {
-            $rePassword.next('p').text("Mật khẩu không khớp.");
+            $rePassword.next('p').text("The confirm password does not matches!");
         } else {
             $rePassword.next('p').text("");
             $submit.prop("disabled", false);
