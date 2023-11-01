@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using static NuGet.Packaging.PackagingConstants;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
@@ -78,6 +79,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             double Revenue = TotalIncome - TotalSpent;
 
             List<Tuple<string, double>> Top10Customers = ORDao.GetTop10Customer();
+            Top10Customers = Top10Customers.OrderByDescending(tuple => tuple.Item2).ToList();
 
             ViewBag.Top10Customer = Top10Customers;
             ViewData["TotalIncome"] = TotalIncome;
@@ -157,17 +159,30 @@ namespace SWP391_Group3_FinalProject.Controllers
         public IActionResult CheckEmailUpdate(string email)
         {
             ManagerDAO dao = new ManagerDAO();
+            AccountDAO ACCDao = new AccountDAO();
             Manager manager = dao.GetManagerByEmail(email);
+            List<Customer> listCus = ACCDao.GetAllCustomers();
             var serializedManager = _contx.HttpContext.Session.GetString("Session");
             var currentManager = JsonConvert.DeserializeObject<Manager>(serializedManager);
-            if (manager != null && !manager.email.Equals(currentManager.email))
+
+            if (currentManager != null)
             {
-                return Content("Fail");
+                List<Manager> list = dao.GetAllManagers();
+                list = list.Where(m => !string.Equals(m.email, currentManager.email, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                bool isManagerEmailExisted = list.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                isManagerEmailExisted = listCus.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                if (isManagerEmailExisted == true )
+                {
+                    return Content("Existed"); // Return a 200 OK response with JSON data
+                } else
+                {
+                    return Content("No");
+                }
             }
-            else
-            {
-                return Content("Success");
-            }
+
+            return NotFound("Brand not found");
+
         }
 
 
@@ -403,6 +418,34 @@ namespace SWP391_Group3_FinalProject.Controllers
     .ToList();
 
 
+            OrderDAO ORDao = new OrderDAO();
+            ProductDAO ProDAO = new ProductDAO();
+            List < OrderDetail > orderDetails= ORDao.GetAllOrderDetail();
+            List<Order> Order =ORDao.GetAllOrder();
+            List<Product> Product = ProDAO.GetAllProduct();
+            DateTime currentDate = DateTime.Now;
+            int currentYear = currentDate.Year;
+            int currentMonth = currentDate.Month;
+
+            var query = from order in Order
+                        join orderDetail in orderDetails on order.orderId equals orderDetail.orderID
+                        join product in Product on orderDetail.productID equals product.pro_id
+                        where order.status == 4 && order.endDay.Value.Year ==  currentYear && order.endDay.Value.Month == currentMonth
+                        group new { product.pro_id, product.pro_name, orderDetail.quantity } by new { product.pro_id, product.pro_name } into grouped
+                        select new
+                        {
+                            pro_id = grouped.Key.pro_id,
+                            pro_name = grouped.Key.pro_name,
+                            Quantity = grouped.Sum(item => item.quantity)
+                        };
+
+            var orderedResult = query.OrderByDescending(item => item.Quantity).ToList();
+
+            List<Tuple<string, double>> Top10Customers = ORDao.AllCustomerMonth();
+            Top10Customers = Top10Customers.OrderByDescending(tuple => tuple.Item2).ToList();
+
+            ViewBag.Top10Customer = Top10Customers;
+            ViewBag.ProductSaleInMonth = orderedResult;
             //End Get data for Chart are
 
             ViewBag.TotalIncome = totalIncome;
@@ -485,12 +528,11 @@ namespace SWP391_Group3_FinalProject.Controllers
                 Category cat = list.FirstOrDefault(c => c.keyword.Equals(keyword));
                 if (cat != null)
                 {
-                    Console.WriteLine(cat);
-                    return Ok(cat); // Return a 200 OK response with JSON data
+                    return Content("Existed");
                 }
                 else
                 {
-                    return NotFound("Brand not found");
+                    return Content("NotExisted");
                 }
             }
             catch (Exception ex)

@@ -277,7 +277,7 @@
                             </div>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
-                                <form method="POST" action="/Dashboard/AddCategory" id="" class=""  onsubmit="return CheckCategoryAdd()" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/AddCategory" id="AddCate" class="" onsubmit="return CheckCateAdd()" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-612">
@@ -305,12 +305,13 @@
                             <!--Add Category-->
                             <!--Edit Category-->
                             <div id="contactFormEditCategory" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory">
+                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory" id="EditCategory" onsubmit="return CheckEditCategory()">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="Cat_Name_edit" name="cate_name">
                                                 <input type="hidden" class="form-control" id="Cat_ID_edit" name="cate_id">
+                                                <div class="error" id="ErrorCategoryNameEdit"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -407,12 +408,13 @@
                             <!--Add Brand-->
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data">
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" onsubmit="return CheckBrandEdit()" enctype="multipart/form-data" >
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="Brand_Name" id="Brand_Name_edit">
                                                 <input type="hidden" class="form-control" name="Brand_ID" id="Brand_ID_edit">
+                                                <div class="error" id="ErrorBrandNameEdit"></div>
                                             </div>
                                         </div>
 
@@ -425,10 +427,11 @@
                                                 <img src="" alt="Smiley face" class="imgStyle"
                                                      width="100" height="100" title="Original Image" id="brand_img_edit" />
                                                 <input type="hidden" value="" id="Brand_Image_tmp" />
+                                                <div class="error" id="ErrorBrandLogoEdit"></div>
                                             </div>
 
                                             <div>
-                                                <input class="form-control" type="file" name="BrandLogo">
+                                                <input class="form-control" type="file" name="BrandLogo" id="Brand_Image_Change">
                                                 <label style="color: red;">
                                                     Input a new file to change
                                                     the image

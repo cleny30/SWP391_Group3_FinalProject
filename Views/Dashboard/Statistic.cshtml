@@ -8,6 +8,7 @@
     // Get the current month as an integer (1 for January, 2 for February, and so on)
     int currentMonth = currentDate.Month;
     string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth);
+    int counter = 1;
 }
 
 <div class="body-wrapper">
@@ -25,42 +26,20 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Brand</th>
                                 <th>Amount Sold</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                            </tr>
+
+                            @foreach (var items in ViewBag.ProductSaleInMonth)
+                            {
+                                <tr>
+                                    <td>@items.pro_id</td>
+                                    <td>@items.pro_name</td>
+                                    <td>@items.Quantity</td>
+                                </tr>
+                            }
                     </table>
                 </div>
             </div>
@@ -80,27 +59,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>1000$</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>1000$</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>1000$</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyen Huu Duy</td>
-                                <td>1000$</td>
-                            </tr>
-
+                            @foreach (var cus in ViewBag.Top10Customer)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@cus.Item1</td>
+                                    <td>$@cus.Item2</td>
+                                </tr>
+                                counter++;
+                            }
                     </table>
                 </div>
             </div>

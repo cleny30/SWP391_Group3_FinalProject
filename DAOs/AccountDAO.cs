@@ -48,6 +48,26 @@ namespace SWP391_Group3_FinalProject.DAOs
                 return null;
             }
         }
+        public List<Customer> GetAllCustomers()
+        {
+            _command.CommandText = "Select * from Customer";
+            _command.Parameters.Clear();
+            List<Customer> list = new List<Customer>();
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    Customer cus = new Customer();
+                    cus.username = _reader.GetString(0);
+                    cus.password = _reader.GetString(1);
+                    cus.fullname = _reader.GetString(2);
+                    cus.phone = _reader.GetString(3);
+                    cus.email = _reader.GetString(4);
+                    list.Add(cus);
+                }
+            }
+            return list;
+        }
 
         public Manager GetManagerByUsername(string username)
         {

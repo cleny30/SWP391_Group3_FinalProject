@@ -142,10 +142,9 @@ function validateForm() {
                     document.getElementById("ErrorUsernameExist").innerHTML = "Username Already Existed!";
                     return false; // Prevent the form from submitting
                 } else {
-                    // Registration logic here if username is available
-                    
-                        document.getElementById("ErrorUsernameExist").innerHTML = "";
-                        return true; // Prevent the form from submitting
+                    // Registration logic here if username is available                   
+                    document.getElementById("ErrorUsernameExist").innerHTML = "";
+                    return true; // Prevent the form from submitting
                     
                 }
             }

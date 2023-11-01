@@ -105,6 +105,30 @@ namespace SWP391_Group3_FinalProject.DAOs
             return topCustomers;
         }
 
+        public List<Tuple<string, double>> AllCustomerMonth()
+        {
+            List<Tuple<string, double>> topCustomers = new List<Tuple<string, double>>();
+            _command.CommandText = "SELECT [Customer].Fullname, SUM([Order].Total_Price) AS TotalPriceSum\r\nFROM [Order]\r\nINNER JOIN [Customer] ON [Order].username = [Customer].username\r\nWHERE [Order].[Status] = 4\r\n  AND MONTH([Order].End_date) = @Month\r\n  AND YEAR([Order].End_date) = @Year\r\nGROUP BY [Customer].Fullname;";
+            _command.Parameters.Clear();
+            DateTime currentDate = DateTime.Now;
+
+            // Extract the current month and year from the current date.
+            int currentMonth = currentDate.Month;
+            int currentYear = currentDate.Year;
+            _command.Parameters.AddWithValue("@Month", currentMonth);
+            _command.Parameters.AddWithValue("@Year", currentYear);
+            using (_reader = _command.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    string fullname = _reader.GetString(0);
+                    double totalspent = (double)_reader.GetDecimal(1);
+                    topCustomers.Add(Tuple.Create(fullname, totalspent));
+                }
+            }
+            return topCustomers;
+        }
+
         public List<OrderDetail> GetAllOrderDetail()
         {
             List<OrderDetail> list = new List<OrderDetail>();

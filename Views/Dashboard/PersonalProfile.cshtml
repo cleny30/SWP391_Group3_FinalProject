@@ -32,8 +32,8 @@
             </div>
         }
                 <h1 class="Header" style="text-align:center; color: #5D87FF">PERSONAL PROFILE</h1>
-                    <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/PersonalProfile" id="UpdateStaff" class="updateStaff" onsubmit="return ValidateEmail()">                       
-                            <label for="exampleInputEmail1" class="form-label">Username</label>
+                <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/PersonalProfile" id="UpdateStaff" class="updateStaff" onsubmit="return ValidateEmail()">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
                             <input type="text" class="form-control" id="Username" name="username" value="@manager.username" readonly>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Fullname</label>

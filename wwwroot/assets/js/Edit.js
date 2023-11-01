@@ -391,48 +391,118 @@ function GetOrderReceipt(element) {
     }
 }
 
+function CheckEditCategory() {
+    var Check = true;
+    var Name = document.getElementById("Cat_Name_edit").value.trim();
+    if (Name != "" && Name.length < 50) {
+        document.getElementById("ErrorCategoryNameEdit").innerHTML = ""; 
+    } else {
+        Check = false;
+        document.getElementById("ErrorCategoryNameEdit").innerHTML = "Invalid Category Name!";
+    }
+    return Check;
+}
 
+function CheckBrandEdit() {
+    var Check = true;
+    var Name = document.getElementById("Brand_Name_edit").value.trim();
+
+    if (Name != "" && Name.length < 50) {
+        document.getElementById("ErrorBrandNameEdit").innerHTML = ""; 
+    } else {
+        Check = false;
+        document.getElementById("ErrorBrandNameEdit").innerHTML = "Invalid Brand Name!";
+    }
+
+    var errorElement = document.getElementById("ErrorBrandLogoEdit").innerHTML = "";
+    var inputFile = document.getElementById("Brand_Image_tmp");
+  
+    var validExtensions = ["png", "jpg", "jpeg"];
+    $('#Brand_Image_Change').each(function () {
+        var inputFile = $(this)[0].files[0];
+        // Kiểm tra nếu không có file được chọn
+        if (!inputFile) {
+        } else {
+            var fileName = inputFile.name.toLowerCase();
+            var fileExtension = fileName.split('.').pop();
+
+            // Kiểm tra đuôi file
+            if (!validExtensions.includes(fileExtension)) {
+                errorElement.innerHTML = "File must have an extension of .png, .jpg, or .jpeg!";
+                Check = false;
+            } else {
+                errorElement.innerHTML = "";
+            }
+        }
+
+    });
+    return Check;
+}
 function CheckCategoryAdd() {
+    event.preventDefault();
     document.getElementById("ErrorCategoryName").innerHTML = "";
     document.getElementById("ErrorCategoryKeyword").innerHTML = "";
-    var Name = document.getElementById("Cat_Name").value.trim();;
-    var Keyword = document.getElementById("keyword").value.trim();;
+    var Name = document.getElementById("Cat_Name").value.trim();
+    var Keyword = document.getElementById("keyword").value.trim();
     var Check = true;
 
     if (Name != "" && Name.length < 50) {
-       
+        // Continue with other checks
     } else {
         Check = false;
         document.getElementById("ErrorCategoryName").innerHTML = "Invalid Category Name!";
     }
 
     if (Keyword != null && Keyword.length == 2) {
-        $.ajax({
-            url: '/Dashboard/KeywordExisted',
-            type: "POST",
-            data: {
-                keyword: Keyword
-            },
-            dataType: 'json',
-            success: function (data) {
-                Check = false;
-                document.getElementById("ErrorCategoryKeyword").innerHTML = "Keyword already existed!";
-
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.error('Error:', textStatus, errorThrown);
-            }
-        });
+        // Continue with other checks
     } else {
         Check = false;
         document.getElementById("ErrorCategoryKeyword").innerHTML = "Keyword must be 2 characters long!";
     }
-    return Check;
+
+    // Call CheckKeyWordExisted and pass a callback function
+    CheckKeyWordExisted(Keyword, function (exists) {
+        if (exists) {
+            // Keyword exists, handle accordingly
+            Check = false;
+            document.getElementById("ErrorCategoryKeyword").innerHTML = "Keyword already existed!";
+        } else {
+            
+        }
+    });
+
+    // Return the initial value of Check
+    if (Check == true) {
+        document.getElementById("AddCate").submit();
+    }
 }
 
+function CheckKeyWordExisted(keyword, callback) {
+    $.ajax({
+        url: '/Dashboard/KeywordExisted',
+        type: "POST",
+        data: {
+            keyword: keyword
+        },
+        async: false,
+        success: function (data) {
+            if (data == 'Existed') {
+                // Keyword exists
+                callback(true);
+            } 
+        }
+    });
+}
+
+
+function CheckCateAdd() {
+    var isOtherValid = CheckCategoryAdd();
+    var isKeywordExisted = CheckKeyWordExisted();
+    return isOtherValid && isKeywordExisted;
+}
 function CheckBrandAdd() {
     document.getElementById("ErrorBrandName").innerHTML = "";
-    var errorElement = document.getElementById("ErrorBrandLogo").innerHTML = "";
+     document.getElementById("ErrorBrandLogo").innerHTML = "";
     var Name = document.getElementById("Brand_Name").value.trim();
     var inputFile = document.getElementById("Brand_Logo");
     var Check = true;
@@ -444,7 +514,7 @@ function CheckBrandAdd() {
         document.getElementById("ErrorBrandName").innerHTML = "Invalid Brand Name!";
     }
     if (inputFile.files.length === 0) {
-        errorElement.innerHTML = "Please insert an image!";
+        document.getElementById("ErrorBrandLogo").innerHTML = "Please insert an image!";
          Check =  false; // Prevent form submission
     } else {
         var validExtensions = ["png", "jpg", "jpeg"];
@@ -452,7 +522,7 @@ function CheckBrandAdd() {
         var fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
 
         if (!validExtensions.includes(fileExtension)) {
-            errorElement.innerHTML = "File must have an extension of .png, .jpg, or .jpeg!";
+            document.getElementById("ErrorBrandLogo").innerHTML = "File must have an extension of .png, .jpg, or .jpeg!";
             event.preventDefault(); // Prevent the default form submission
         }
 
