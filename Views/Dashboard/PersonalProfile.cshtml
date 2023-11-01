@@ -11,12 +11,26 @@
     {
         manager = JsonConvert.DeserializeObject<Manager>(Manager);
     }
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
 }
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 <div class="body-wrapper">
     <div class="container">
         <div class="container">
             <div class="p-4 BoxStyle rounded-4 col-7 " style="border-color: #5D87FF; border-style:solid; border-width:8px; margin-left:20%">
+                @if (Message != null && Message != "")
+         {
+            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> @Message.
+            </div>
+        }
                 <h1 class="Header" style="text-align:center; color: #5D87FF">PERSONAL PROFILE</h1>
                     <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/PersonalProfile" id="UpdateStaff" class="updateStaff">                       
                             <label for="exampleInputEmail1" class="form-label">Username</label>
@@ -48,7 +62,7 @@
                                 <p style="color: red;"></p>
                             </div>
                             <div style="text-align:center">
-                                <button type="submit" class="btn btn-primary">Save</button
+                                <input id="submitUpdate" type="submit" class="btn btn-primary" value="Submit">
                             </div>
                     </form>
             

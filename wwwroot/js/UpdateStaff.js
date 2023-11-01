@@ -1,8 +1,10 @@
-﻿var emailExist = true;
+﻿let noError = true;
 $('#Email').on('blur', function () {
     var email = $('#Email').val();
-    if (email !== '') {
 
+    // Assume there is an initial value of noError, you may need to declare it earlier in your code.
+
+    if (email !== '') {
         $.ajax({
             url: '/Dashboard/CheckEmailUpdate',
             type: "POST",
@@ -12,16 +14,24 @@ $('#Email').on('blur', function () {
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data === "Fail") {
-                    emailExist = true;
                     $('#emailexist').text('Email has already been used!');
-                } else {
-                    emailExist = false;
+                    $('#submitUpdate').css('pointer-events', 'none');
+                    noError = false;
+                } else if (data === "Success") {
                     $('#emailexist').text('');
+                    $('#submitUpdate').css('pointer-events', 'auto');
                 }
+            },
+            error: function () {
+                // Handle any AJAX errors here
+                $('#emailexist').text('An error occurred during the request.');
+                noError = false;
             }
         });
     }
 });
+
+
 
 // Lấy giá tin input
 function getValueById(id) {
@@ -54,8 +64,6 @@ function isValidEmail(email) {
     return emailPattern.test(email);
 }
 
-
-
 $(document).ready(function () {
     $('form.updateStaff').submit(function (event) {
 
@@ -66,7 +74,7 @@ $(document).ready(function () {
         var SSN = getValueById('SSN');
         var address = getValueById('LivingAddress');
 
-        var noError = true;
+
 
         //Họ và tên
         if (!fullname) {
@@ -124,8 +132,9 @@ $(document).ready(function () {
         }
 
         //If there is error, block form submit
-        if (!noError || emailExist) {
+        if (!noError) {
             event.preventDefault();
+            noError = true;
         }
     });
 });

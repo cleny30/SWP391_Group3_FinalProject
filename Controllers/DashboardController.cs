@@ -152,6 +152,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 return Content("Success");
             }
         }
+
         [HttpPost]
         public IActionResult CheckEmailUpdate(string email)
         {
@@ -174,12 +175,18 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             return View();
         }
+
         [HttpPost]
         //Update staff information
         public IActionResult PersonalProfile(Manager staff)
         {
             ManagerDAO dao = new ManagerDAO();
+            AccountDAO accDAO = new AccountDAO();
             dao.UpdateStaffAccount(staff);
+            Manager manager = accDAO.GetManagerByUsername(staff.username);
+            manager.email = staff.email;
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Your profile has been successfully updated!"));
+            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
             return RedirectToAction("PersonalProfile", "Dashboard");
         }
 
@@ -436,7 +443,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             var serializedmanager = _contx.HttpContext.Session.GetString("Session");
             var manager = JsonConvert.DeserializeObject<Manager>(serializedmanager);
             dao.AcceptOrder(ID, manager.ID);
-            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " accepted by " + manager.fullname + "!"));
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " accepted by " + manager.fullname));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult CancelOrder(string ID)
@@ -445,7 +452,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             OrderDAO dao = new OrderDAO();
             dao.CancelOrder(ID);
             dao.ReturnProduct(ID);
-            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been cancelled"));
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been cancelled. Products from order have been sent back to store"));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
         public IActionResult ShippedOrder(string ID)
@@ -462,7 +469,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             //chuyển status = 4
             OrderDAO dao = new OrderDAO();
             dao.CompletedOrder(ID);
-            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been delivered!"));
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Order " + ID + " has been delivered"));
             return RedirectToAction("OrderRecieptPage", "Dashboard");
         }
 
