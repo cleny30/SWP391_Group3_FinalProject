@@ -189,7 +189,7 @@
                                 <td>@a.fullname</td>
                                 <td>@a.phonenum</td>
                                 <td>$@item.totalPrice</td>
-                                        <td>@item.startDay</td>
+                                    <td>@item.startDay.ToString("dd/MM/yyyy")</td>
                                     <td> <a class="SmallTitle"  data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
@@ -266,7 +266,7 @@
                                     <td>@a.fullname</td>
                                     <td>@a.phonenum</td>
                                     <td>$@item.totalPrice</td>
-                                    <td>@item.startDay</td>
+                                    <td>@item.startDay.ToString("dd/MM/yyyy")</td>
                                     <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                                 </tr>
                             }
@@ -342,7 +342,7 @@
                                 <td>@a.fullname</td>
                                 <td>@a.phonenum</td>
                                 <td>$@item.totalPrice</td>
-                                        <td>@item.startDay</td>
+                                    <td>@item.startDay.ToString("dd/MM/yyyy")</td>
                                     <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
@@ -426,8 +426,8 @@ document.querySelector('#minDateColumn4two').addEventListener('change', () => ta
                                 <td>@a.fullname</td>
                                 <td>@a.phonenum</td>
                                 <td>$@item.totalPrice</td>
-                                        <td>@item.startDay</td>
-                                        <td>@item.endDay</td>
+                                    <td>@item.startDay.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.endDay.ToString("dd/MM/yyyy")</td>
                                     <td> <a class="SmallTitle" data-orderid="@item.orderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
                             </tr>
                             }
