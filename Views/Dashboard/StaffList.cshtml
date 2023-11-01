@@ -99,7 +99,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <a id="deleteLink" class="btn btn-danger">Delete</a>
+                            <a id="deleteorenableLink"></a>
                         </div>
 
 
@@ -115,6 +115,7 @@
                                 <th>Phone Number</th>
                                 <th>SSN</th>
                                 <th>Address</th>
+                                <th>Available</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -126,6 +127,14 @@
                                     <td>@item.phone</td>
                                     <td>@item.SSN</td>
                                     <td>@item.address</td>
+                                    @if (item.isAvailable)
+                                    {
+                                        <td>Yes</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="color:red">Not available</td>
+                                    }
                                     <td>
                                         <button class=" btn btn-primary" type="button" data-employeeid="@item.ID"  onclick="ShowStaff(this)">Show</button>
                                     </td>

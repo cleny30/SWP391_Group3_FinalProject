@@ -97,11 +97,18 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.managers = list;
             return View();
         }
-
+        //Disable a staff in staff list
         public IActionResult DisableStaff(int id)
         {
             ManagerDAO dao = new ManagerDAO();
             dao.DisableStaff(id);
+            return RedirectToAction("StaffList", "Dashboard");
+        }
+        //Enable a staff in staff list
+        public IActionResult EnableStaff(int id)
+        {
+            ManagerDAO dao = new ManagerDAO();
+            dao.EnableStaff(id);
             return RedirectToAction("StaffList", "Dashboard");
         }
         public IActionResult CreateAccount()

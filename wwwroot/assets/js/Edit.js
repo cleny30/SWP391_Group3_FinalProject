@@ -176,9 +176,16 @@ function ShowStaff(element) {
             $('#Staff_SSN').html(data.ssn);
             $('#Staff_LivingAddress').html(data.address);
             $('#Staff_Username').html(data.username);
-
-            var deleteLink = document.getElementById("deleteLink")
-            deleteLink.href = "/Dashboard/DisableStaff/" + data.id
+            var deleteorenableLink = document.getElementById("deleteorenableLink")
+            if (data.isAvailable) {
+                deleteorenableLink.href = "/Dashboard/DisableStaff/" + data.id
+                deleteorenableLink.className = "btn btn-danger"
+                deleteorenableLink.textContent = "Disable"
+            } else {
+                deleteorenableLink.href = "/Dashboard/EnableStaff/" + data.id
+                deleteorenableLink.className = "btn btn-info"
+                deleteorenableLink.textContent = "Enable"
+            }
             
             var modal = document.getElementById("myModal");
             modal.style.display = "block";

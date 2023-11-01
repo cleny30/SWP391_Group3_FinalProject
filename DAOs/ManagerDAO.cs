@@ -55,7 +55,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             Manager manager = new Manager();
             using (_reader = _command.ExecuteReader())
             {
-                if( _reader.Read())
+                if (_reader.Read())
                 {
                     manager.ID = _reader.GetInt32(0);
                     manager.username = _reader.GetString(1);
@@ -70,7 +70,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                     return manager;
                 }
             }
-                return null;
+            return null;
         }
 
         //Get manager using email
@@ -100,10 +100,18 @@ namespace SWP391_Group3_FinalProject.DAOs
             return null;
         }
 
-        //Disable staff
+        //Disable a staff
         public void DisableStaff(int staffid)
         {
             _command.CommandText = "Update Manager Set isAvailable = 'false' where ID = @ID";
+            _command.Parameters.Clear();
+            _command.Parameters.AddWithValue("@ID", staffid);
+            _command.ExecuteNonQuery();
+        }
+        //Enable a staff
+        public void EnableStaff(int staffid)
+        {
+            _command.CommandText = "Update Manager Set isAvailable = 'true' where ID = @ID";
             _command.Parameters.Clear();
             _command.Parameters.AddWithValue("@ID", staffid);
             _command.ExecuteNonQuery();
