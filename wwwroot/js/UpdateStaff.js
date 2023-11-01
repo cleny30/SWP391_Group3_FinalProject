@@ -1,9 +1,7 @@
 ﻿let noError = true;
-$('#Email').on('blur', function () {
+
+function ValidateEmail() {
     var email = $('#Email').val();
-
-    // Assume there is an initial value of noError, you may need to declare it earlier in your code.
-
     if (email !== '') {
         $.ajax({
             url: '/Dashboard/CheckEmailUpdate',
@@ -15,11 +13,9 @@ $('#Email').on('blur', function () {
                 // Update DOM elements with retrieved data
                 if (data === "Fail") {
                     $('#emailexist').text('Email has already been used!');
-                    $('#submitUpdate').css('pointer-events', 'none');
                     noError = false;
                 } else if (data === "Success") {
                     $('#emailexist').text('');
-                    $('#submitUpdate').css('pointer-events', 'auto');
                 }
             },
             error: function () {
@@ -29,9 +25,7 @@ $('#Email').on('blur', function () {
             }
         });
     }
-});
-
-
+}
 
 // Lấy giá tin input
 function getValueById(id) {
