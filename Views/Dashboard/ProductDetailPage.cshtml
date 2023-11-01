@@ -79,12 +79,13 @@
                                     <div class="form-group">
                                         <label class="form-label" for="category">Category</label>
 
-                                        <select name="cate_id" class="form-control" id="cate_id" disabled>
+                                        <select name="" class="form-control" id="cate_id" disabled>
                                             @foreach (var category in ViewBag.CategoryList)
                                             {
                                                 <option value="@category.cate_id" @(Model.cate_id == category.cate_id ? "selected" : "")>@category.cate_name</option>
                                             }
                                         </select>
+                                        <input type="hidden" name="cate_id"value="@Model.cate_id"/>
                                         
                                     </div>
                                 </div>
@@ -397,7 +398,6 @@
             console.error("Elements with names 'feature' and 'description' not found.");
         }
 
-        document.getElementById('cate_id').removeAttribute('disabled');
         document.getElementById('brand_id').removeAttribute('disabled');
         document.getElementById('pro_discount').removeAttribute('readonly');
         var hiddenButton = document.getElementById('hiddenButton');
