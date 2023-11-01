@@ -97,12 +97,15 @@
                     </div>
                     }
                     
-                    <div class="col-md-12 ">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="addNewAddress">
-                            <label class="custom-control-label" for="addNewAddress" data-toggle="collapse" data-target="#addnew-address">Add new address.</label>
+                    @if (ViewBag.ListAddress.Count < 3)
+                    {
+                        <div class="col-md-12 ">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="addNewAddress">
+                                <label class="custom-control-label" for="addNewAddress" data-toggle="collapse" data-target="#addnew-address">Add new address.</label>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <form method="post" class="update_address_form" action="/Account/UpdateAddress">
                         <div class="collapse mb-5 " id="update-address" data-addressID ="">
                             <div class="bg-light p-30">
