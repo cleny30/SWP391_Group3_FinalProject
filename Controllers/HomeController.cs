@@ -71,10 +71,14 @@ namespace SWP391_Group3_FinalProject.Controllers
             return Json(foundProducts);
 
         }
-        [HttpGet]
-        public IActionResult PageNotFound()
-        {
 
+        [Route("/StatusCodeError/{statusCode}")]
+        public IActionResult Error(int statusCode)
+        {
+            if(statusCode == 404)
+            {
+                ViewBag.ErrorMessage = "Page not found";
+            }
             return View();
 
         }

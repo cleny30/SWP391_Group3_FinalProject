@@ -409,7 +409,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             // Create the relative path to the image
-            string relativeImagePath = "img_src/ad_img/logoGearshop.png";
+            string relativeImagePath = "wwwroot/source_img/advertising_img/logoGearshop.png";
 
             //Combine the base directory and the relative path to get the full path
             string fullPath = Path.Combine(baseDirectory, relativeImagePath);

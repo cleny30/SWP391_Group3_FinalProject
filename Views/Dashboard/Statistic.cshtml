@@ -121,19 +121,15 @@
                                 string payment = "";
                                 string revenue = "";
 
-                                string categories1 = "";
-                                string categories2 = "";
 
                                 foreach (var item in ViewBag.listIncomeMonth)
                                 {
-                                    categories1 += item.Item2 > 0 ? item.Item1 + "," : "";
-                                    price +=  item.Item2>0? item.Item2 + ",":"";
+                                    price +=  item.Item2 + ",";
                                 }
 
                                 foreach (var item in ViewBag.listPayemt)
                                 {
-                                    categories2 += item.Item2 > 0 ? item.Item1 + "," : "";
-                                    payment += item.Item2>0? item.Item2 + ",":"";
+                                    payment += item.Item2 + ",";
                                 }
 
                                 foreach (var item in ViewBag.listRevenue)
@@ -141,17 +137,12 @@
                                     revenue += item.Item2 + ",";
                                 }
 
-                                string comebide = categories1.Length >= categories2.Length ? categories1 : categories2;
-
-                              
-
                                                 // Remove the trailing comma
                                 price = price.TrimEnd(',');
                                 payment = payment.TrimEnd(',');
                                 revenue = revenue.TrimEnd(',');
-                                comebide = comebide.TrimEnd(',');
                             }
-                            <input type="hidden" id="chart_area_data" data-Toalprice="@price" data-totalPayment="@payment" data-totalRevenue="@revenue" data-categoriescombide="@comebide" />
+                            <input type="hidden" id="chart_area_data" data-Toalprice="@price" data-totalPayment="@payment" data-totalRevenue="@revenue" data-categoriescombide="" />
 
                             <div id="chart_area" class=""></div>
                             <!--Cleny edit trong đây-->

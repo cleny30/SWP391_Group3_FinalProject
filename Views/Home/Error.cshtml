@@ -1,15 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    Layout = null;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>404 Error</title>
+    <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
 
     <style>
         body {
@@ -74,13 +69,12 @@
         </div>
 
         <h1>404</h1>
-        <h2>Page not found</h2>
+        <h2>@ViewBag.ErrorMessage</h2>
         <p>The page you are looking for doesn't exits or an other error occurrend. <br>Go back, or head over to GearShop to choose a new direction </p>
-
-
 
 
         <a href="/Home" class="button">Home Page</a>
 
     </div>
 </body>
+</html>

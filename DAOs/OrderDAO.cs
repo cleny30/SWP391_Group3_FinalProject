@@ -387,7 +387,7 @@ namespace SWP391_Group3_FinalProject.DAOs
             int currentMonth = currentDate.Month;
             int currentYear = currentDate.Year;
 
-            _command.CommandText = "SELECT  SUM(Total_Price) AS Total_Price FROM [Order] WHERE End_date IS NOT NULL";
+            _command.CommandText = "SELECT  SUM(Total_Price) AS Total_Price FROM [Order] WHERE End_date IS NOT NULL AND Status = 4";
             _command.Parameters.Clear();
 
             double totalIncome = 0;
@@ -431,7 +431,7 @@ namespace SWP391_Group3_FinalProject.DAOs
     " FROM Category c" +
     " LEFT JOIN [Product] p ON c.Cat_ID = p.Cat_ID" +
     " LEFT JOIN [Order_Details] od ON p.pro_id = od.pro_id" +
-    " LEFT JOIN [Order] o ON od.Order_ID = o.Order_ID AND o.End_date IS NOT NULL" +
+    " LEFT JOIN [Order] o ON od.Order_ID = o.Order_ID AND o.End_date IS NOT NULL AND Status = 4" +
     " GROUP BY c.Cat_Name";
 
 
@@ -480,7 +480,7 @@ namespace SWP391_Group3_FinalProject.DAOs
                 "MONTH(End_date) AS OrderMonth, " +
                 "SUM(Total_Price) AS TotalPrice " +
                 "FROM [dbo].[Order] " +
-                "WHERE YEAR(End_date) = @year AND End_date IS NOT NULL " +
+                "WHERE YEAR(End_date) = @year AND End_date IS NOT NULL AND Status = 4" +
                 "GROUP BY YEAR(End_date), MONTH(End_date) " +
                 "ORDER BY YEAR(End_date), MONTH(End_date)";
 
