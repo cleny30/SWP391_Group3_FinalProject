@@ -93,18 +93,17 @@
                         </div>
                     </div>
 
-                    <input type="hidden" id="cart-quan-current" value="@ViewBag.cartQuan" />
 
-                    <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
+                    <a class="btn btn-outline-dark btn-square" data-pro_quan_available="@ViewBag.pro.pro_quan" data-cart_quan_current="@ViewBag.cartQuan" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
                     @if (ViewBag.pro.pro_quan == 1)
                     {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
+                        <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
                     }
                     else
                     {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
+                        <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
                     }
 
                 </div>
@@ -246,7 +245,7 @@
         Error!
     </div>
     <div class="description">
-        You have <strong>@ViewBag.pro.pro_quan</strong> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span>  products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
     </div>
     <div class="dismiss-btn">
         <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>

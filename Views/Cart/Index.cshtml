@@ -43,7 +43,6 @@
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
-                            <th>Stock</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -54,7 +53,17 @@
                         @foreach (var item in ViewBag.ListCart)
                         {
                             <tr id="itemCart-@item.pro_id">
-                                <td class="align-middle"><img src="@list[index].Item1" alt="" style="width: 50px;">@item.pro_name</td>
+                                <td class="align-middle"><img src="@list[index].Item1" alt="" style="width: 50px;">
+
+                                    @if (@list[index].Item3 !=0)
+                                    {
+                                        <span style="color:red">@item.pro_name</span>
+                                    }
+                                    else
+                                    {
+                                        @item.pro_name
+                                    }
+                                </td>
                                 <td class="align-middle">$@item.price</td>
                                 <td class="align-middle">
                                     <div class="input-group  mx-auto" style="width: 100px;">
@@ -72,20 +81,10 @@
                                     allPrice += tp;
                                     tp = Math.Round(tp, 2);
                                 }
-                                <td class="align-middle" id="item-price-@item.pro_id">$@tp</td>
-                                <td class="align-middle">
-                                    @if (@list[index].Item3 == 2)
-                                    {
-                                        <span style="color:red">Unavailable</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@list[index].Item2</span>
-                                    }
-
+                                <td class="align-middle" id="item-price-@item.pro_id">$@tp
                                     <input type="hidden" value="@list[index].Item3" class="status-Stock">
-
-                                </td>
+                                    </td>
+                                    
                                 <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
 
                             </tr>

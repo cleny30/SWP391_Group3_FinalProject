@@ -231,16 +231,41 @@
                 }
                 else
                 {
+                    var k = 0;
+
                     @foreach (var item in list)
                     {
+                        int cartCountQuan = 0;
+                        {
+                            if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                            {
+                                foreach (var item2 in ViewBag.cartCount)
+                                {
+                                    if (item2.Item1 == item.pro_id)
+                                    {
+                                        cartCountQuan = item2.Item2;
+                                        break;
+                                    }
+                                }
+                            }
+
+
+                        }
+
                         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                             <div class="product-item bg-light mb-4">
                                 <div class="product-img position-relative overflow-hidden">
                                     <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                                     <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                        <a class="btn btn-outline-dark btn-square"
+                                           data-pro_quan_available="@item.pro_quan"
+                                           data-cart_quan_current="@cartCountQuan"
+                                           data-pro_id="@item.pro_id"
+                                           onclick="AddToCart(this)">
                                             <i class="fa fa-shopping-cart"></i>
                                         </a>
+
+
                                         <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
@@ -271,6 +296,7 @@
                                 </div>
                             </div>
                         </div>
+                        k++;
                     }
 
                     <div class="col-12">
@@ -346,8 +372,8 @@
     </div>
 </div>
 <!-- Shop End -->
-
 <link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
 
 <!--Pop up Add to cart successful-->
 <div id="myModal-check" class="modal-check">
@@ -360,4 +386,16 @@
         <p>The product has been added to Cart</p>
     </div>
 
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
 </div>

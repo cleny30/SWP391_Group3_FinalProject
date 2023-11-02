@@ -103,7 +103,7 @@
             }
         }
 
-        var cart_quan = parseInt($('#cart-quan-current').val());
+        var cart_quan = parseInt($('#shopDetail_quan').attr('data-cart_quan_current'))
 
         if ((newVal + cart_quan) > parseInt(pro_quan_available)) {
             newVal = parseInt(pro_quan_available - cart_quan);

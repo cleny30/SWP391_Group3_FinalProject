@@ -225,6 +225,24 @@ namespace SWP391_Group3_FinalProject.Controllers
             //ViewBag.currentUrl = fullPathWithQuery;
             #endregion
 
+            List<Tuple<string, int>> cartCount = new List<Tuple<string, int>>();
+            var get = _contx.HttpContext.Session.GetString("Session");
+            if (!string.IsNullOrEmpty(get))
+            {
+                var cus = JsonConvert.DeserializeObject<Customer>(get);
+
+                OrderDAO orderDAO = new OrderDAO();
+                List<Cart> cartList = orderDAO.GetCartByUsername(cus.username);
+
+                foreach (var cart in cartList)
+                {
+                    Tuple<string, int> tupple = new Tuple<string, int>(cart.pro_id, cart.quantity);
+                    cartCount.Add(tupple);
+                }
+            }
+
+            ViewBag.cartCount = cartCount;
+
             return View();
         }
 
@@ -240,7 +258,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             if (!string.IsNullOrEmpty(get))
             {
                 var cus = JsonConvert.DeserializeObject<Customer>(get);
-                Cart c = orderDAO.GetCartByUsername(cus.username).FirstOrDefault(p=>p.pro_id == pro_id);
+                Cart c = orderDAO.GetCartByUsername(cus.username).FirstOrDefault(p => p.pro_id == pro_id);
 
                 if (c != null)
                 {
@@ -304,6 +322,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             bool isLastPage = currentPage == totalPages;
 
             var productToshow = foundProducts.Skip(startIndex).Take(pageSize).ToList();
+
 
             ViewBag.foundProducts = productToshow;
             ViewBag.searchterm = searchTerm;
