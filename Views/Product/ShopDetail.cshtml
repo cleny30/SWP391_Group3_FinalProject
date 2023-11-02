@@ -221,7 +221,17 @@
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                @if (item.discount > 0)
+                                {
+                                    var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.pro_price</h5>
+                                }
                             </div>
                             
                         </div>
