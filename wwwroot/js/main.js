@@ -102,6 +102,13 @@
                 newVal = 1;
             }
         }
+
+        var cart_quan = parseInt($('#cart-quan-current').val());
+
+        if ((newVal + cart_quan) > parseInt(pro_quan_available)) {
+            newVal = parseInt(pro_quan_available - cart_quan);
+        }
+
         button.parent().parent().find('input').val(newVal);
 
         $('#shopDetail_quan').attr('data-quan_input', newVal);
@@ -109,12 +116,15 @@
 
     $('#quan_input').on('blur', function () {
         var pro_quan_available = document.querySelector('.number-product').getAttribute('data-product_quan');
-        var quan = parseFloat($('#quan_input').val());
+
+        var cart_quan = parseInt($('#cart-quan-current').val())
+        var quan = parseInt($('#quan_input').val());
         $('#shopDetail_quan').attr('data-quan_input', $('#quan_input').val());
 
-        if (quan > pro_quan_available) {
-            $('#quan_input').val(pro_quan_available);
-            $('#shopDetail_quan').attr('data-quan_input', pro_quan_available);
+        if ((quan + cart_quan) > pro_quan_available) {
+            var total = pro_quan_available - cart_quan;
+            $('#quan_input').val(total);
+            $('#shopDetail_quan').attr('data-quan_input', total);
         }
 
         if (isNaN(quan)) {

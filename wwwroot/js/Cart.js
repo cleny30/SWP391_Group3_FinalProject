@@ -20,29 +20,40 @@
 
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
-    var quan = element.getAttribute('data-quan_input');
-    if (quan===null) {
+    var quan = parseInt(element.getAttribute('data-quan_input'));
+    var cart_quan = parseInt($('#cart-quan-current').val());
+    var pro_quan_available = parseInt(document.querySelector('.number-product').getAttribute('data-product_quan'));
+
+    if (quan === null) {
         quan = 1;
     }
-    $.ajax({
-        url: '/Cart/AddToCart',
-        type: "POST",
-        data: {
-            pro_id: id,
-            quantity: quan
-        },
-        success: function (data) {
-            if (data === "fail") {
-                window.location.href = "/Login"
-            } else {
-                $('.cart-value').text(data);
-                $('#myModal-check').css('display', 'block');
-                setTimeout(function () {
-                    $('#myModal-check').css('display', 'none');
-                }, 1500);
+    if (quan !== 0 && cart_quan < pro_quan_available) {
+        $('#cart-quan-alert').text('');
+
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: "POST",
+            data: {
+                pro_id: id,
+                quantity: quan
+            },
+            success: function (data) {
+                if (data.noti === "fail") {
+                    window.location.href = "/Login"
+                } else {
+                    $('.cart-value').text(data.noti);
+                    $('#cart-quan-current').val(data.quan);
+                    $('#cart-quan-alert').text(data.quan);
+                    $('#myModal-check').css('display', 'block');
+                    setTimeout(function () {
+                        $('#myModal-check').css('display', 'none');
+                    }, 1500);
+                }
             }
-        }
-    });
+        });
+    } else {
+        $('#popup-cart-alert').addClass("active");
+    }
 }
 
 function updateCartQuantity(productId, username, quantityChange) {
@@ -52,7 +63,7 @@ function updateCartQuantity(productId, username, quantityChange) {
         currentQuantity = 0;
         quantityChange = $('#num-' + productId).val();
     }
-    
+
     var newQuantity = parseInt(currentQuantity + quantityChange);
     var url = window.location.href;
     if (newQuantity < 1) {

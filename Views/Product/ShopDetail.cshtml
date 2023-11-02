@@ -4,7 +4,7 @@
 
     int itemCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
 }
-
+<script src="https://kit.fontawesome.com/b9fa78779b.js" crossorigin="anonymous"></script>
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -92,6 +92,9 @@
                             </button>
                         </div>
                     </div>
+
+                    <input type="hidden" id="cart-quan-current" value="@ViewBag.cartQuan" />
+
                     <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
@@ -223,6 +226,7 @@
 
 
 <link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
 
 <!--Pop up Add to cart successful-->
 <div id="myModal-check" class="modal-check">
@@ -235,4 +239,16 @@
         <p>The product has been added to Cart</p>
     </div>
 
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description">
+        You have <strong>@ViewBag.pro.pro_quan</strong> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
 </div>

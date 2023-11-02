@@ -6,11 +6,19 @@ using SWP391_Group3_FinalProject.Models;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using SWP391_Group3_FinalProject.Filter;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SWP391_Group3_FinalProject.Controllers
 {
+
     public class ProductController : Controller
     {
+        private readonly IHttpContextAccessor _contx;
+        public ProductController(IHttpContextAccessor contx)
+        {
+            _contx = contx;
+        }
+
         [HttpGet]
         [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult Shop()
@@ -23,7 +31,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             List<Product> list = dao.GetAllProduct();
 
-            list = list.Where(p => p.pro_quan > 0 && p.isAvailable==true).ToList();
+            list = list.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
 
 
 
@@ -224,6 +232,25 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ShopDetail(string pro_id)
         {
+            OrderDAO orderDAO = new OrderDAO();
+
+            int cart_quan = 0;
+
+            var get = _contx.HttpContext.Session.GetString("Session");
+            if (!string.IsNullOrEmpty(get))
+            {
+                var cus = JsonConvert.DeserializeObject<Customer>(get);
+                Cart c = orderDAO.GetCartByUsername(cus.username).FirstOrDefault(p=>p.pro_id == pro_id);
+
+                if (c != null)
+                {
+                    cart_quan = c.quantity;
+                }
+
+            }
+
+
+
             int numberOfRandomProducts = 5;
             Random random = new Random();
             ProductDAO dao = new ProductDAO();
@@ -244,6 +271,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.productByCateList = productByCateList;
             ViewBag.brandList = brandList;
             ViewBag.RandomProducts = randomProducts;
+
+            ViewBag.cartQuan = cart_quan;
             return View();
         }
         [HttpGet]

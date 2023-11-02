@@ -101,7 +101,15 @@ namespace SWP391_Group3_FinalProject.Controllers
                     dao.AddCart(c);
                     var count = List.Count(c => c.username == cus.username) + 1;
                     _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
-                    return Content(count.ToString());
+
+                    var rs = new
+                    {
+                        noti = count,
+                        quan = quantity,
+
+                    };
+                    ViewBag.cartQuan = quantity;
+                    return Json(rs);
                 }
                 else
                 {
@@ -109,12 +117,26 @@ namespace SWP391_Group3_FinalProject.Controllers
                     dao.CartQuantity(List[List.IndexOf(Ca)]);
                     var count = List.Count(c => c.username == cus.username);
                     _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
-                    return Content(count.ToString());
+
+                    var rs = new
+                    {
+                        noti = count,
+                        quan = Ca.quantity,
+
+                    };
+                    return Json(rs);
                 }
             }
             else
             {
-                return Content("fail");
+                var rs = new
+                {
+                    noti = "fail",
+                    quan = 0,
+
+                };
+                ViewBag.cartQuan = quantity;
+                return Json(rs);
             }
 
         }
