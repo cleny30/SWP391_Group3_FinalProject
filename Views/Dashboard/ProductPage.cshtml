@@ -18,7 +18,7 @@
         Message = JsonConvert.DeserializeObject<String>(MessageTo);
         Context.Session.Remove("Message");
     }
-   
+
 }
 
 <div class="body-wrapper">
@@ -32,18 +32,19 @@
                     <div class="tabby-content">
                         <div class="col-12" style="text-align: center;">
                             <h1 class="Title">PRODUCT IN STOCKS</h1>
-                            @if(manager.isAdmin == true)
+                            @if (manager.isAdmin == true)
                             {
                                 <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
                                     <i class="fa-solid fa-plus"></i> Add Product
                                 </button>
                             }
-                            
+
                             <button type="button" id="contact" class="btn btn-outline-primary m-1">Categories</button>
 
                             <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
                         </div>
-                       @if(Message != null && Message != ""){
+                        @if (Message != null && Message != "")
+                        {
                             <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
                                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                                 <strong>Success!</strong> @Message.
@@ -242,24 +243,43 @@
                                         Add
                                     </button>
                                 }
-                               
+
                             </div>
                             <div style="overflow:scroll; height: 70%">
-                            <table id="example2" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                    <tbody style=" max-height: 200px; overflow:scroll;">
-                                    @foreach (var items in ViewBag.CategoryList)
-                                    {
+                                <table id="example2" class="table table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>@items.cate_id</td>
-                                            <td>@items.cate_name</td>
-                                            <td>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style=" max-height: 200px; overflow:scroll;">
+                                        @foreach (var items in ViewBag.CategoryList)
+                                        {
+                                            <tr>
+                                                <td>@items.cate_id</td>
+                                                <td>@items.cate_name</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.isAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+
+                                                <td>
                                                     @if (manager.isAdmin == true)
                                                     {
                                                         <!--Edit-->
@@ -267,13 +287,20 @@
                                                            id="contactCategoryEdit"></i>
 
                                                         <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this category and can not be undo');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        if (items.isAvailable == true)
+                                                        {
+                                                            <a onclick="return confirm('You are about to delete this category, went ahead?');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a onclick="return confirm('You are about to enable this category, went ahead?');" href="/Dashboard/EnableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                        }
                                                     }
                                                 </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
@@ -339,7 +366,7 @@
                                         Add
                                     </button>
                                 }
-                               
+
                             </div>
                             <div style="overflow:scroll; height: 70%">
                                 <table id="example3" class="table table-striped" style="width:100%; overflow-y:scroll;">
@@ -347,6 +374,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -356,6 +384,24 @@
                                             <tr>
                                                 <td>@items.brand_id</td>
                                                 <td>@items.brand_name</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.isAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+
                                                 <td>
                                                     @if (manager.isAdmin == true)
                                                     {
@@ -363,9 +409,16 @@
                                                         <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.brand_id" onclick="EditBrand(this)"
                                                            id="contactBrandEdit"></i>
 
+                                                        if (items.isAvailable == true)
+                                                        {
+                                                            <!--Delete-->
+                                                            <a onclick="return confirm('You are about to delete this brand, went ahead?');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a onclick="return confirm('You are about to enable this brand, went ahead?');" href="/Dashboard/EnableBrand/@items.brand_id"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                        }
 
-                                                        <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this brand and can not be undo');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                     }
                                                 </td>
                                             </tr>
@@ -375,8 +428,8 @@
                             </div>
 
                             <!--Add Brand-->
-                            <div id="contactFormAddBrand" class="col-8" >
-                                <form method="POST" action="/Dashboard/AddBrand" id="" class=""  onsubmit="return CheckBrandAdd()" enctype="multipart/form-data">
+                            <div id="contactFormAddBrand" class="col-8">
+                                <form method="POST" action="/Dashboard/AddBrand" id="" class="" onsubmit="return CheckBrandAdd()" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
@@ -408,7 +461,7 @@
                             <!--Add Brand-->
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" onsubmit="return CheckBrandEdit()" enctype="multipart/form-data" >
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" onsubmit="return CheckBrandEdit()" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
@@ -666,6 +719,6 @@
     });
 
 
-    </script>
+</script>
 <script src="~/assets/js/productpage.js"></script>
 <script src="~/assets/js/jsaddproduct.js"></script>
