@@ -44,11 +44,6 @@ namespace SWP391_Group3_FinalProject.Controllers
                     discount = list.Where(pro => pro.discount > 0).ToList();
                 }
 
-                if (sortFilter.Contains("best_selling"))
-                {
-                    selling = dao.SortProductByDiscount();
-                }
-
                 if (discount.Count() > 0 && selling.Count() > 0)
                 {
                     sortCombine = discount.Intersect(selling);
