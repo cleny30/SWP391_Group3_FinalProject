@@ -189,11 +189,34 @@
                 @foreach (var item in ViewBag.productByCateList)
                 {
 
+                    int cartCountQuan = 0;
+                    {
+                        if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                        {
+                            foreach (var item2 in ViewBag.cartCount)
+                            {
+                                if (item2.Item1 == item.pro_id)
+                                {
+                                    cartCountQuan = item2.Item2;
+                                    break;
+                                }
+                            }
+                        }
+
+
+                    }
+
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.pro_quan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.pro_id"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
 
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>

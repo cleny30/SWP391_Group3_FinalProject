@@ -253,6 +253,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             OrderDAO orderDAO = new OrderDAO();
 
             int cart_quan = 0;
+            List<Tuple<string, int>> cartCount = new List<Tuple<string, int>>();
+
 
             var get = _contx.HttpContext.Session.GetString("Session");
             if (!string.IsNullOrEmpty(get))
@@ -263,6 +265,14 @@ namespace SWP391_Group3_FinalProject.Controllers
                 if (c != null)
                 {
                     cart_quan = c.quantity;
+                }
+
+                List<Cart> cartList = orderDAO.GetCartByUsername(cus.username);
+
+                foreach (var cart in cartList)
+                {
+                    Tuple<string, int> tupple = new Tuple<string, int>(cart.pro_id, cart.quantity);
+                    cartCount.Add(tupple);
                 }
 
             }
@@ -291,6 +301,9 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.RandomProducts = randomProducts;
 
             ViewBag.cartQuan = cart_quan;
+
+            ViewBag.cartCount = cartCount;
+
             return View();
         }
         [HttpGet]
@@ -333,6 +346,24 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.IsFirstPage = isFirstPage;
             ViewBag.IsLastPage = isLastPage;
             ViewBag.CurrentPage = currentPage;
+
+            List<Tuple<string, int>> cartCount = new List<Tuple<string, int>>();
+            var get = _contx.HttpContext.Session.GetString("Session");
+            if (!string.IsNullOrEmpty(get))
+            {
+                var cus = JsonConvert.DeserializeObject<Customer>(get);
+
+                OrderDAO orderDAO = new OrderDAO();
+                List<Cart> cartList = orderDAO.GetCartByUsername(cus.username);
+
+                foreach (var cart in cartList)
+                {
+                    Tuple<string, int> tupple = new Tuple<string, int>(cart.pro_id, cart.quantity);
+                    cartCount.Add(tupple);
+                }
+            }
+
+            ViewBag.cartCount = cartCount;
 
             return View();
 

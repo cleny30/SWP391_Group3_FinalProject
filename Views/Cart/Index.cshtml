@@ -53,15 +53,17 @@
                         @foreach (var item in ViewBag.ListCart)
                         {
                             <tr id="itemCart-@item.pro_id">
-                                <td class="align-middle"><img src="@list[index].Item1" alt="" style="width: 50px;">
+                                <td class="text-left">
+                                    <img src="@list[index].Item1" alt="" style="width: 50px;">
 
-                                    @if (@list[index].Item3 !=0)
+                                    @if (@list[index].Item3 != 0)
                                     {
-                                        <span style="color:red">@item.pro_name</span>
+                                        <a style="text-decoration:none;color:red" href="/Product/ShopDetail?pro_id=@item.pro_id"> @item.pro_name</a>
                                     }
                                     else
                                     {
-                                        @item.pro_name
+                                        <a style="text-decoration:none;color:black" href="/Product/ShopDetail?pro_id=@item.pro_id"> @item.pro_name</a>
+
                                     }
                                 </td>
                                 <td class="align-middle">$@item.price</td>
@@ -81,10 +83,11 @@
                                     allPrice += tp;
                                     tp = Math.Round(tp, 2);
                                 }
-                                <td class="align-middle" id="item-price-@item.pro_id">$@tp
+                                <td class="align-middle" id="item-price-@item.pro_id">
+                                    $@tp
                                     <input type="hidden" value="@list[index].Item3" class="status-Stock">
-                                    </td>
-                                    
+                                </td>
+
                                 <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.username" data-pro_id="@item.pro_id" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
 
                             </tr>
