@@ -117,7 +117,7 @@
     $('#quan_input').on('blur', function () {
         var pro_quan_available = document.querySelector('.number-product').getAttribute('data-product_quan');
 
-        var cart_quan = parseInt($('#cart-quan-current').val())
+        var cart_quan = parseInt($('#shopDetail_quan').attr('data-cart_quan_current'))
         var quan = parseInt($('#quan_input').val());
         $('#shopDetail_quan').attr('data-quan_input', $('#quan_input').val());
 
