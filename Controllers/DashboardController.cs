@@ -390,8 +390,8 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
             //ViewBag
-            ViewBag.BrandList = BrandList.Where(brand => brand.isAvailable == true).ToList();
-            ViewBag.CategoryList = CategoryList.Where(cate => cate.isAvailable == true).ToList();
+            ViewBag.BrandList = BrandList;
+            ViewBag.CategoryList = CategoryList;
             ViewBag.ProductList = ProductList.Where(pro => pro.isAvailable == true).ToList();
             ViewBag.ProductListDisable = ProductList.Where(pro => pro.isAvailable == false).ToList();
             return View();
@@ -967,6 +967,22 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO dao = new ProductDAO();
             dao.DisableCategory(ID);
             _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Disable Category with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        public IActionResult EnableBrand(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.EnableBrand(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Enable Brand with ID " + ID + " Successfully"));
+            return RedirectToAction("ProductPage", "Dashboard");
+        }
+
+        public IActionResult EnableCategory(int ID)
+        {
+            ProductDAO dao = new ProductDAO();
+            dao.EnableCategory(ID);
+            _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Enable Category with ID " + ID + " Successfully"));
             return RedirectToAction("ProductPage", "Dashboard");
         }
 
