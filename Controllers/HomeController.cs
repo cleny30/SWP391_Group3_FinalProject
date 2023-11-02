@@ -41,6 +41,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             _contx.HttpContext.Session.SetString("listBrand", JsonConvert.SerializeObject(brandList));
             _contx.HttpContext.Session.SetString("listCate", JsonConvert.SerializeObject(cateList));
+            _contx.HttpContext.Session.Remove("ErrorLogin");
 
             ViewBag.totalProductBrand = totalProductBrand;
             ViewBag.totalProductCate = totalProductCate;
