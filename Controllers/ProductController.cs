@@ -31,8 +31,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             List<Product> list = dao.GetAllProduct();
 
-            list = list.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
-
+            list = list.OrderBy(p => p.pro_quan == 0 || !p.isAvailable ? 1 : 0).ToList();
 
 
             var sortCombine = Enumerable.Empty<Product>();
@@ -78,8 +77,8 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 list = list.OrderBy(product => product.pro_price - (product.pro_price * product.discount) / 100).ToList();
             }
-            List<Category> cateList = dao.GetAllCategory();
-            List<Brand> brandList = dao.GetAllBrand();
+            List<Category> cateList = dao.GetAllCategory().Where(c=>c.isAvailable==true).ToList();
+            List<Brand> brandList = dao.GetAllBrand().Where(b => b.isAvailable == true).ToList();
             #endregion
 
             // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên
@@ -311,7 +310,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> searchList = dao.GetAllProduct();
-            searchList = searchList.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
+            searchList = searchList.OrderBy(p => p.pro_quan == 0 || !p.isAvailable ? 1 : 0).ToList();
 
             List<Product> foundProducts = new List<Product>();
             // Lấy trang hiện tại từ query string hoặc mặc định là trang đầu tiên

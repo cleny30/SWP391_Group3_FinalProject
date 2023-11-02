@@ -259,6 +259,7 @@
                                            data-pro_quan_available="@item.pro_quan"
                                            data-cart_quan_current="@cartCountQuan"
                                            data-pro_id="@item.pro_id"
+                                           data-isAvailable="@item.isAvailable.ToString()"
                                            onclick="AddToCart(this)">
                                             <i class="fa fa-shopping-cart"></i>
                                         </a>
@@ -389,7 +390,7 @@
     <div class="title-popup">
         Error!
     </div>
-    <div class="description">
+    <div class="description" id="popup-des-msg">
         You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
     </div>
     <div class="dismiss-btn">
