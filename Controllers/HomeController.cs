@@ -21,12 +21,12 @@ namespace SWP391_Group3_FinalProject.Controllers
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
 
-            list = list.Where(p => p.pro_quan > 0).ToList();
+            list = list.Where(p => p.pro_quan > 0 && p.isAvailable==true).ToList();
 
             List<Product> listMouse = list.Where(pro => pro.cate_id == 2 && pro.pro_quan > 0 && pro.isAvailable == true).ToList();
             List<Product> listKeyboard = list.Where(pro => pro.cate_id == 1 && pro.pro_quan > 0 && pro.isAvailable == true).ToList();
-            List<Brand> brandList = dao.GetAllBrand();
-            List<Category> cateList = dao.GetAllCategory();
+            List<Brand> brandList = dao.GetAllBrand().Where(b=>b.isAvailable==true).ToList();
+            List<Category> cateList = dao.GetAllCategory().Where(c => c.isAvailable == true).ToList();
 
             List<int> totalProductBrand = new List<int>();
             foreach (Brand brand in brandList)
@@ -41,6 +41,7 @@ namespace SWP391_Group3_FinalProject.Controllers
             }
             _contx.HttpContext.Session.SetString("listBrand", JsonConvert.SerializeObject(brandList));
             _contx.HttpContext.Session.SetString("listCate", JsonConvert.SerializeObject(cateList));
+            _contx.HttpContext.Session.Remove("ErrorLogin");
 
             ViewBag.totalProductBrand = totalProductBrand;
             ViewBag.totalProductCate = totalProductCate;
@@ -49,6 +50,24 @@ namespace SWP391_Group3_FinalProject.Controllers
             ViewBag.listMouse = listMouse;
             ViewBag.listKeyboard = listKeyboard;
             ViewBag.list = list;
+
+            List<Tuple<string, int>> cartCount = new List<Tuple<string, int>>();
+            var get = _contx.HttpContext.Session.GetString("Session");
+            if (!string.IsNullOrEmpty(get))
+            {
+                var cus = JsonConvert.DeserializeObject<Customer>(get);
+
+                OrderDAO orderDAO = new OrderDAO();
+                List<Cart> cartList = orderDAO.GetCartByUsername(cus.username);
+
+                foreach (var cart in cartList)
+                {
+                    Tuple<string, int> tupple = new Tuple<string, int>(cart.pro_id, cart.quantity);
+                    cartCount.Add(tupple);
+                }
+            }
+
+            ViewBag.cartCount = cartCount;
 
             return View();
 
@@ -59,7 +78,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             ProductDAO dao = new ProductDAO();
             List<Product> list = dao.GetAllProduct();
-            list = list.Where(p => p.pro_quan > 0 && p.isAvailable == true).ToList();
+            list = list.OrderBy(p => p.pro_quan == 0 || !p.isAvailable ? 1 : 0).ToList();
 
             List<Product> foundProducts = new List<Product>();
             if (searchbox != null)

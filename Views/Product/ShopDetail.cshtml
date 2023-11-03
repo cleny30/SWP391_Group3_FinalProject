@@ -10,8 +10,8 @@
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-20">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
-                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
                 <span class="breadcrumb-item active">@ViewBag.pro.pro_name</span>
             </nav>
         </div>
@@ -45,14 +45,7 @@
             <div class="h-100 bg-light p-30">
                 <h3>@ViewBag.pro.pro_name</h3>
                 <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
-                    </div>
-                    <small class="pt-1">(99 Reviews)</small>
+
                 </div>
 
                 @if (@ViewBag.pro.discount > 0)
@@ -228,16 +221,19 @@
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                @if (item.discount > 0)
+                                {
+                                    var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.pro_price</h5>
+                                }
                             </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+                            
                         </div>
                     </div>
 
