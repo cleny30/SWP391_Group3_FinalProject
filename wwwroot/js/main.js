@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     "use strict";
 
     // Dropdown on mouse hover
@@ -135,3 +135,12 @@
 
 })(jQuery);
 
+function isValidInput(event) {
+    if ((event.keyCode >= 49 && event.keyCode <= 57) ||  // Số từ 1 đến 9
+        (event.keyCode == 48 && event.target.selectionStart !== 0) ||  // Số 0 không ở đầu
+        event.keyCode == 8) {  // Phím xóa
+        return true;
+    } else {
+        return false;
+    }
+}

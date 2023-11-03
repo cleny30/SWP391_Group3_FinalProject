@@ -45,6 +45,12 @@ function AddToCart(element) {
                         $('.cart-value').text(data.noti);
                         $(element).attr('data-cart_quan_current', data.quan);
                         $('#myModal-check').css('display', 'block');
+
+                        if ((quan + data.quan) > pro_quan_available) {
+                            var total = pro_quan_available - data.quan;
+                            $('#quan_input').val(total);
+                        }
+
                         setTimeout(function () {
                             $('#myModal-check').css('display', 'none');
                         }, 1500);
