@@ -22,16 +22,25 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult MyAccount()
         {
+            try
+            {
+                // Retrieve the serialized list from the session
+                var Cus = _contx.HttpContext.Session.GetString("Session");
 
-            // Retrieve the serialized list from the session
-            var Cus = _contx.HttpContext.Session.GetString("Session");
+                // Deserialize the JSON string into a list
+                var acc = JsonConvert.DeserializeObject<Customer>(Cus);
+                AccountDAO DAO = new AccountDAO();
+                Customer cs = DAO.GetCustomerByUsername(acc.username);
+                ViewBag.Account = cs;
+                return View();
 
-            // Deserialize the JSON string into a list
-            var acc = JsonConvert.DeserializeObject<Customer>(Cus);
-            AccountDAO DAO = new AccountDAO();
-            Customer cs = DAO.GetCustomerByUsername(acc.username);
-            ViewBag.Account = cs;
-            return View();
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
+
         }
 
         [HttpGet]
@@ -39,13 +48,21 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult MyAddress()
         {
-            AccountDAO dao = new AccountDAO();
-            var customer = _contx.HttpContext.Session.GetString("Session");
+            try
+            {
+                AccountDAO dao = new AccountDAO();
+                var customer = _contx.HttpContext.Session.GetString("Session");
 
-            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+                Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
 
-            ViewBag.ListAddress = cus.addresses;
-            return View();
+                ViewBag.ListAddress = cus.addresses;
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpGet]
@@ -61,174 +78,248 @@ namespace SWP391_Group3_FinalProject.Controllers
         [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ViewOrder()
         {
-            OrderDAO DAO = new OrderDAO();
-            var Cus = _contx.HttpContext.Session.GetString("Session");
-            var uid = JsonConvert.DeserializeObject<Customer>(Cus);
-            if (uid != null)
+            try
             {
-                List<Order> list = DAO.GetOrderByUsername(uid.username);
-                ViewBag.ListOrder = list;
+                OrderDAO DAO = new OrderDAO();
+                var Cus = _contx.HttpContext.Session.GetString("Session");
+                var uid = JsonConvert.DeserializeObject<Customer>(Cus);
+                if (uid != null)
+                {
+                    List<Order> list = DAO.GetOrderByUsername(uid.username);
+                    ViewBag.ListOrder = list;
+                }
+                return View();
             }
-            return View();
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult UpdateProfile(Customer n)
         {
-            var customer = _contx.HttpContext.Session.GetString("Session");
+            try
+            {
+                var customer = _contx.HttpContext.Session.GetString("Session");
 
-            // Deserialize the JSON string into a list
-            var cus = JsonConvert.DeserializeObject<Customer>(customer);
-            n.username = cus.username;
-            AccountDAO DAO = new AccountDAO();
-            DAO.UpdateCustomer(n);
-            return RedirectToAction("MyAccount", "Account");
+                // Deserialize the JSON string into a list
+                var cus = JsonConvert.DeserializeObject<Customer>(customer);
+                n.username = cus.username;
+                AccountDAO DAO = new AccountDAO();
+                DAO.UpdateCustomer(n);
+                return RedirectToAction("MyAccount", "Account");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult ChangePassword(string newPass)
         {
-            var customer = _contx.HttpContext.Session.GetString("Session");
 
-            // Deserialize the JSON string into a list
-            var cus = JsonConvert.DeserializeObject<Customer>(customer);
+            try
+            {
+                var customer = _contx.HttpContext.Session.GetString("Session");
 
-            AccountDAO DAO = new AccountDAO();
-            DAO.ChangePassword(cus.username, newPass);
-            return RedirectToAction("ChangePassword", "Account");
+                // Deserialize the JSON string into a list
+                var cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+                AccountDAO DAO = new AccountDAO();
+                DAO.ChangePassword(cus.username, newPass);
+                return RedirectToAction("ChangePassword", "Account");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
         }
 
         [HttpPost]
         public IActionResult CheckPassword(string pw)
         {
-            var customer = _contx.HttpContext.Session.GetString("Session");
 
-            // Deserialize the JSON string into a list
-            var cus = JsonConvert.DeserializeObject<Customer>(customer);
-
-            AccountDAO DAO = new AccountDAO();
-            Customer cs = DAO.GetCustomer(cus.username, pw);
-            if (cs != null)
+            try
             {
-                return Content("Sucess");
+                var customer = _contx.HttpContext.Session.GetString("Session");
+
+                // Deserialize the JSON string into a list
+                var cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+                AccountDAO DAO = new AccountDAO();
+                Customer cs = DAO.GetCustomer(cus.username, pw);
+                if (cs != null)
+                {
+                    return Content("Sucess");
+                }
+                else
+                {
+                    return Content("Fail");
+                }
             }
-            else
+            catch
             {
-                return Content("Fail");
+                return RedirectToAction("/StatusCodeError");
             }
         }
 
         [HttpPost]
         public IActionResult OrderDetail(string id)
         {
-            var customer = _contx.HttpContext.Session.GetString("Session");
-
-            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
-
-            OrderDAO DAO = new OrderDAO();
-            List<OrderDetail> od = DAO.GetOrderDetail(id);
-            var a = DAO.GetAddressByOrderID(id);
-            var orderThis = DAO.GetOrderByUsername(cus.username).FirstOrDefault(o => o.orderId == id);
-            var rs = new
+            try
             {
-                orderDetails = od,
-                addresses = a,
-                orderDick = orderThis
-            };
-            return Json(rs);
+                var customer = _contx.HttpContext.Session.GetString("Session");
+
+                Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+
+                OrderDAO DAO = new OrderDAO();
+                List<OrderDetail> od = DAO.GetOrderDetail(id);
+                var a = DAO.GetAddressByOrderID(id);
+                var orderThis = DAO.GetOrderByUsername(cus.username).FirstOrDefault(o => o.orderId == id);
+                var rs = new
+                {
+                    orderDetails = od,
+                    addresses = a,
+                    orderDick = orderThis
+                };
+                return Json(rs);
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult UpdateAddress(Addresses a)
         {
-            AccountDAO dao = new AccountDAO();
-            dao.UpdateAddress(a);
-            var customer = _contx.HttpContext.Session.GetString("Session");
+            try
+            {
+                AccountDAO dao = new AccountDAO();
+                dao.UpdateAddress(a);
+                var customer = _contx.HttpContext.Session.GetString("Session");
 
-            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+                Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
 
-            Addresses tmp = cus.addresses.FirstOrDefault(z => z.ID == a.ID);
-            int index = cus.addresses.IndexOf(tmp);
-            cus.addresses[index] = a;
-            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
-            return RedirectToAction(nameof(MyAddress));
+                Addresses tmp = cus.addresses.FirstOrDefault(z => z.ID == a.ID);
+                int index = cus.addresses.IndexOf(tmp);
+                cus.addresses[index] = a;
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+                return RedirectToAction(nameof(MyAddress));
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
         [HttpPost]
         public IActionResult AddAddress(Addresses a)
         {
-            AccountDAO dao = new AccountDAO();
-            var customer = _contx.HttpContext.Session.GetString("Session");
-
-            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
-            if (a.phonenum != null && a.address != null && a.fullname != null)
+            try
             {
-                int? kq = dao.AddAddress(a, cus.username);
-                if (kq != null)
+                AccountDAO dao = new AccountDAO();
+                var customer = _contx.HttpContext.Session.GetString("Session");
+
+                Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+                if (a.phonenum != null && a.address != null && a.fullname != null)
                 {
-                    a.ID = kq.Value;
-                }
-                if (cus.addresses == null)
-                {
-                    cus.addresses.Add(new Addresses
+                    int? kq = dao.AddAddress(a, cus.username);
+                    if (kq != null)
                     {
-                        ID = a.ID,
-                        address = a.address,
-                        fullname = a.fullname,
-                        phonenum = a.phonenum,
-                    });
+                        a.ID = kq.Value;
+                    }
+                    if (cus.addresses == null)
+                    {
+                        cus.addresses.Add(new Addresses
+                        {
+                            ID = a.ID,
+                            address = a.address,
+                            fullname = a.fullname,
+                            phonenum = a.phonenum,
+                        });
+                    }
+                    else
+                    {
+                        cus.addresses.Add(a);
+                    }
+
                 }
                 else
                 {
-                    cus.addresses.Add(a);
+                    ViewBag.Message = "Invalid";
                 }
 
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+                return RedirectToAction(nameof(MyAddress));
             }
-            else
+            catch
             {
-                ViewBag.Message = "Invalid";
+                return RedirectToAction("/StatusCodeError");
             }
 
-            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
-            return RedirectToAction(nameof(MyAddress));
         }
 
         [HttpPost]
         public IActionResult DeleteAddress(int id)
         {
-            AccountDAO dao = new AccountDAO();
-            var customer = _contx.HttpContext.Session.GetString("Session");
+            try
+            {
+                AccountDAO dao = new AccountDAO();
+                var customer = _contx.HttpContext.Session.GetString("Session");
 
-            Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
+                Customer cus = JsonConvert.DeserializeObject<Customer>(customer);
 
-            dao.DeleteAddress(id);
-            var address = cus.addresses.FirstOrDefault(a => a.ID == id);
-            cus.addresses.Remove(address);
-            _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
-            return Content("Success");
+                dao.DeleteAddress(id);
+                var address = cus.addresses.FirstOrDefault(a => a.ID == id);
+                cus.addresses.Remove(address);
+                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus));
+                return Content("Success");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult CheckEmail(string email)
         {
-            AccountDAO dao = new AccountDAO();
-            int result = dao.CheckEmail(email);
 
-            return result == 1 ? Content("true") : Content("false");
+            try
+            {
+                AccountDAO dao = new AccountDAO();
+                int result = dao.CheckEmail(email);
+
+                return result == 1 ? Content("true") : Content("false");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
         }
 
         [HttpPost]
         public IActionResult SendOTP(string email)
         {
-            string fromEmail = "clenynguyen@gmail.com";
-            string password = "pyaotxulqjcgttwl";
+            try
+            {
+                string fromEmail = "clenynguyen@gmail.com";
+                string password = "pyaotxulqjcgttwl";
 
-            string reciever = email;
+                string reciever = email;
 
-            Random random = new Random();
+                Random random = new Random();
 
-            string otp = random.Next(100000, 999999).ToString();
+                string otp = random.Next(100000, 999999).ToString();
 
-            string htmlContent = @"
+                string htmlContent = @"
 <!DOCTYPE html>
 <html>
 
@@ -395,50 +486,57 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
 
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress(fromEmail);
-            message.Subject = "The OTP to reset password";
-            message.To.Add(new MailAddress(reciever));
-            message.Body = htmlContent;
-            message.IsBodyHtml = true;
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(fromEmail);
+                message.Subject = "The OTP to reset password";
+                message.To.Add(new MailAddress(reciever));
+                message.Body = htmlContent;
+                message.IsBodyHtml = true;
 
-            var smtpClient = new SmtpClient("smtp.gmail.com")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(fromEmail, password),
-                EnableSsl = true,
-            };
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(fromEmail, password),
+                    EnableSsl = true,
+                };
 
-            AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlContent, null, MediaTypeNames.Text.Html);
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlContent, null, MediaTypeNames.Text.Html);
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            // Create the relative path to the image
-            string relativeImagePath = "wwwroot/source_img/advertising_img/logoGearshop.png";
+                // Create the relative path to the image
+                string relativeImagePath = "wwwroot/source_img/advertising_img/logoGearshop.png";
 
-            //Combine the base directory and the relative path to get the full path
-            string fullPath = Path.Combine(baseDirectory, relativeImagePath);
+                //Combine the base directory and the relative path to get the full path
+                string fullPath = Path.Combine(baseDirectory, relativeImagePath);
 
-            //Create the LinkedResource using the full path
-           LinkedResource imageResource = new LinkedResource(fullPath, MediaTypeNames.Image.Jpeg)
-           {
-               ContentId = "imageId"
-           };
-            //Load the image and attach it as linked resource
-            alternateView.LinkedResources.Add(imageResource);
-            message.AlternateViews.Add(alternateView);
+                //Create the LinkedResource using the full path
+                LinkedResource imageResource = new LinkedResource(fullPath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "imageId"
+                };
+                //Load the image and attach it as linked resource
+                alternateView.LinkedResources.Add(imageResource);
+                message.AlternateViews.Add(alternateView);
 
-            // Send the email
-            try
-            {
-                smtpClient.Send(message);
+                // Send the email
+                try
+                {
+                    smtpClient.Send(message);
+                    return Content(otp);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error sending email: " + ex.Message);
+                }
                 return Content(otp);
+                //smtpClient.Send(message);
+
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine("Error sending email: " + ex.Message);
+                return RedirectToAction("/StatusCodeError");
             }
-            return Content(otp);
-            //smtpClient.Send(message);
+
         }
     }
 }
