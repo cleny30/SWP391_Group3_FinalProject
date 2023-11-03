@@ -459,7 +459,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         <div class='divider_1'></div>
 
         <p class='thank-you'></p>
-        <p>GEARSHOP has received a request to use <span style='font-weight: bold;'>" + reciever + @"</span>to
+        <p>GEARSHOP has received a request to use <span style='font-weight: bold;'>" + reciever + @"</span> to
             recovery your GEARSHOP's account.
         </p>
 

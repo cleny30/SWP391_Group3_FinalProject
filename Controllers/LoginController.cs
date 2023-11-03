@@ -111,13 +111,14 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             try
             {
-                int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+                int.TryParse(_contx.HttpContext.Request.Cookies["role"], out int cookievalue);
                 if (cookievalue != null)
                 {
                     Response.Cookies.Delete("username");
                     Response.Cookies.Delete("role");
                 }
                 _contx.HttpContext.Session.Remove("Session");
+                _contx.HttpContext.Session.Remove("action");
                 _contx.HttpContext.Session.Remove("Count");
                 return RedirectToAction("Index", "Home");
             }
