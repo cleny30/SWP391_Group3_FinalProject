@@ -19,6 +19,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult MyAccount()
         {
 
@@ -35,6 +36,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult MyAddress()
         {
             AccountDAO dao = new AccountDAO();
@@ -48,6 +50,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ChangePassword()
         {
             return View();
@@ -55,6 +58,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ViewOrder()
         {
             OrderDAO DAO = new OrderDAO();

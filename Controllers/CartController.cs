@@ -16,6 +16,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult Index()
         {
             var get = _contx.HttpContext.Session.GetString("Session");
@@ -144,6 +145,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpGet]
         [ServiceFilter(typeof(LoginFilter))]
         [ServiceFilter(typeof(CheckOutFilter))]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult Checkout()
         {
             OrderDAO Odao = new OrderDAO();
@@ -237,6 +239,7 @@ namespace SWP391_Group3_FinalProject.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult PostCheckOut()
         {
             var customerName = _contx.HttpContext.Session.GetString("Session");

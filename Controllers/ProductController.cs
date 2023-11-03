@@ -300,7 +300,9 @@ namespace SWP391_Group3_FinalProject.Controllers
 
             return View();
         }
+
         [HttpGet]
+        [ServiceFilter(typeof(CustomerFilter))]
         public IActionResult ShopSearch(string searchTerm)
         {
             ProductDAO dao = new ProductDAO();
