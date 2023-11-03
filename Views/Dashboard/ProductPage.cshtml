@@ -289,7 +289,7 @@
                                                         <!--Delete-->
                                                         if (items.isAvailable == true)
                                                         {
-                                                            <a onclick="return confirm('You are about to delete this category, went ahead?');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                            <a onclick="return confirm('Disable @items.cate_name will also disable all product with this category, went ahead?');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                         }
                                                         else
                                                         {
@@ -412,7 +412,7 @@
                                                         if (items.isAvailable == true)
                                                         {
                                                             <!--Delete-->
-                                                            <a onclick="return confirm('You are about to delete this brand, went ahead?');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                            <a onclick="return confirm('Disable @items.brand_name will also disable all product with this category, went ahead?');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                         }
                                                         else
                                                         {
