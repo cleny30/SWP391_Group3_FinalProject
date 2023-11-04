@@ -584,7 +584,9 @@
                                     </div>
                                     <!--Brands -->
                                     <!--Add Images -->
+                                    
                                     <div class="col-md-6 ">
+                                        <p style="color:red" id="ErrorNoImage"></p>
                                         <div id="room_fileds_image">
                                             <div class="content">
                                             </div>
@@ -593,9 +595,12 @@
                                         <input class="btn btn-outline-primary m-1" type="button" id="more_fields"
                                                onclick="add_fieldsImage();" value="Add new Image" />
                                     </div>
+                                    
                                     <div class="col-md-6 ">
+                                        <p style="color:red" id="ErrorNoAttribute"></p>
                                         <!--Add Images -->
                                         <!--Add Attribute-->
+                                       
                                         <div id="room_fileds">
                                             <div class="content">
                                             </div>
@@ -603,6 +608,12 @@
                                         <br>
                                         <input class="btn btn-outline-primary m-1" type="button" id="more_fields" name="AttributeButton"
                                                onclick="add_fieldsDetails();" value="Add new Details" />
+                                        <script>
+                                            function deleteRow(button) {
+                                                var row = button.closest('.row'); // Find the closest parent row element
+                                                row.remove(); // Remove the row from the DOM
+                                            }
+                                        </script>
                                     </div>
                                     <!--Add Attribute-->
                                     <!--Description -->
@@ -641,23 +652,63 @@
         room++;
         var objTo = document.getElementById('room_fileds')
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Attribute ' + room + '</label> <input class="form-control feature" type="text" name="feature" value="" />' + '<p style="color:red"></p>' + ' <label>Attribute Description</label> <input class="form-control description" type="text" name="description" value="" />' + '<p style="color:red"></p>';
+        divtest.innerHTML = `
+             <div class="row">
+           <div class="col-md-3">
+           <div class="form-group">
+         <label for="attname">Attribute</label>
+           <input class="form-control feature" type="text" name="feature" value="" id="attname" >
+               <p style="color:red"></p>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+         <label for="attDes">Description</label>
+          <input class="form-control description" type="text" name="description" value="" id="attDes" >
+              <p style="color:red"></p>
+         </div>
+        </div>
+        <div class="col-md-3" style="margin-top:21px">
+        <button class="btn btn-danger delete-button"  style="button" onclick="deleteRow(this)">X</button>
+        </div>
+        </div>
+        `;
 
         objTo.appendChild(divtest)
     }
 </script>
 <script>
 
-    var room_image = 0;
-    var img = 1;
     function add_fieldsImage() {
-        room_image++;
-        img++;
-        var objTo = document.getElementById('room_fileds_image')
+        var objTo = document.getElementById('room_fileds_image');
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Image ' + room_image + '</label> <input class="form-control imgFile" type="file" name="imgFile"> ' + '<p style="color:red"></p>';
+        var fileInput = document.createElement("input");
+        var redParagraph = document.createElement("p"); // Create the <p> element
+        var deleteButton = document.createElement("button");
 
-        objTo.appendChild(divtest)
+
+        fileInput.className = "form-control imgFile";
+        fileInput.type = "file";
+        fileInput.name = "imgFile";
+
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "btn btn-danger";
+        deleteButton.style.margin = "5px"; // Add padding here
+        deleteButton.onclick = function () {
+            // Remove the parent div when the delete button is clicked
+            objTo.removeChild(divtest);
+        };
+
+        redParagraph.style.color = "red"; // Set the text color to red
+        // You can set the text content of the <p> element here if needed
+
+        divtest.innerHTML = '<label>Image </label>';
+        divtest.appendChild(fileInput);
+        divtest.appendChild(redParagraph);
+        divtest.appendChild(deleteButton);
+
+
+        objTo.appendChild(divtest);
     }
 </script>
 <script>
