@@ -242,9 +242,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                     List<Manager> list = dao.GetAllManagers();
                     list = list.Where(m => !string.Equals(m.email, currentManager.email, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                    bool isManagerEmailExisted = list.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
-                    isManagerEmailExisted = listCus.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
-                    if (isManagerEmailExisted == true)
+                    bool isManagerEmailExisted1 = list.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                    bool isManagerEmailExisted2 = listCus.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                    if (isManagerEmailExisted1 == true || isManagerEmailExisted2 == true)
                     {
                         return Content("Existed"); // Return a 200 OK response with JSON data
                     }
