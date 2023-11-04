@@ -36,7 +36,7 @@ namespace SWP391_Group3_FinalProject.Filter
             }
             catch (Exception ex)
             {
-
+                context.Result = new RedirectToActionResult("Error", "Home", null);
             }
         }
     }

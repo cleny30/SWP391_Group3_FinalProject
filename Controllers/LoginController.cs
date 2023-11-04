@@ -41,40 +41,42 @@ namespace SWP391_Group3_FinalProject.Controllers
         [HttpPost]
         public ActionResult Verify(string username, string password, string isRem)
         {
-            AccountDAO dao = new AccountDAO(); // goi ham dao
-
-            Customer cus = dao.GetCustomer(username, password);
-
-            Manager manager = dao.GetManager(username, password);
-
-            if (cus != null)
+            try
             {
-                if (isRem != null)
+                AccountDAO dao = new AccountDAO(); // goi ham dao
+
+                Customer cus = dao.GetCustomer(username, password);
+
+                Manager manager = dao.GetManager(username, password);
+
+                if (cus != null)
                 {
-                    HttpContext.Response.Cookies.Append("username", cus.username, new Microsoft.AspNetCore.Http.CookieOptions
+                    if (isRem != null)
                     {
-                        Expires = DateTime.Now.AddDays(3),
-                    });
-                    HttpContext.Response.Cookies.Append("role", "0", new Microsoft.AspNetCore.Http.CookieOptions
+                        HttpContext.Response.Cookies.Append("username", cus.username, new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                        HttpContext.Response.Cookies.Append("role", "0", new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = DateTime.Now.AddDays(3),
+                        });
+                    }
+                    List<Addresses> list = dao.GetCustomerAddress(username);
+                    if (list.Count() > 0)
                     {
-                        Expires = DateTime.Now.AddDays(3),
-                    });
+                        cus.addresses = new List<Addresses>();
+                        cus.addresses.AddRange(list);
+                    }
+                    OrderDAO Odao = new OrderDAO();
+                    var count = Odao.GetCartByUsername(username).Count();
+                    _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus)); //Store information customer to Session
+                    _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("0")); //Store action filter about manager is 0
+                    _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
+                    return RedirectToAction("Index", "Home");
                 }
-                List<Addresses> list = dao.GetCustomerAddress(username);
-                if (list.Count() > 0)
+                else if (manager != null && manager.isAvailable == true)
                 {
-                    cus.addresses = new List<Addresses>();
-                    cus.addresses.AddRange(list);
-                }
-                OrderDAO Odao = new OrderDAO();
-                var count = Odao.GetCartByUsername(username).Count();
-                _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(cus)); //Store information customer to Session
-                _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("0")); //Store action filter about manager is 0
-                _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(count));
-                return RedirectToAction("Index", "Home");
-            }
-            else if (manager != null && manager.isAvailable==true)
-            {
 
                     if (isRem != null)
                     {
@@ -91,11 +93,17 @@ namespace SWP391_Group3_FinalProject.Controllers
                     _contx.HttpContext.Session.SetString("Session", JsonConvert.SerializeObject(manager));
                     _contx.HttpContext.Session.SetString("action", JsonConvert.SerializeObject("1"));
                     return RedirectToAction("Index", "Dashboard");
-                
 
+
+                }
+                _contx.HttpContext.Session.SetString("ErrorLogin", JsonConvert.SerializeObject("Username or password is incorrect"));
+                return RedirectToAction("Index", "Login");
             }
-            _contx.HttpContext.Session.SetString("ErrorLogin", JsonConvert.SerializeObject("Username or password is incorrect"));
-            return RedirectToAction("Index", "Login");
+            catch (Exception ex)
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpGet("/Logout")]
@@ -103,64 +111,97 @@ namespace SWP391_Group3_FinalProject.Controllers
         {
             try
             {
-                int cookievalue = int.Parse(_contx.HttpContext.Request.Cookies["role"]);
+                int.TryParse(_contx.HttpContext.Request.Cookies["role"], out int cookievalue);
                 if (cookievalue != null)
                 {
                     Response.Cookies.Delete("username");
                     Response.Cookies.Delete("role");
                 }
+                _contx.HttpContext.Session.Remove("Session");
+                _contx.HttpContext.Session.Remove("action");
+                _contx.HttpContext.Session.Remove("Count");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
-
+                return RedirectToAction("/StatusCodeError");
             }
-            _contx.HttpContext.Session.Remove("Session");
-            _contx.HttpContext.Session.Remove("Count");
-            return RedirectToAction("Index", "Home");
+
         }
 
         [HttpPost]
         public ActionResult Register(Customer customer)
         {
-            AccountDAO dao = new AccountDAO();
-            dao.AddCustomer(customer);
-            return RedirectToAction("Index", "Login");
+            try
+            {
+                AccountDAO dao = new AccountDAO();
+                dao.AddCustomer(customer);
+                return RedirectToAction("Index", "Login");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult ForgetPassword(string password, string emailSend)
         {
-            AccountDAO DAO = new AccountDAO();
-            DAO.ForgetPass(emailSend, password);
-            return RedirectToAction("Index", "Login");
+            try
+            {
+                AccountDAO DAO = new AccountDAO();
+                DAO.ForgetPass(emailSend, password);
+                return RedirectToAction("Index", "Login");
+            }
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult CheckUsername(string username)
         {
-            AccountDAO dao = new AccountDAO();
-            Customer cus = dao.GetCustomerByUsername(username);
-
-            Manager manager = dao.GetManagerByUsername(username);
-
-            if (cus.username == null && manager == null)
+            try
             {
-                return Content("false");
+                AccountDAO dao = new AccountDAO();
+                Customer cus = dao.GetCustomerByUsername(username);
+
+                Manager manager = dao.GetManagerByUsername(username);
+
+                if (cus.username == null && manager == null)
+                {
+                    return Content("false");
+                }
+                return Content("true");
             }
-            return Content("true");
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+
         }
 
         [HttpPost]
         public IActionResult CheckEmail(string email)
         {
-            AccountDAO dao = new AccountDAO();
-            int kq = dao.CheckEmail(email);
-
-            if (kq == 1)
+            try
             {
-                return Content("true");
+                AccountDAO dao = new AccountDAO();
+                int kq = dao.CheckEmail(email);
+
+                if (kq == 1)
+                {
+                    return Content("true");
+                }
+                return Content("false");
             }
-            return Content("false");
-        }       
+            catch
+            {
+                return RedirectToAction("/StatusCodeError");
+            }
+        }
     }
 }

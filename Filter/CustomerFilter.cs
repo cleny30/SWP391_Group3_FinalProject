@@ -23,7 +23,7 @@ namespace SWP391_Group3_FinalProject.Filter
                     action = JsonConvert.DeserializeObject<int>(serializedAction);
                     // Use the deserialized integer 'action' here
                 }
-
+                
 
                 if (int.TryParse(context.HttpContext.Request.Cookies["role"], out int cookieValue))
                 {
@@ -48,7 +48,7 @@ namespace SWP391_Group3_FinalProject.Filter
             }
             catch (Exception ex)
             {
-
+                context.Result = new RedirectToActionResult("Error", "Home", null);
             }
         }
     }
