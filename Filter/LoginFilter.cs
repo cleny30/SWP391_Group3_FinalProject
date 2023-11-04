@@ -16,7 +16,7 @@ namespace SWP391_Group3_FinalProject.Filter
             try
             {
                 //Get action (1. manager, 0. customer)
-                var serializedAction = context.HttpContext.Session.GetString("Session");
+                var serializedAction = context.HttpContext.Session.GetString("action");
                 int? action = null;
                 if (!string.IsNullOrEmpty(serializedAction))
                 {
@@ -36,7 +36,7 @@ namespace SWP391_Group3_FinalProject.Filter
             }
             catch (Exception ex)
             {
-
+                context.Result = new RedirectToActionResult("Error", "Home", null);
             }
         }
     }

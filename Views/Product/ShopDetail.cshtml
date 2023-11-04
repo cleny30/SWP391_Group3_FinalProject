@@ -4,14 +4,14 @@
 
     int itemCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
 }
-
+<script src="https://kit.fontawesome.com/b9fa78779b.js" crossorigin="anonymous"></script>
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-20">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
-                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
                 <span class="breadcrumb-item active">@ViewBag.pro.pro_name</span>
             </nav>
         </div>
@@ -45,14 +45,7 @@
             <div class="h-100 bg-light p-30">
                 <h3>@ViewBag.pro.pro_name</h3>
                 <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
-                    </div>
-                    <small class="pt-1">(99 Reviews)</small>
+
                 </div>
 
                 @if (@ViewBag.pro.discount > 0)
@@ -79,47 +72,49 @@
 
 
                 <div class="d-flex align-items-center mb-3 pt-2">
+                    @if (ViewBag.pro.pro_quan > 0 && ViewBag.pro.isAvailable==true){
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-minus">
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" id="quan_input" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="1">
+                            <input type="text" class="form-control bg-secondary border-0 text-center" id="quan_input" onkeydown="return isValidInput(event)" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <a class="btn btn-outline-dark btn-square" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
+
+
+                    <a class="btn btn-outline-dark btn-square" data-pro_quan_available="@ViewBag.pro.pro_quan" data-cart_quan_current="@ViewBag.cartQuan" data-pro_id="@ViewBag.pro.pro_id" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
                     @if (ViewBag.pro.pro_quan == 1)
                     {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
+                        <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan product available</div>
                     }
                     else
                     {
-                        <div class="number-product ml-3" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
+                        <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.pro_quan">@ViewBag.pro.pro_quan products available</div>
                     }
-
+                    
+                }else{
+                        <div class="number-product ml-3" style="color:red;font-size:25px;"><strong>Product is unavailable</strong></div>
+                    }
                 </div>
 
                 <div class="d-flex pt-2">
-                    <strong class="text-dark mr-2">Share on:</strong>
                     <div class="d-inline-flex">
-                        <a class="text-dark px-2" href="">
+                        <a class="text-dark px-2" href="https://www.facebook.com/quochoang.nguyen.50767">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a class="text-dark px-2" href="">
+                        <a class="text-dark px-2" href="https://twitter.com/Cleny393976">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-pinterest"></i>
+                        <a class="text-dark px-2" href="https://www.instagram.com/h.031511?fbclid=IwAR2HPrmoil7YY7sLEYiStevdH1sjaf2MYFJQc-pYaQSvdUM_8-7U4enEfSY">
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                 </div>
@@ -187,11 +182,34 @@
                 @foreach (var item in ViewBag.productByCateList)
                 {
 
+                    int cartCountQuan = 0;
+                    {
+                        if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                        {
+                            foreach (var item2 in ViewBag.cartCount)
+                            {
+                                if (item2.Item1 == item.pro_id)
+                                {
+                                    cartCountQuan = item2.Item2;
+                                    break;
+                                }
+                            }
+                        }
+
+
+                    }
+
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.pro_quan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.pro_id"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
 
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
                             </div>
@@ -199,16 +217,19 @@
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate" href="">@item.pro_name</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                @if (item.discount > 0)
+                                {
+                                    var priceDiscount = @item.pro_price - (@item.pro_price * @item.discount) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.pro_price</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.pro_price</h5>
+                                }
                             </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -223,6 +244,7 @@
 
 
 <link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
 
 <!--Pop up Add to cart successful-->
 <div id="myModal-check" class="modal-check">
@@ -235,4 +257,16 @@
         <p>The product has been added to Cart</p>
     </div>
 
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span>  products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
 </div>

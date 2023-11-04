@@ -115,13 +115,13 @@
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                 <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                <h5 class="font-weight-semi-bold m-0">Fast Shipping</h5>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                 <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                <h5 class="font-weight-semi-bold m-0">Simplify Purchase</h5>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -174,6 +174,24 @@
 
         @foreach (var item in ViewBag.list)
         {
+
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.pro_id)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
             if (itemCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -181,7 +199,12 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.pro_quan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.pro_id"
+                                   data-isAvailable="@item.isAvailable.ToString()"
+                                   onclick="AddToCart(this)">
                                     <i class="fa fa-shopping-cart"></i>
                                 </a>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
@@ -205,14 +228,7 @@
                                 }
 
                             </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -264,6 +280,23 @@
     <div class="row px-xl-5">
         @foreach (var item in ViewBag.listKeyboard)
         {
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.pro_id)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
             if (itemKeyboardCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -271,7 +304,12 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.pro_quan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.pro_id"
+                                   data-isAvailable="@item.isAvailable.ToString()"
+                                   onclick="AddToCart(this)">
                                     <i class="fa fa-shopping-cart"></i>
                                 </a>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
@@ -293,14 +331,7 @@
                                     <h5>$@item.pro_price</h5>
                                 }
                             </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -326,6 +357,23 @@
     <div class="row px-xl-5">
         @foreach (var item in ViewBag.listMouse)
         {
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.pro_id)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
             if (itemMouseCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -333,7 +381,12 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="@item.pro_img[0]" alt="@item.pro_name">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" data-pro_id="@item.pro_id" onclick="AddToCart(this)">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.pro_quan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.pro_id"
+                                   data-isAvailable="@item.isAvailable.ToString()"
+                                   onclick="AddToCart(this)">
                                     <i class="fa fa-shopping-cart"></i>
                                 </a>
                                 <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.pro_id"><i class="fa fa-search"></i></a>
@@ -355,14 +408,7 @@
                                     <h5>$@item.pro_price</h5>
                                 }
                             </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -411,9 +457,9 @@
     </div>
 </div>
 <!-- Vendor End -->
-
-
+<!-- Shop End -->
 <link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
 
 <!--Pop up Add to cart successful-->
 <div id="myModal-check" class="modal-check">
@@ -426,4 +472,16 @@
         <p>The product has been added to Cart</p>
     </div>
 
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description" id="popup-des-msg">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
 </div>

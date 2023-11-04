@@ -158,7 +158,7 @@
 
                         <div class="navbar-nav w-100">
                             <div class="nav-item dropdown dropright">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                <a href="/Product/Shop?category=@cateList[j].cate_id" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Product/Shop?category=@cateList[j].cate_id'">
                                     @cateList[j].cate_name<i class="fa fa-angle-right float-right mt-1"></i>
                                 </a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
@@ -219,7 +219,7 @@
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <h5 class="text-secondary text-uppercase mb-4">Get In Touch</h5>
-                <p class="mb-4">
+                <p class="mb-4" >
                     We're proud to present to you GearShop where you can find everything you need to optimize your gaming experience. With a team passionate about gaming, we are committed
                     to bringing you the best products and services, perfectly equipped for every virtual adventure.
                 </p>
@@ -264,8 +264,20 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-secondary mb-2" href="/Login"><i class="fa fa-angle-right mr-2"></i>Sign in</a>
-                            <a class="text-secondary mb-2" href="/Login/SignUp"><i class="fa fa-angle-right mr-2"></i>Sign up</a>
+                            
+                           
+                            @if (acc == null)
+                            {
+                                <a class="text-secondary mb-2" href="/Login"><i class="fa fa-angle-right mr-2"></i>Sign in</a>
+
+                                <a class="text-secondary mb-2" href="/SignUp"><i class="fa fa-angle-right mr-2"></i>Sign up</a>
+                            }
+                            else
+                            {
+                                <a class="text-secondary mb-2" href="/Account/MyAccount"><i class="fa fa-angle-right mr-2"></i>Manage Account</a>
+
+                                <a class="text-secondary mb-2" href="/Logout"><i class="fa fa-angle-right mr-2"></i>Logout</a>
+                            }
                         </div>
 
                         <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>

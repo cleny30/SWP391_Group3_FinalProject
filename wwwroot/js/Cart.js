@@ -20,29 +20,53 @@
 
 function AddToCart(element) {
     var id = element.getAttribute('data-pro_id');
-    var quan = element.getAttribute('data-quan_input');
-    if (quan===null) {
+    var quan = parseInt(element.getAttribute('data-quan_input'));
+    var cart_quan = parseInt(element.getAttribute('data-cart_quan_current'));
+    var pro_quan_available = parseInt(element.getAttribute('data-pro_quan_available'));
+    var isAvailable = element.getAttribute('data-isAvailable');
+    $('#popup-des-msg').text('You have ').append('<span id="pro-quan-alert-msg" style="font-weight:bold;"></span>').append(' products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.');
+
+    if (isNaN(quan)) {
         quan = 1;
     }
-    $.ajax({
-        url: '/Cart/AddToCart',
-        type: "POST",
-        data: {
-            pro_id: id,
-            quantity: quan
-        },
-        success: function (data) {
-            if (data === "fail") {
-                window.location.href = "/Login"
-            } else {
-                $('.cart-value').text(data);
-                $('#myModal-check').css('display', 'block');
-                setTimeout(function () {
-                    $('#myModal-check').css('display', 'none');
-                }, 1500);
-            }
+    if (isAvailable !== "False" && pro_quan_available > 0) {
+        if (quan !== 0 && cart_quan < pro_quan_available) {
+            $.ajax({
+                url: '/Cart/AddToCart',
+                type: "POST",
+                data: {
+                    pro_id: id,
+                    quantity: quan
+                },
+                success: function (data) {
+                    if (data.noti === "fail") {
+                        window.location.href = "/Login"
+                    } else {
+                        $('.cart-value').text(data.noti);
+                        $(element).attr('data-cart_quan_current', data.quan);
+                        $('#myModal-check').css('display', 'block');
+
+                        if ((quan + data.quan) > pro_quan_available) {
+                            var total = pro_quan_available - data.quan;
+                            $('#quan_input').val(total);
+                        }
+
+                        setTimeout(function () {
+                            $('#myModal-check').css('display', 'none');
+                        }, 1500);
+                    }
+                }
+            });
+        } else {
+            $('#pro-quan-alert-msg').text('');
+            $('#pro-quan-alert-msg').text(pro_quan_available);
+            $('#popup-cart-alert').addClass("active");
         }
-    });
+    } else {
+        $('#popup-des-msg').text('');
+        $('#popup-des-msg').text("Product is unavailable or out of stock. Please purchase another product!");
+        $('#popup-cart-alert').addClass("active");
+    }
 }
 
 function updateCartQuantity(productId, username, quantityChange) {
@@ -52,7 +76,7 @@ function updateCartQuantity(productId, username, quantityChange) {
         currentQuantity = 0;
         quantityChange = $('#num-' + productId).val();
     }
-    
+
     var newQuantity = parseInt(currentQuantity + quantityChange);
     var url = window.location.href;
     if (newQuantity < 1) {

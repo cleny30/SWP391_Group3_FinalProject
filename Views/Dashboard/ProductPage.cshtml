@@ -18,7 +18,7 @@
         Message = JsonConvert.DeserializeObject<String>(MessageTo);
         Context.Session.Remove("Message");
     }
-   
+
 }
 
 <div class="body-wrapper">
@@ -32,22 +32,34 @@
                     <div class="tabby-content">
                         <div class="col-12" style="text-align: center;">
                             <h1 class="Title">PRODUCT IN STOCKS</h1>
-                            @if(manager.isAdmin == true)
+                            @if (manager.isAdmin == true)
                             {
                                 <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
                                     <i class="fa-solid fa-plus"></i> Add Product
                                 </button>
                             }
-                            
+
                             <button type="button" id="contact" class="btn btn-outline-primary m-1">Categories</button>
 
                             <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
                         </div>
-                       @if(Message != null && Message != ""){
-                            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
-                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                <strong>Success!</strong> @Message.
-                            </div>
+                        @if (Message != null && Message != "")
+                        {
+                            if (Message.StartsWith("Product"))
+                            {
+                                <div class="add-fail success" style="margin-top:10px; margin-bottom: 10px">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    <strong>Fail!</strong> @Message.
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    <strong>Success!</strong> @Message.
+                                </div>
+                            }
+
                         }
                         <button class="btn btn-primary" onclick="toggleDivs()" style="padding:7px; margin-bottom:7px " id="toggleButton">Show Disable Products </button>
                         <div id="div1">
@@ -242,24 +254,43 @@
                                         Add
                                     </button>
                                 }
-                               
+
                             </div>
                             <div style="overflow:scroll; height: 70%">
-                            <table id="example2" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                    <tbody style=" max-height: 200px; overflow:scroll;">
-                                    @foreach (var items in ViewBag.CategoryList)
-                                    {
+                                <table id="example2" class="table table-striped">
+                                    <thead>
                                         <tr>
-                                            <td>@items.cate_id</td>
-                                            <td>@items.cate_name</td>
-                                            <td>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style=" max-height: 200px; overflow:scroll;">
+                                        @foreach (var items in ViewBag.CategoryList)
+                                        {
+                                            <tr>
+                                                <td>@items.cate_id</td>
+                                                <td>@items.cate_name</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.isAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+
+                                                <td>
                                                     @if (manager.isAdmin == true)
                                                     {
                                                         <!--Edit-->
@@ -267,13 +298,20 @@
                                                            id="contactCategoryEdit"></i>
 
                                                         <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this category and can not be undo');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        if (items.isAvailable == true)
+                                                        {
+                                                            <a onclick="return confirm('Disable @items.cate_name will also disable all product with this category, went ahead?');" href="/Dashboard/DisableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a onclick="return confirm('You are about to enable this category, went ahead?');" href="/Dashboard/EnableCategory/@items.cate_id" style="text-decoration: none;"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                        }
                                                     }
                                                 </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                             <!--Add Category-->
                             <div id="contactFormAddCategory" class="col-8">
@@ -339,7 +377,7 @@
                                         Add
                                     </button>
                                 }
-                               
+
                             </div>
                             <div style="overflow:scroll; height: 70%">
                                 <table id="example3" class="table table-striped" style="width:100%; overflow-y:scroll;">
@@ -347,6 +385,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -356,6 +395,24 @@
                                             <tr>
                                                 <td>@items.brand_id</td>
                                                 <td>@items.brand_name</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.isAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+
                                                 <td>
                                                     @if (manager.isAdmin == true)
                                                     {
@@ -363,9 +420,16 @@
                                                         <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.brand_id" onclick="EditBrand(this)"
                                                            id="contactBrandEdit"></i>
 
+                                                        if (items.isAvailable == true)
+                                                        {
+                                                            <!--Delete-->
+                                                            <a onclick="return confirm('Disable @items.brand_name will also disable all product with this category, went ahead?');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a onclick="return confirm('You are about to enable this brand, went ahead?');" href="/Dashboard/EnableBrand/@items.brand_id"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                        }
 
-                                                        <!--Delete-->
-                                                        <a onclick="return confirm('You are about to delete this brand and can not be undo');" href="/Dashboard/DisableBrand/@items.brand_id"><i class="fa-solid fa-trash" style="color: red;"></i></a>
                                                     }
                                                 </td>
                                             </tr>
@@ -375,8 +439,8 @@
                             </div>
 
                             <!--Add Brand-->
-                            <div id="contactFormAddBrand" class="col-8" >
-                                <form method="POST" action="/Dashboard/AddBrand" id="" class=""  onsubmit="return CheckBrandAdd()" enctype="multipart/form-data">
+                            <div id="contactFormAddBrand" class="col-8">
+                                <form method="POST" action="/Dashboard/AddBrand" id="" class="" onsubmit="return CheckBrandAdd()" enctype="multipart/form-data">
                                     <!--Add Action Here for Cleny-->
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
@@ -408,7 +472,7 @@
                             <!--Add Brand-->
                             <!--Edit Brand-->
                             <div id="contactFormBrandEdit" class="col-8">
-                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" onsubmit="return CheckBrandEdit()" enctype="multipart/form-data" >
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" onsubmit="return CheckBrandEdit()" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-12" style="padding-bottom: 20px;">
                                             <div class="form-group">
@@ -531,7 +595,9 @@
                                     </div>
                                     <!--Brands -->
                                     <!--Add Images -->
+
                                     <div class="col-md-6 ">
+                                        <p style="color:red" id="ErrorNoImage"></p>
                                         <div id="room_fileds_image">
                                             <div class="content">
                                             </div>
@@ -540,9 +606,12 @@
                                         <input class="btn btn-outline-primary m-1" type="button" id="more_fields"
                                                onclick="add_fieldsImage();" value="Add new Image" />
                                     </div>
+
                                     <div class="col-md-6 ">
+                                        <p style="color:red" id="ErrorNoAttribute"></p>
                                         <!--Add Images -->
                                         <!--Add Attribute-->
+
                                         <div id="room_fileds">
                                             <div class="content">
                                             </div>
@@ -550,6 +619,12 @@
                                         <br>
                                         <input class="btn btn-outline-primary m-1" type="button" id="more_fields" name="AttributeButton"
                                                onclick="add_fieldsDetails();" value="Add new Details" />
+                                        <script>
+                                            function deleteRow(button) {
+                                                var row = button.closest('.row'); // Find the closest parent row element
+                                                row.remove(); // Remove the row from the DOM
+                                            }
+                                        </script>
                                     </div>
                                     <!--Add Attribute-->
                                     <!--Description -->
@@ -588,23 +663,63 @@
         room++;
         var objTo = document.getElementById('room_fileds')
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Attribute ' + room + '</label> <input class="form-control feature" type="text" name="feature" value="" />' + '<p style="color:red"></p>' + ' <label>Attribute Description</label> <input class="form-control description" type="text" name="description" value="" />' + '<p style="color:red"></p>';
+        divtest.innerHTML = `
+                 <div class="row">
+               <div class="col-md-3">
+               <div class="form-group">
+             <label for="attname">Attribute</label>
+               <input class="form-control feature" type="text" name="feature" value="" id="attname" >
+                   <p style="color:red"></p>
+              </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+             <label for="attDes">Description</label>
+              <input class="form-control description" type="text" name="description" value="" id="attDes" >
+                  <p style="color:red"></p>
+             </div>
+            </div>
+            <div class="col-md-3" style="margin-top:21px">
+            <button class="btn btn-danger delete-button"  style="button" onclick="deleteRow(this)">X</button>
+            </div>
+            </div>
+            `;
 
         objTo.appendChild(divtest)
     }
 </script>
 <script>
 
-    var room_image = 0;
-    var img = 1;
     function add_fieldsImage() {
-        room_image++;
-        img++;
-        var objTo = document.getElementById('room_fileds_image')
+        var objTo = document.getElementById('room_fileds_image');
         var divtest = document.createElement("div");
-        divtest.innerHTML = ' <label>Image ' + room_image + '</label> <input class="form-control imgFile" type="file" name="imgFile"> ' + '<p style="color:red"></p>';
+        var fileInput = document.createElement("input");
+        var redParagraph = document.createElement("p"); // Create the <p> element
+        var deleteButton = document.createElement("button");
 
-        objTo.appendChild(divtest)
+
+        fileInput.className = "form-control imgFile";
+        fileInput.type = "file";
+        fileInput.name = "imgFile";
+
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "btn btn-danger";
+        deleteButton.style.margin = "5px"; // Add padding here
+        deleteButton.onclick = function () {
+            // Remove the parent div when the delete button is clicked
+            objTo.removeChild(divtest);
+        };
+
+        redParagraph.style.color = "red"; // Set the text color to red
+        // You can set the text content of the <p> element here if needed
+
+        divtest.innerHTML = '<label>Image </label>';
+        divtest.appendChild(fileInput);
+        divtest.appendChild(redParagraph);
+        divtest.appendChild(deleteButton);
+
+
+        objTo.appendChild(divtest);
     }
 </script>
 <script>
@@ -666,6 +781,6 @@
     });
 
 
-    </script>
+</script>
 <script src="~/assets/js/productpage.js"></script>
 <script src="~/assets/js/jsaddproduct.js"></script>

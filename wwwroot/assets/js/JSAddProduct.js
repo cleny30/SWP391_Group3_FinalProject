@@ -15,6 +15,18 @@
             hideError('pro_name');                  
         }           
 
+        const inputElement = document.querySelector('input[name="feature"]');
+        if (!inputElement) {
+            document.getElementById("ErrorNoAttribute").innerHTML = "Error Please input new Attribute!";
+            noError = false;
+        }
+
+        const inputElementImage = document.querySelector('input[name="imgFile"]');
+        if (!inputElementImage) {
+                document.getElementById("ErrorNoImage").innerHTML = "Error Please input new Image!";
+                noError = false;
+        }
+
         if (!pro_price) {
             showError('pro_price', 'Please insert Product Price');
             noError = false;
