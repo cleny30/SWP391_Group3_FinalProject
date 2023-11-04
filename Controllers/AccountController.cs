@@ -108,6 +108,14 @@ namespace SWP391_Group3_FinalProject.Controllers
                 var cus = JsonConvert.DeserializeObject<Customer>(customer);
                 n.username = cus.username;
                 AccountDAO DAO = new AccountDAO();
+                var tmp = DAO.GetAllCustomers().ToList();
+                foreach (var item in tmp)
+                {
+                    if(n.email == item.email && item.username != n.username)
+                    {
+                        return Json("Existed");
+                    }
+                }
                 DAO.UpdateCustomer(n);
                 return RedirectToAction("MyAccount", "Account");
             }
@@ -115,7 +123,6 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 return RedirectToAction("/StatusCodeError");
             }
-
         }
 
         [HttpPost]
