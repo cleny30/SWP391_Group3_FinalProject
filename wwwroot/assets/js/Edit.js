@@ -328,10 +328,10 @@ function GetOrderReceipt(element) {
                 newRow.appendChild(cell3);
 
                 // Find the "total" row
-                var shippingRow = document.querySelector(".shipping");
+                var totalRow = document.querySelector(".total");
 
                 // Insert the new row before the "total" row
-                shippingRow.parentNode.insertBefore(newRow, shippingRow);
+                totalRow.parentNode.insertBefore(newRow, totalRow);
             }
 
             var order_status = data.order.status; // Replace with the actual order_status value
