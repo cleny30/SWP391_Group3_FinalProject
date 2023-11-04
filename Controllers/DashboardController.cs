@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework.Profiler;
 using Newtonsoft.Json;
@@ -883,10 +884,14 @@ namespace SWP391_Group3_FinalProject.Controllers
                 dao.AddProductWithDetails(pro);
                 _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Product with ID " + pro.pro_id + " Successfully"));
                 return RedirectToAction("ProductPage", "Dashboard");
+
+
             }
-            catch
+            catch (Exception e)
             {
-                return RedirectToAction("/StatusCodeError");
+                _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Product with "+ pro.pro_id+" has been added by another admin"));
+                return RedirectToAction("ProductPage", "Dashboard");
+
             }
 
         }

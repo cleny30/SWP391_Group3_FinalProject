@@ -591,6 +591,12 @@ i{
     color: white;
 }
 
+.add-fail {
+    padding: 20px;
+    background-color: #ff0000;
+    color: white;
+}
+
 .closebtn {
     margin-left: 15px;
     color: white;
