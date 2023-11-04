@@ -1,53 +1,62 @@
 ﻿function EditProductValidate() {
-        var pro_name = getValueById('pro_name');
-        var pro_price = getValueById('pro_price');
-        var pro_discount = getValueById('pro_discount');
-        var noError = true;
+    var pro_name = getValueById('pro_name');
+    var pro_price = getValueById('pro_price');
+    var pro_discount = getValueById('pro_discount');
+    var noError = true;
 
-        // Kiểm tra pro_name không được để trống
-        if (!pro_name) {
-            showError('pro_name', 'Please insert Product Name!');
-            noError = false;
-        } else if (pro_name.length > 100) {
-            showError('pro_name', 'Product Name can not be more than 100 characters!');
-            noError = false;
-        } else {
-            hideError('pro_name');
+    // Kiểm tra pro_name không được để trống
+    if (!pro_name) {
+        showError('pro_name', 'Please insert Product Name!');
+        noError = false;
+    } else if (pro_name.length > 100) {
+        showError('pro_name', 'Product Name can not be more than 100 characters!');
+        noError = false;
+    } else {
+        hideError('pro_name');
     }
 
     const numberRegex = /^\d+$/;
-        if (!pro_price) {
-            showError('pro_price', 'Please insert Product Price');
+    if (!pro_price) {
+        showError('pro_price', 'Please insert Product Price');
+        noError = false;
+    } else {
+        // Use a regular expression to check if pro_price contains only numbers
+
+        if (!numberRegex.test(pro_price)) {
+            showError('pro_price', 'Product Price must be a number!');
             noError = false;
         } else {
-            // Use a regular expression to check if pro_price contains only numbers
-            
-            if (!numberRegex.test(pro_price)) {
-                showError('pro_price', 'Product Price must be a number!');
-                noError = false;
-            } else {
-                hideError('pro_price');
-            }
+            hideError('pro_price');
         }
+    }
 
-        if (!pro_discount) {
-            showError('pro_discount', 'Please insert Product Discount');
+    if (!pro_discount) {
+        showError('pro_discount', 'Please insert Product Discount');
+        noError = false;
+    } else {
+        // Use a regular expression to check if pro_price contains only numbers
+        if (!numberRegex.test(pro_discount)) {
+            showError('pro_discount', 'Discount must be a number!');
             noError = false;
         } else {
-            // Use a regular expression to check if pro_price contains only numbers
-            if (!numberRegex.test(pro_discount)) {
-                showError('pro_discount', 'Discount must be a number!');
+            if (pro_discount < 0 || pro_discount > 100) {
+                showError('pro_discount', 'Discount must be between 0 and 100');
                 noError = false;
             } else {
-                if (pro_discount < 0 || pro_discount > 100) {
-                    showError('pro_discount', 'Discount must be between 0 and 100');
-                    noError = false;
-                } else {
-                    hideError('pro_discount');
-                }
+                hideError('pro_discount');
             }
         }
+    }
+    const inputElementImage = document.querySelector('input[name="imgFile"]');
+    const inputElementImageExisted = document.querySelector('input.imgFileExisted');
+    if (!inputElementImageExisted) {
 
+        if (!inputElementImage) {
+            document.getElementById("ErrorNoImage").innerHTML = "Error Please input new Image!";
+            noError = false;
+
+        }
+    }
         // Kiểm tra các input file
         var validExtensions = ['png', 'jpg', 'jpeg'];
 
@@ -93,6 +102,11 @@
         }
         
     });
+    const inputElement = document.querySelector('input[name="feature"]');
+    if (!inputElement) {
+        document.getElementById("ErrorNoAttribute").innerHTML = "Error Please input new Attribute!";
+        noError = false;
+    }
 
         $('.feature').each(function () {
             var feature = $(this).val().trim();

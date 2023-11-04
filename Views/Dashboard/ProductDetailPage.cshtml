@@ -108,6 +108,7 @@
                                 <!--Add Images -->
                                 <div class="col-md-6 ">
                                     <h1 class="Title" style="padding: 10px;">Images List</h1>
+                                <p style="color:red" id="ErrorNoImage"></p>
                                     <div id="room_fileds_image">
                                         <div class="content">
                                             <!--Foreach cho hình ảnh đã có sẵn trong database theo ID của sản phẩm-->
@@ -217,7 +218,7 @@
                                 </div>
                                 <div class="col-md-6 ">
                                     <h1 class="Title" style="padding: 10px;">Attribute List</h1>
-
+                                <p style="color:red" id="ErrorNoAttribute"></p>
                                     <!--Add Attribute-->
                                     <div id="room_fileds">
                                         <div class="content">
@@ -326,14 +327,14 @@
        <div class="col-md-3">
        <div class="form-group">
      <label for="attname">Attribute</label>
-       <input class="form-control feature" type="text" name="feature" value="" id="attname" readonly>
+       <input class="form-control feature" type="text" name="feature" value="" id="attname" >
            <p style="color:red"></p>
       </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
      <label for="attDes">Description</label>
-      <input class="form-control description" type="text" name="description" value="" id="attDes" readonly>
+      <input class="form-control description" type="text" name="description" value="" id="attDes" >
           <p style="color:red"></p>
      </div>
     </div>
