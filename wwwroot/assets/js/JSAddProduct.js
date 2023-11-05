@@ -19,12 +19,16 @@
         if (!inputElement) {
             document.getElementById("ErrorNoAttribute").innerHTML = "Error Please input new Attribute!";
             noError = false;
+        } else {
+            document.getElementById("ErrorNoAttribute").innerHTML = "";
         }
 
         const inputElementImage = document.querySelector('input[name="imgFile"]');
         if (!inputElementImage) {
-                document.getElementById("ErrorNoImage").innerHTML = "Error Please input new Image!";
-                noError = false;
+            document.getElementById("ErrorNoImage").innerHTML = "Error Please input new Image!";
+            noError = false;
+        } else {
+            document.getElementById("ErrorNoImage").innerHTML = "";
         }
 
         if (!pro_price) {
