@@ -101,6 +101,7 @@ $(document).ready(function () {
 function validateEmail() {
     var email = getValueById('emailtxt');
     document.getElementById("ErrorEmailExist").innerHTML = "";
+    Check = false;
     if (email !== null && email !== '') {
         $.ajax({
             url: '/Login/CheckEmail',
@@ -108,21 +109,21 @@ function validateEmail() {
             data: {
                 email: email
             },
-            async: false, 
+            async: false,
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data == 'true') {
                     document.getElementById("ErrorEmailExist").innerHTML = "Email already existed!";
-                    return false;
+                    Check = false;
                 } else {
                     document.getElementById("ErrorEmailExist").innerHTML = "";
-                    return true; // Prevent the form from submitting
+                    Check =  true; // Prevent the form from submitting
                 }
             }
         });
     }
     // If you reach here, the form submission will be allowed
-    return true;
+    return Check;
 }
 
 
@@ -131,6 +132,7 @@ function validateForm() {
     var username = getValueById('ustxt');
     document.getElementById("ErrorUsernameExist").innerHTML = "";
     hideError('ustxt');
+    Check = false;
     if (username !== null && username !== '') {
         $.ajax({
             url: '/Login/CheckUsername',
@@ -142,18 +144,18 @@ function validateForm() {
             success: function (data) {
                 if (data == 'true') {
                     document.getElementById("ErrorUsernameExist").innerHTML = "Username already existed!";
-                    return false; // Prevent the form from submitting
+                    Check = false; // Prevent the form from submitting
                 } else {
                     // Registration logic here if username is available                   
                     document.getElementById("ErrorUsernameExist").innerHTML = "";
-                    return true; // Prevent the form from submitting
+                    Check = true; // Prevent the form from submitting
                     
                 }
             }
         });
     }
     // If you reach here, the form submission will be allowed
-    return true;
+    return Check;
 } 
 
 function Validate() {
