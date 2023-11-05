@@ -34,6 +34,7 @@ function PlaceOrder() {
     var des = $('#description').val();
 
     var bill = $('#bill').val();
+    var msg = $('#msg-alert-msg');
 
     if (des === "") {
         des = "None";
@@ -50,9 +51,15 @@ function PlaceOrder() {
             bill: bill
         },
         success: function (data) {
-            if (data === "Success") {
+            if (data === '1') {
                 window.location.href = "/Cart/PostCheckOut";
-            } else {
+            } else if (data === '0') {
+                msg.text('');
+                msg.text('Warning: Your cart contains out of stock products');
+                alertMessage();
+            } else if (data == '2') {
+                msg.text('');
+                msg.text('Warning: Your cart contains unavailable products');
                 alertMessage();
             }
         }

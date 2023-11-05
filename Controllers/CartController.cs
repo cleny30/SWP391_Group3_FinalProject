@@ -221,7 +221,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 int kq = Odao.Checkout(CartList, des, bill, a);
                 int Count = Odao.GetCartByUsername(cus.username).Count();
                 _contx.HttpContext.Session.SetString("Count", JsonConvert.SerializeObject(Count));
-                return kq == 1 ? Content("Success") : Content("Fail");
+                return Content(kq.ToString());
             }
             catch
             {

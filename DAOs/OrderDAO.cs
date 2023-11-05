@@ -294,9 +294,14 @@ namespace SWP391_Group3_FinalProject.DAOs
                 foreach (var item in cart)
                 {
                     var quantityInStock = listpro.FirstOrDefault(p => p.pro_id == item.pro_id).pro_quan;
+                    var isavail = listpro.FirstOrDefault(p => p.pro_id == item.pro_id).isAvailable;
                     if (quantityInStock <= 0 || quantityInStock < item.quantity)
                     {
                         return 0;
+                    }
+                    if (!isavail)
+                    {
+                        return 2;
                     }
                 }
                 string OID = GetNewOrderID();
