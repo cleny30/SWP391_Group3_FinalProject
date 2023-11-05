@@ -108,7 +108,7 @@ function validateEmail() {
             data: {
                 email: email
             },
-            async: false,
+            async: false, 
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data == 'true') {
