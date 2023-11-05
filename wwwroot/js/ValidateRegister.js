@@ -108,6 +108,7 @@ function validateEmail() {
             data: {
                 email: email
             },
+            async: false,
             success: function (data) {
                 // Update DOM elements with retrieved data
                 if (data == 'true') {
@@ -137,6 +138,7 @@ function validateForm() {
             data: {
                 username: username
             },
+            async: false,
             success: function (data) {
                 if (data == 'true') {
                     document.getElementById("ErrorUsernameExist").innerHTML = "Username already existed!";
