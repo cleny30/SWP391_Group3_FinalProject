@@ -45,10 +45,21 @@
                         </div>
                         @if (Message != null && Message != "")
                         {
-                            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
-                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                <strong>Success!</strong> @Message.
-                            </div>
+                            if (Message.StartsWith("Product"))
+                            {
+                                <div class="add-fail success" style="margin-top:10px; margin-bottom: 10px">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    <strong>Fail!</strong> @Message.
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    <strong>Success!</strong> @Message.
+                                </div>
+                            }
+
                         }
                         <button class="btn btn-primary" onclick="toggleDivs()" style="padding:7px; margin-bottom:7px " id="toggleButton">Show Disable Products </button>
                         <div id="div1">
@@ -584,7 +595,7 @@
                                     </div>
                                     <!--Brands -->
                                     <!--Add Images -->
-                                    
+
                                     <div class="col-md-6 ">
                                         <p style="color:red" id="ErrorNoImage"></p>
                                         <div id="room_fileds_image">
@@ -595,12 +606,12 @@
                                         <input class="btn btn-outline-primary m-1" type="button" id="more_fields"
                                                onclick="add_fieldsImage();" value="Add new Image" />
                                     </div>
-                                    
+
                                     <div class="col-md-6 ">
                                         <p style="color:red" id="ErrorNoAttribute"></p>
                                         <!--Add Images -->
                                         <!--Add Attribute-->
-                                       
+
                                         <div id="room_fileds">
                                             <div class="content">
                                             </div>
@@ -653,26 +664,26 @@
         var objTo = document.getElementById('room_fileds')
         var divtest = document.createElement("div");
         divtest.innerHTML = `
-             <div class="row">
-           <div class="col-md-3">
-           <div class="form-group">
-         <label for="attname">Attribute</label>
-           <input class="form-control feature" type="text" name="feature" value="" id="attname" >
-               <p style="color:red"></p>
-          </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-         <label for="attDes">Description</label>
-          <input class="form-control description" type="text" name="description" value="" id="attDes" >
-              <p style="color:red"></p>
-         </div>
-        </div>
-        <div class="col-md-3" style="margin-top:21px">
-        <button class="btn btn-danger delete-button"  style="button" onclick="deleteRow(this)">X</button>
-        </div>
-        </div>
-        `;
+                 <div class="row">
+               <div class="col-md-3">
+               <div class="form-group">
+             <label for="attname">Attribute</label>
+               <input class="form-control feature" type="text" name="feature" value="" id="attname" >
+                   <p style="color:red"></p>
+              </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+             <label for="attDes">Description</label>
+              <input class="form-control description" type="text" name="description" value="" id="attDes" >
+                  <p style="color:red"></p>
+             </div>
+            </div>
+            <div class="col-md-3" style="margin-top:21px">
+            <button class="btn btn-danger delete-button"  style="button" onclick="deleteRow(this)">X</button>
+            </div>
+            </div>
+            `;
 
         objTo.appendChild(divtest)
     }

@@ -40,7 +40,7 @@
 
 
                     <div style="margin-bottom: 5px;">
-                        <a class="form-control_1" style="background-color: #ffcb0d" href="/Account/MyAccount" style="text-decoration: none;">
+                        <a class="form-control_1" style="background-color: #ffcb0d; text-decoration: none;" href="/Account/MyAccount">
                             <i class="fa fa-user-circle " style="color: black; margin-right: 10px;"></i>Account
                             information
                         </a>
@@ -78,23 +78,25 @@
 
         <div class="col-lg-8 mb-5">
             <div class="bg-light p-30 mb-3" style="height: 100%;">
-                <form method="post" action="/Account/UpdateProfile">
+                <form method="post" action="/Account/UpdateProfile" class="update_profile">
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>Full name</label>
-                            <input class="form-control" type="text" name="fullname" value="@ViewBag.Account.fullname">
+                            <input class="form-control" id="fullnameUpdate" type="text" name="fullname" value="@ViewBag.Account.fullname">
+                            <p style="color:red; text-align:left"></p>
                         </div>
-
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="text" name="email" value="@ViewBag.Account.email">
+                            <input class="form-control" id="emailUpdate" type="text" name="email" value="@ViewBag.Account.email">
+                            <p style="color:red; text-align:left"></p>
+                            <p style="color: red; text-align: left" id="smsEmail"></p>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Phone number</label>
-                            <input class="form-control" type="text" name="phone" value="@ViewBag.Account.phone">
+                            <input class="form-control" id="phoneUpdate" type="text" name="phone" value="@ViewBag.Account.phone">
+                            <p style="color:red; text-align:left"></p>
                         </div>
                         <div class="col-md-12 form-group" style="  text-align: center;">
-
                             <input class="button-32" role="button" type="submit" value="Update" name="btnAddnewAddress">
                         </div>
                     </div>
@@ -103,5 +105,5 @@
         </div>
     </div>
 </div>
-    </div>
+<script src="~/js/checkupdateprofile.js"></script>
 <!-- Contact End -->

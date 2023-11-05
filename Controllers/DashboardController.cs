@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework.Profiler;
 using Newtonsoft.Json;
@@ -241,9 +242,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                     List<Manager> list = dao.GetAllManagers();
                     list = list.Where(m => !string.Equals(m.email, currentManager.email, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                    bool isManagerEmailExisted = list.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
-                    isManagerEmailExisted = listCus.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
-                    if (isManagerEmailExisted == true)
+                    bool isManagerEmailExisted1 = list.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                    bool isManagerEmailExisted2 = listCus.Any(m => string.Equals(m.email, email, StringComparison.OrdinalIgnoreCase));
+                    if (isManagerEmailExisted1 == true || isManagerEmailExisted2 == true)
                     {
                         return Content("Existed"); // Return a 200 OK response with JSON data
                     }
@@ -883,10 +884,14 @@ namespace SWP391_Group3_FinalProject.Controllers
                 dao.AddProductWithDetails(pro);
                 _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Add Product with ID " + pro.pro_id + " Successfully"));
                 return RedirectToAction("ProductPage", "Dashboard");
+
+
             }
-            catch
+            catch (Exception e)
             {
-                return RedirectToAction("/StatusCodeError");
+                _contx.HttpContext.Session.SetString("Message", JsonConvert.SerializeObject("Product with "+ pro.pro_id+" has been added by another admin"));
+                return RedirectToAction("ProductPage", "Dashboard");
+
             }
 
         }
