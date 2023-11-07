@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('form.AddForm').submit(function (event) {
-        var pro_name = getValueById('pro_name');
-        var pro_price = getValueById('pro_price');
+        var pro_name = getValueById('pro_name').trim();
+        var pro_price = getValueById('pro_price').trim();
         var noError = true;
 
         // Kiểm tra pro_name không được để trống
@@ -102,7 +102,7 @@
             }
         });
 
-        var pro_des = getValueById('pro_des');
+        var pro_des = getValueById('pro_des').trim();
         if (!pro_des) {
             showError('pro_des', 'Please insert description!');
             noError = false;

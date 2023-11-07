@@ -2,7 +2,7 @@
 var emailExist = true;
 
 $('#Username').on('blur', function () {
-    var username = $('#Username').val();
+    var username = $('#Username').val().trim();
     if (username !== '') {
 
         $.ajax({
@@ -26,7 +26,7 @@ $('#Username').on('blur', function () {
 });
 
 $('#Email').on('blur', function () {
-    var email = $('#Email').val();
+    var email = $('#Email').val().trim();
     if (email !== '') {
 
         $.ajax({
@@ -85,13 +85,13 @@ function isValidEmail(email) {
 $(document).ready(function () {
     $('form.createAccount').submit(function (event) {
 
-        var username = getValueById('Username');
-        var password = getValueById('Password');
-        var fullname = getValueById('Fullname');
-        var phone = getValueById('PhoneNumber');
-        var email = getValueById('Email');
-        var SSN = getValueById('SSN');
-        var address = getValueById('LivingAddress');
+        var username = getValueById('Username').trim();
+        var password = getValueById('Password').trim();
+        var fullname = getValueById('Fullname').trim();
+        var phone = getValueById('PhoneNumber').trim();
+        var email = getValueById('Email').trim();
+        var SSN = getValueById('SSN').trim();
+        var address = getValueById('LivingAddress').trim();
 
         var noError = true;
 

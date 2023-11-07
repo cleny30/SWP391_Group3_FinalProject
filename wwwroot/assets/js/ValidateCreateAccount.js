@@ -1,13 +1,13 @@
 ﻿$(document).ready(function () {
     $('form.CreateAccount').submit(function (event) {
         var Username, Password, Fullname, PhoneNumber, Email, SSN, LivingAddress;
-        Username = getValueById('Username');
-        Password = getValueById('Password');
-        Fullname = getValueById('Fullname');        
-        PhoneNumber = getValueById('PhoneNumber');
-        Email = getValueById('Email');
-        SSN = getValueById('SSN');
-        LivingAddress = getValueById('LivingAddress');
+        Username = getValueById('Username').trim();
+        Password = getValueById('Password').trim();
+        Fullname = getValueById('Fullname').trim();        
+        PhoneNumber = getValueById('PhoneNumber').trim();
+        Email = getValueById('Email').trim();
+        SSN = getValueById('SSN').trim();
+        LivingAddress = getValueById('LivingAddress').trim();
 
         var noError = true; 
 

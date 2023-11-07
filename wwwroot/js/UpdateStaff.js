@@ -17,7 +17,7 @@ function isValidEmail(email) {
 function ValidateEmail() {
     let noError = true;
     var Check = true;
-    var email = $('#Email').val();
+    var email = $('#Email').val().trim();
 
     //Email
     if (!email) {
@@ -49,10 +49,10 @@ function ValidateEmail() {
 
         });
     
-    var fullname = getValueById('Fullname');
-    var phone = getValueById('PhoneNumber');
-    var SSN = getValueById('SSN');
-    var address = getValueById('LivingAddress');
+    var fullname = getValueById('Fullname').trim();
+    var phone = getValueById('PhoneNumber').trim();
+    var SSN = getValueById('SSN').trim();
+    var address = getValueById('LivingAddress').trim();
 
 
 

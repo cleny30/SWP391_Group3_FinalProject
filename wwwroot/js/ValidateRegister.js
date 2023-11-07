@@ -5,12 +5,12 @@ $(document).ready(function () {
             noError = true;
         });
 
-        var username = getValueById('ustxt');
-        var fullname = getValueById('nametxt');
-        var phone = getValueById('phonetxt');
-        var email = getValueById('emailtxt');
-        var password = getValueById('pwdtxt');
-        var repassword = getValueById('re_pwdtxt');
+        var username = getValueById('ustxt').trim();
+        var fullname = getValueById('nametxt').trim();
+        var phone = getValueById('phonetxt').trim();
+        var email = getValueById('emailtxt').trim();
+        var password = getValueById('pwdtxt').trim();
+        var repassword = getValueById('re_pwdtxt').trim();
 
         var noError = true;
         var errorEmail = true;
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 
 function validateEmail() {
-    var email = getValueById('emailtxt');
+    var email = getValueById('emailtxt').trim();
     document.getElementById("ErrorEmailExist").innerHTML = "";
     Check = false;
     if (email !== null && email !== '') {
@@ -129,7 +129,7 @@ function validateEmail() {
 
 
 function validateForm() {
-    var username = getValueById('ustxt');
+    var username = getValueById('ustxt').trim();
     document.getElementById("ErrorUsernameExist").innerHTML = "";
     hideError('ustxt');
     Check = false;

@@ -1,7 +1,7 @@
 ﻿$('form.update_address_form').submit(function (event) {
-        var fullname = getValueById('fullname_update');
-        var phone = getValueById('phonenum_update');
-        var address = getValueById('address_update');
+    var fullname = getValueById('fullname_update').trim();
+    var phone = getValueById('phonenum_update').trim();
+    var address = getValueById('address_update').trim();
 
         var noError = true;
 
@@ -47,9 +47,9 @@
 });
 
 $('form.add_address_form').submit(function (event) {
-    var fullname = getValueById('fullname_address_add');
-    var phone = getValueById('phone_address_add');
-    var address = getValueById('address_address_add');
+    var fullname = getValueById('fullname_address_add').trim();
+    var phone = getValueById('phone_address_add').trim();
+    var address = getValueById('address_address_add').trim();
 
     var noError = true;
 

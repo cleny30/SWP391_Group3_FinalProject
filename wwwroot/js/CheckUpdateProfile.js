@@ -1,8 +1,8 @@
 ﻿var noError = true;
 $('#emailUpdate').on('blur', function () {
-    var fullname = $('#fullnameUpdate').val();
-    var phone = $('#phoneUpdate').val();
-    var email = $('#emailUpdate').val();
+    var fullname = $('#fullnameUpdate').val().trim();
+    var phone = $('#phoneUpdate').val().trim();
+    var email = $('#emailUpdate').val().trim();
     if (email !== '') {
         $.ajax({
             url: '/Account/UpdateProfile',
@@ -28,9 +28,9 @@ $('#emailUpdate').on('blur', function () {
 
 $(document).ready(function () {
     $('form.update_profile').submit(function (event) {
-        var fullname = $('#fullnameUpdate').val();
-        var phone = $('#phoneUpdate').val();
-        var email = $('#emailUpdate').val();
+        var fullname = $('#fullnameUpdate').val();.trim()
+        var phone = $('#phoneUpdate').val().trim();
+        var email = $('#emailUpdate').val().trim();
 
         if (!fullname) {
             $('#fullnameUpdate').next('p').text('Enter your full name');

@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('form.LoginFunction').submit(function (event) {
-        var username = getValueById('typeEmailX-2');
-        var password = getValueById('typePasswordX-2');
+        var username = getValueById('typeEmailX-2').trim();
+        var password = getValueById('typePasswordX-2').trim();
 
         var noError = true;
 
