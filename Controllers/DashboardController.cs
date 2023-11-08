@@ -1021,7 +1021,11 @@ namespace SWP391_Group3_FinalProject.Controllers
             try
             {
                 ProductDAO dao = new ProductDAO();
-                List<string> imageList = ImagesList.Split(',').ToList();
+               
+                if(ImagesList != null)
+                {
+                    List<string> imageList = ImagesList.Split(',').ToList();
+                }
                 Category cate = dao.GetCatByID(pro.cate_id);
                 string folder = cate.cate_name.Trim();
                 var webRootPath = _environment.WebRootPath;
@@ -1031,6 +1035,7 @@ namespace SWP391_Group3_FinalProject.Controllers
                 {
                     Directory.CreateDirectory(uploadPath);
                 }
+
                 if (selectedImages != null)
                 {
                     List<string> selectedImageList = JsonConvert.DeserializeObject<List<string>>(selectedImages);
@@ -1040,10 +1045,12 @@ namespace SWP391_Group3_FinalProject.Controllers
                         string filePath = webRootPath + path;
                         try
                         {
+                            
                             if (System.IO.File.Exists(filePath))
                             {
                                 System.IO.File.Delete(filePath);
                                 dao.DeleteImageByPath(path);
+
                             }
                         }
                         catch (Exception ex)
