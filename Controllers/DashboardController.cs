@@ -1021,10 +1021,10 @@ namespace SWP391_Group3_FinalProject.Controllers
             try
             {
                 ProductDAO dao = new ProductDAO();
-               
-                if(ImagesList != null)
+                List<string> imageList = new List<string>();
+                if (ImagesList != null)
                 {
-                    List<string> imageList = ImagesList.Split(',').ToList();
+                     imageList = ImagesList.Split(',').ToList();
                 }
                 Category cate = dao.GetCatByID(pro.cate_id);
                 string folder = cate.cate_name.Trim();
