@@ -1022,12 +1022,21 @@ namespace SWP391_Group3_FinalProject.Controllers
             {
                 ProductDAO dao = new ProductDAO();
                 List<string> imageList = ImagesList.Split(',').ToList();
+                Category cate = dao.GetCatByID(pro.cate_id);
+                string folder = cate.cate_name.Trim();
+                var webRootPath = _environment.WebRootPath;
+                var uploadPath = Path.Combine(webRootPath, "source_img", "product_image", folder);
+
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
                 if (selectedImages != null)
                 {
                     List<string> selectedImageList = JsonConvert.DeserializeObject<List<string>>(selectedImages);
                     foreach (var path in selectedImageList)
                     {
-                        var webRootPath = _environment.WebRootPath;
+                        webRootPath = _environment.WebRootPath;
                         string filePath = webRootPath + path;
                         try
                         {
@@ -1047,8 +1056,7 @@ namespace SWP391_Group3_FinalProject.Controllers
 
 
 
-                Category cate = dao.GetCatByID(pro.cate_id);
-                string folder = cate.cate_name.Trim();
+                
                 List<IFormFile> file = new List<IFormFile>();
                 List<string> name = new List<string>();
 
@@ -1075,9 +1083,9 @@ namespace SWP391_Group3_FinalProject.Controllers
                         {
                             var uniqueFileName = name[i] + Path.GetExtension(file[i].FileName);
                             string fileExtension = Path.GetExtension(uniqueFileName);
-                            var webRootPath = _environment.WebRootPath;
+                             webRootPath = _environment.WebRootPath;
                             var uploadPath2 = Path.Combine("\\" + "source_img", "product_image", folder, uniqueFileName);
-                            var uploadPath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, uniqueFileName);
+                             uploadPath = Path.Combine(_environment.WebRootPath, "source_img", "product_image", folder, uniqueFileName);
                             string filePath = webRootPath + OriginalImage;
                             try
                             {
