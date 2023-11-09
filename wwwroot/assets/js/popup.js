@@ -7,11 +7,15 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactForm3");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
+
     });
     
   });
@@ -25,11 +29,14 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactForm2");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
     });
     
   });
@@ -43,11 +50,14 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactFormAddProduct");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
     });
     
   });
@@ -61,11 +71,14 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactFormAddCategory");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
     });
     
   });
@@ -79,11 +92,14 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactFormAddBrand");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
     });
     
   });
@@ -97,11 +113,15 @@ $(function() {
     $(document).mouseup(function (e) {
       var container = $("#contactFormProductInfoEdit");
   
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut();
-      }
+        var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 // ... nor a descendant of the container
+            && !(e.clientX >= window.innerWidth - scrollbarWidth)) // ... nor the scrollbar
+        {
+            container.fadeOut();
+        }
+
     });
     
   });
